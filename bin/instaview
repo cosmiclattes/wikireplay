@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+'use strict';
+var fs = require('fs');
+var InstaView = require('../');
+
+if (process.argv.length < 3) {
+   console.log('Usage: instaview <filename>.mw');
+   process.exit(1);
+}
+var input_file = process.argv[2];
+var mw = fs.readFileSync(input_file, 'utf-8');
+var rendered = InstaView.convert(mw);
+process.stdout.write(new Buffer(rendered, 'utf-8'));
