@@ -30,10 +30,10 @@
     function get_revisions(page){
     $.getJSON('http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvlimit=3&rvprop=ids&rvdir=newer&callback=?',{titles:page},
 	      function(data){
-		console.log(data);
+		//console.log(data);
 		result_key = Object.keys(data.query.pages);
 		list_of_revisions=data.query.pages[result_key].revisions;
-		console.log(list_of_revisions)
+		//console.log(list_of_revisions)
 		start_rev = list_of_revisions.shift().revid;
 		end_rev = list_of_revisions.shift().revid;
 		wiki_diff();
@@ -64,14 +64,14 @@
 							  element_index =  data_rev_1.indexOf(element[0],element_index);
 							  element_length = element[0].length;
 							  element_index = element_index + element_length;
-							  console.log('Element Index :'+element_index)
+							  //console.log('Element Index :'+element_index)
 							  flag_minus = 0;
 							  //Code with wiki string
 							  element_index_wiki_string =  data_wiki_string.indexOf(element[0],element_index_wiki_string)
 							  element_length_wiki_string = element[0].length;
 							  element_index_wiki_string = element_index_wiki_string + element_length_wiki_string;
 						      }
-						      if(element[1]=='-'){
+						     if(element[1]=='-'){
       
 							  edit_dict={'position':element_index,'mode':'d'}
 							  element_index_list.push(edit_dict);
@@ -79,7 +79,7 @@
 							  element_index_list_wiki_string.push(edit_dict_wiki_string);
 							  flag_minus = 1;
 						      }
-						      if(element[1]=='+'){
+						      if(element[1]=='+' || element=='.'){
 							  data_rev_1=data_rev_1.slice(0,element_index)+'<add data-added='+element[0]+'/>'+data_rev_1.slice(element_index)
 							  edit_dict_wiki_string = {'position':element_index_wiki_string,'mode':'a','string':element[0],'length':element[0].length}
 							  if(!flag_minus){
@@ -94,6 +94,8 @@
 					      });
 					      
 					      mod_dat = modify_string(data_wiki_string,element_index_list_wiki_string);
+					      console.log(mod_dat);
+					      
 					      console.log(instaview.convert(mod_dat));
 					      $('#wiki_body').html(instaview.convert(mod_dat));
 					      
@@ -107,7 +109,7 @@
 						      var length = edit['length']
 						      var string = edit['string']
 						      true_position = position + position_weight;
-						      console.log(true_position);
+						      //console.log(true_position);
 						      if (edit['mode']=='d'){
 							  if(edit_dict[i+1] && edit_dict[i+1]['pair']){
 							      var modify ='';
@@ -132,8 +134,8 @@
 							      wiki_string = wiki_string.slice(0,true_position)+"<span class='modify'>"+string+'</span>'+wiki_string.slice(true_position);
 							      position_weight = position_weight + length + "<span class='modify'></span>".length;
 							  }
-						      console.log('iteration '+i+' '+wiki_string);  
-						      console.log('position_weight add: '+position_weight);
+						      //console.log('iteration '+i+' '+wiki_string);  
+						      //console.log('position_weight add: '+position_weight);
 						      }
 						  }
 						  return wiki_string;
@@ -142,7 +144,7 @@
 				  });
 	    
 	        
-			    console.log('list_of_revisions : '+list_of_revisions.length)
+			    //console.log('list_of_revisions : '+list_of_revisions.length)
 			    
 			    if(list_of_revisions.length>0){
 				start_rev = end_rev

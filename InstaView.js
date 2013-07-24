@@ -513,13 +513,22 @@ InstaView.convert = function(wiki)
 			replace(RegExp('\\[\\[(?:'+InstaView.conf.locale.category+'|'+InstaView.conf.wiki.interwiki+'):.*?\\]\\]','gi'),'').
 			
 			// [[/Relative links]]
-			replace(/\[\[(\/[^|]*?)\]\]/g, f("<a href='?$1'>$1</a>", InstaView.conf.paths.base_href)).
+			replace(/\[\[(\/[^|]*?)\]\]/g, f("<a href='?$1>$1</a>", InstaView.conf.paths.base_href)).
 			
 			// [[/Replaced|Relative links]]
 			replace(/\[\[(\/.*?)\|(.+?)\]\]/g, f("<a href='?$1'>$2</a>", InstaView.conf.paths.base_href)).
 			
 			// [[Common links]]
-			replace(/\[\[([^|]*?)\]\](\w*)/g, f("<a href='?$1'>$1$2</a>", InstaView.conf.paths.articles)).
+			replace(/\[\[([^|]*?)\]\](\w*)/g, function($1,$2){
+				
+				var d2 = $2;
+				console.log($2);
+				//console.log(converted);
+				var href = jQuery('<span>'+d2+'</span>').text();
+				console.log(f("<a href='?"+href+"'>"+$2+"</a>", InstaView.conf.paths.articles));
+				return f("<a href='?"+href+"'>"+$2+"</a>", InstaView.conf.paths.articles);
+				
+				}).
 			
 			// [[Replaced|Links]]
 			replace(/\[\[(.*?)\|([^\]]+?)\]\](\w*)/g, f("<a href='?$1'>$2$3</a>", InstaView.conf.paths.articles)).
