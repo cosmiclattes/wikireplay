@@ -105,6 +105,7 @@ InstaView.convert = function(wiki)
 	
 	function f() // similar to C's printf, uses ? as placeholders, ?? to escape question marks
 	{
+		//console.log('arguments : '+arguments+'   '+arguments[0]);
 		var i=1,a=arguments,f=a[0],o='',c,p
 		for (;i<a.length; i++) if ((p=f.indexOf('?'))+1) {
 			// allow character escaping
@@ -112,6 +113,7 @@ InstaView.convert = function(wiki)
 			o += f.substring(0,p)+(c?'?':a[i])
 			f=f.substr(p+1+c)
 		} else break;
+		//console.log(' flog '+o+f);
 		return o+f
 	}
 	
@@ -519,17 +521,19 @@ InstaView.convert = function(wiki)
 			replace(/\[\[(\/.*?)\|(.+?)\]\]/g, f("<a href='?$1'>$2</a>", InstaView.conf.paths.base_href)).
 			
 			// [[Common links]]
-			replace(/\[\[([^|]*?)\]\](\w*)/g, function($1,$2){
+		
+			replace(/\[\[([^|]*?)\]\](\w*)/g, function($0,$1,$2){
 				
-				var d2 = $2;
-				console.log($2);
+				var d2 = $1;
+				//console.log('$2 : '+$2+'$1 : '+$1);
 				//console.log(converted);
 				var href = jQuery('<span>'+d2+'</span>').text();
-				console.log(f("<a href='?"+href+"'>"+$2+"</a>", InstaView.conf.paths.articles));
-				return f("<a href='?"+href+"'>"+$2+"</a>", InstaView.conf.paths.articles);
+				//console.log(f("<a href='?"+href+"'>"+$1+"</a>", InstaView.conf.paths.articles));
+				return f("<a href='?"+href+"'>"+$1+$2+"</a>", InstaView.conf.paths.articles);
 				
 				}).
 			
+			//replace(/\[\[([^|]*?)\]\](\w*)/g,f("<a href='?$1'>$1$2</a>", InstaView.conf.paths.articles)).
 			// [[Replaced|Links]]
 			replace(/\[\[(.*?)\|([^\]]+?)\]\](\w*)/g, f("<a href='?$1'>$2$3</a>", InstaView.conf.paths.articles)).
 			
