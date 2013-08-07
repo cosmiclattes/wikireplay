@@ -215,6 +215,11 @@ InstaView.convert = function(wiki)
 			default: parse_table_data()
 		}
 		else if ($('!')) parse_table_data()
+		else if ($("<tbody class='modify'>")){
+			endl("<tbody class='modify'>")
+			console.log('at span modify')
+		}
+		else if ($("</tbody>")) endl("</tbody>")
 		else sh()
 	}
 	
@@ -512,8 +517,18 @@ InstaView.convert = function(wiki)
 			
 			// [[:Category:...]], [[:Image:...]], etc...
 			replace(RegExp('\\[\\[:((?:'+InstaView.conf.locale.category+'|'+InstaView.conf.locale.image+'|'+InstaView.conf.wiki.interwiki+'):.*?)\\]\\]','gi'), "<a href='"+InstaView.conf.paths.articles+"$1'>$1</a>").
-			replace(RegExp('\\[\\[(?:'+InstaView.conf.locale.category+'|'+InstaView.conf.wiki.interwiki+'):.*?\\]\\]','gi'),'').
-			
+			/*
+			replace(RegExp('\\[\\[(?:'+InstaView.conf.locale.category+'|'+InstaView.conf.wiki.interwiki+'):.*?\\]\\]','gi'),
+				function($0,$1,$2){
+				var d2 = $1;
+				console.log('$2 : '+$2+'$1 : '+$1+'$0 : '+$0);
+				//console.log(converted);
+				var href = jQuery('<span>'+d2+'</span>').text();
+				console.log(f("<a href='?"+href+"'>"+$1+"</a>", InstaView.conf.paths.articles));
+				//return f("<a href='?"+href+"'>"+$1+$2+"</a>", InstaView.conf.paths.articles);
+				return ''
+				}).
+			*/
 			// [[/Relative links]]
 			replace(/\[\[(\/[^|]*?)\]\]/g, f("<a href='?$1>$1</a>", InstaView.conf.paths.base_href)).
 			
@@ -559,6 +574,7 @@ InstaView.convert = function(wiki)
 	}
 	
 	// begin parsing
+	//patching for the odify flag
 	for (;remain();) if ($(/^(={1,6})(.*)\1(.*)$/)) {
 		p=0
 		endl(f('<h?>?</h?>?', $r[1].length, parse_inline_nowiki($r[2]), $r[1].length, $r[3]))
@@ -582,12 +598,15 @@ InstaView.convert = function(wiki)
 	} else if ($(InstaView.BLOCK_IMAGE)) {
 		p=0
 		parse_block_image()
-		
-	} else {
+	
+	} else if ($(/^(<span class='modify'>|<\/span>)$/)){
+		endl($r[1])
+		continue
+	}else {
 		
 		// handle paragraphs
 		if ($$('')) {
-			if (p = (remain()>1 && ll[1]==(''))) endl('<p><br>')
+			if (p = (remain()>1 && ll[1]==(''))) endl('<br>')
 		} else {
 			if(!p) {
 				ps('<p>')

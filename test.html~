@@ -20,9 +20,8 @@
 	outline: solid red;	
 	display: inline-block;
 	}
-.blue{
-	outline: solid blue;
-	display: inline-block;	
+.modify:focus{
+	outline: solid blue;	
 }
 .wbc-editpage{list-style:none none;text-align:right;padding-right:.5em !important}.wbc-editpage > a{padding-left:11px;background:no-repeat left center}.wbc-editpage > a:link,.wbc-editpage > a:visited{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKBAMAAAB/HNKOAAAAD1BMVEUZAAD///95eXmqqqrY2NjEIQ0cAAAAAXRSTlMAQObYZgAAACdJREFUCNdjYGBgYGIAASUFENNJCUiqmADZTM5OqExFFZAKRSG4YgBjcwODynSgDwAAAABJRU5ErkJggg==);background-image:url(//bits.wikimedia.org/static-1.22wmf7/extensions/Wikibase/client/resources/images/WBC-Asset-Pencil.png?2013-06-13T15:21:40Z)!ie;color:#797979 !important}.wbc-editpage > a:hover{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKBAMAAAB/HNKOAAAAD1BMVEWBAADY2Nj///8GRa0zZrtW2AECAAAAAXRSTlMAQObYZgAAACdJREFUCNdjYGBgYGYAAWMDEFPYGEgaOgLZzCLCqEwjQ5AKI2W4YgBg5QOTQPzBuAAAAABJRU5ErkJggg==);background-image:url(//bits.wikimedia.org/static-1.22wmf7/extensions/Wikibase/client/resources/images/WBC-Asset-Pencil-Hover.png?2013-06-13T15:21:40Z)!ie;color:#0645AD !important}
 /* cache key: enwiki:resourceloader:filter:minify-css:7:91a2782aec9b17aef95148706744c03f */

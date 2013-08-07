@@ -23,7 +23,8 @@
 	    $('#page_button').click(function(){
 	        //e.preventDefault();
 		page = $('#page_name').val();
-		get_revisions(page);
+		rev = $('#page_rev').val();
+		get_revisions(page,rev);
 	    });
 	
 	function modify_string(wiki_string,edit_dict){
@@ -51,7 +52,7 @@
 		    else{
 			position_weight = position_weight - length + modify.length;
 		    }
-		    console.log('iteration '+i+' '+wiki_string); 
+		    //console.log('iteration del '+i+' '+wiki_string); 
 		}
 		else{	    
 		    if(edit['pair']){
@@ -59,10 +60,24 @@
 			position_weight = position_weight + ( length-delete_length )+ "<span class='modify'></span>".length;
 		    }
 		    else{
-			wiki_string = wiki_string.slice(0,true_position)+"<span class='modify'>"+string+'</span>'+wiki_string.slice(true_position);
-			position_weight = position_weight + length + "<span class='modify'></span>".length;
+			if ((string[0]=='='&&string[1]=='=')){
+			    wiki_string = wiki_string.slice(0,true_position)+"<span class='modify'>\n"+string+'\n</span>'+wiki_string.slice(true_position);
+			    position_weight = position_weight + length + "<span class='modify'>\n</span>\n".length;
+			}
+			else if ((string[0]=='!' && string[1]==' ')){
+			    wiki_string = wiki_string.slice(0,true_position)+"<tbody class='modify'>\n"+string+'\n</tbody>'+wiki_string.slice(true_position);
+			    position_weight = position_weight + length + "<tbody class='modify'>\n</tbody>\n".length;
+			}
+			else if (string[string.length-1]=='\n'){
+			    wiki_string = wiki_string.slice(0,true_position)+"<span class='modify'>"+string+'</span>\n'+wiki_string.slice(true_position);
+			    position_weight = position_weight + length + "<span class='modify'></span>\n".length;
+			}
+			else{
+			    wiki_string = wiki_string.slice(0,true_position)+"<span class='modify'>"+string+'</span>'+wiki_string.slice(true_position);
+			    position_weight = position_weight + length + "<span class='modify'></span>".length;
+			}
 		    }
-		console.log('iteration '+i+' '+wiki_string);  
+		//console.log('iteration add '+i+' '+wiki_string);  
 		//console.log('position_weight add: '+position_weight);
 		}
 	    }
@@ -70,8 +85,8 @@
 	}
 					      
 	//getting list of revisions
-    function get_revisions(page){
-    $.getJSON('http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvlimit=5&rvprop=ids&rvdir=newer&callback=?',{titles:page},
+    function get_revisions(page,rev){
+    $.getJSON('http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=ids&rvdir=newer&callback=?',{'titles':page,'rvlimit':rev},
 	      function(data){
 		//console.log(data);
 		result_key = Object.keys(data.query.pages);
@@ -95,8 +110,9 @@
 					      result_key_2 = Object.keys(data_2.query.pages);
 					      data_rev_2 = data_2.query.pages[result_key_2].revisions[0]['*'];
 					      //console.log(data_2)
-					      //console.log(window.schnark_diff.diff(data_rev_1,data_rev_2));
+					      console.log(window.schnark_diff.diff(data_rev_1,data_rev_2));
 					      rev_diffs = window.schnark_diff.diff(data_rev_1,data_rev_2);
+					      //console.log(' rev diffs '+rev_diffs);
 					      element_index = 0;
 					      element_index_list=[];
 					      element_index_wiki_string = 0;
@@ -115,7 +131,7 @@
 							  element_length_wiki_string = element[0].length;
 							  element_index_wiki_string = element_index_wiki_string + element_length_wiki_string;
 						      }
-						     if(element[1]=='-'){
+						     if(element[1]=='-' || element[1]==':'){
       
 							  edit_dict={'position':element_index,'mode':'d'}
 							  element_index_list.push(edit_dict);
@@ -123,7 +139,7 @@
 							  element_index_list_wiki_string.push(edit_dict_wiki_string);
 							  flag_minus = 1;
 						      }
-						      if(element[1]=='+' || element=='.'){
+						      if(element[1]=='+' || element[1]=='.'){
 							//  data_rev_1=data_rev_1.slice(0,element_index)+'<add data-added='+element[0]+'/>'+data_rev_1.slice(element_index)
 							  edit_dict_wiki_string = {'position':element_index_wiki_string,'mode':'a','string':element[0],'length':element[0].length}
 							  if(!flag_minus){
@@ -136,17 +152,28 @@
 							  element_index_list_wiki_string.push(edit_dict_wiki_string);
 						      }
 					      });
-					      console.log(data_wiki_string,data_rev_1);
+					      //console.log(data_wiki_string,data_rev_1);
+					      //mod_dat = modify_string(mediaWiki.html.escape(data_wiki_string),element_index_list_wiki_string);
 					      mod_dat = modify_string(data_wiki_string,element_index_list_wiki_string);
 					      console.log(' mod data : '+mod_dat);
 					      
-					      console.log(instaview.convert(mod_dat));
+					      console.log(' converted : '+instaview.convert(mod_dat));
 					      $('#wiki_body').html(instaview.convert(mod_dat));
 					      
+					      //show the modifictaions by scrolling into view
+					      /*
+					      $('.modify').each(function(index){
+								    element = $(this);
+								    element.addClass('blue');
+								    this.scrollIntoView();
+									element.removeClass('blue');
+								    
+								})
+					      */
 					      if(list_of_revisions.length>0){
 						    start_rev = end_rev
 						    end_rev = list_of_revisions.shift().revid
-						    wiki_diff();
+						    setTimeout(wiki_diff,200);
 						}
 					       
 					});
