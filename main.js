@@ -161,20 +161,38 @@
 					      $('#wiki_body').html(instaview.convert(mod_dat));
 					      
 					      //show the modifictaions by scrolling into view
+					      modify_list = $.makeArray($('.modify'));
 					      /*
-					      $('.modify').each(function(index){
+					      .each(function(index){
 								    element = $(this);
 								    element.addClass('blue');
 								    this.scrollIntoView();
 									element.removeClass('blue');
 								    
-								})
-					      */
-					      if(list_of_revisions.length>0){
-						    start_rev = end_rev
-						    end_rev = list_of_revisions.shift().revid
-						    setTimeout(wiki_diff,200);
-						}
+								})*/
+					      animate_diff();
+					      function animate_diff(){
+					      setTimeout(function(){
+							    if(modify_list.length>0){
+								$('*').removeClass('blue')
+								element = modify_list[0];
+								console.log(element);
+								$(element).addClass('blue');
+								element.scrollIntoView();
+								modify_list.shift();
+								animate_diff();
+							    }
+							    else{
+								if(list_of_revisions.length>0){
+								    start_rev = end_rev
+								    end_rev = list_of_revisions.shift().revid
+								    setTimeout(wiki_diff,200);
+								}	
+								
+							    }
+					      },1000);
+					      }
+					      
 					       
 					});
 					//console.log('list_of_revisions : '+list_of_revisions.length)
