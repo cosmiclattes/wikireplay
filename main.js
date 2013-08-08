@@ -103,8 +103,6 @@
 				  function(data_1){
 					result_key_1 = Object.keys(data_1.query.pages);
 					data_rev_1 = data_1.query.pages[result_key_1].revisions[0]['*'];
-					
-					//console.log(data_1)
 					$.getJSON('http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&rvexpandtemplates&callback=?',{'revids':end_rev},
 					function(data_2){
 					      result_key_2 = Object.keys(data_2.query.pages);
@@ -162,14 +160,6 @@
 					      
 					      //show the modifictaions by scrolling into view
 					      modify_list = $.makeArray($('.modify'));
-					      /*
-					      .each(function(index){
-								    element = $(this);
-								    element.addClass('blue');
-								    this.scrollIntoView();
-									element.removeClass('blue');
-								    
-								})*/
 					      animate_diff();
 					      function animate_diff(){
 					      setTimeout(function(){
@@ -195,13 +185,6 @@
 					      
 					       
 					});
-					//console.log('list_of_revisions : '+list_of_revisions.length)
-			    
-					  
 				  });
-	    
-	        
-			    
-			  
 		}
 	});
