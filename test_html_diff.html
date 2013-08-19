@@ -16,13 +16,13 @@
 <link rel="canonical" href="/wiki/JSON">
 <link rel="stylesheet" href="http://bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=ext.gadget.DRN-wizard%2CReferenceTooltips%2Ccharinsert%2Cteahouse%7Cext.geshi.local%7Cext.rtlcite%2Cwikihiero%7Cmediawiki.legacy.commonPrint%2Cshared%7Cmw.PopUpMediaTransform%7Cskins.vector&amp;only=styles&amp;skin=vector&amp;*">
 <style>
-.modify{
-	outline: solid red;	
-	display: inline-block;
+.del{
+	color: #999;
+	background-color:#FEC8C8;
 	}
-.blue{
-	outline: solid blue;
-	display: inline-block;	
+.ins{
+	background-color: #cfc;
+	text-decoration: none;
 }
 .wbc-editpage{list-style:none none;text-align:right;padding-right:.5em !important}.wbc-editpage > a{padding-left:11px;background:no-repeat left center}.wbc-editpage > a:link,.wbc-editpage > a:visited{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKBAMAAAB/HNKOAAAAD1BMVEUZAAD///95eXmqqqrY2NjEIQ0cAAAAAXRSTlMAQObYZgAAACdJREFUCNdjYGBgYGIAASUFENNJCUiqmADZTM5OqExFFZAKRSG4YgBjcwODynSgDwAAAABJRU5ErkJggg==);background-image:url(//bits.wikimedia.org/static-1.22wmf7/extensions/Wikibase/client/resources/images/WBC-Asset-Pencil.png?2013-06-13T15:21:40Z)!ie;color:#797979 !important}.wbc-editpage > a:hover{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKBAMAAAB/HNKOAAAAD1BMVEWBAADY2Nj///8GRa0zZrtW2AECAAAAAXRSTlMAQObYZgAAACdJREFUCNdjYGBgYGYAAWMDEFPYGEgaOgLZzCLCqEwjQ5AKI2W4YgBg5QOTQPzBuAAAAABJRU5ErkJggg==);background-image:url(//bits.wikimedia.org/static-1.22wmf7/extensions/Wikibase/client/resources/images/WBC-Asset-Pencil-Hover.png?2013-06-13T15:21:40Z)!ie;color:#0645AD !important}
 /* cache key: enwiki:resourceloader:filter:minify-css:7:91a2782aec9b17aef95148706744c03f */
@@ -189,14 +189,16 @@ mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.
 </style><script src="//bits.wikimedia.org/geoiplookup"></script><link rel="dns-prefetch" href="//meta.wikimedia.org"><!--[if lt IE 7]><style type="text/css">body{behavior:url("/w/static-1.22wmf7/skins/vector/csshover.min.htc")}</style><![endif]--><script async="" src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=ext.articleFeedbackv5.startup%7Cext.eventLogging%2CmarkAsHelpful%2CnavigationTiming%7Cext.gadget.DRN-wizard%2CReferenceTooltips%2Ccharinsert%2Cteahouse%7Cext.gettingstarted.logging%2CopenTask%7Cjquery.articleFeedbackv5.utils%7Cjquery.autoEllipsis%2CcheckboxShiftClick%2CdelayedBind%2Chidpi%2ChighlightText%2Cjson%2CmakeCollapsible%2Cmw-jump%2Cplaceholder%2Csuggestions%2CtabIndex%7Cmediawiki.Title%2Capi%2Chidpi%2CsearchSuggest%2Cuser%7Cmediawiki.action.view.postEdit%7Cmediawiki.page.ready%7Cmobile.desktop%7Cmw.MwEmbedSupport.style%7Cmw.PopUpMediaTransform%7Cschema.Edit%2CGettingStartedNavbar%2CNavigationTiming%7Cskins.vector.js&amp;skin=vector&amp;version=20130621T021618Z&amp;*"></script><script async="" src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=ext.vector.collapsibleNav%2CcollapsibleTabs%7Cjquery.collapsibleTabs&amp;skin=vector&amp;version=20130621T021618Z&amp;*"></script><script async="" src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=ext.visualEditor.splitTest&amp;skin=vector&amp;version=20130619T014038Z&amp;*"></script><script async="" src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=jquery.ui.button%2Ccore%2Cdialog%2Cdraggable%2Cmouse%2Cposition%2Cresizable%2Cwidget&amp;skin=vector&amp;version=20130613T151749Z&amp;*"></script></head>
 </head>
 <body>
-<div id="container">
+<div id="page_container">
     <p>Enter the page name & the number of revisions (3 to compare the first three revisions etc )</p>
     <span>Page :</span><input id="page_name"></input>
     <span>Revisions :</span><input id="page_rev"></input>
     <button id="page_button">Ok</button>
 </div>
 <div id="wiki_body"></div>
-<diff></diff>
-<script data-main="main" src="require.js"></script>
+<!-- <script data-main="main" src="require.js"></script> -->
+<script src="html_diff.js"></script>
+<script src="jquery-2.0.2.min.js"></script>
+<script src="main_stuff.js"></script>
 </body>
 </html>
