@@ -8,7 +8,7 @@ $( document ).ready(function() {
 	    });
 });
 	function get_revisions(page,rev){
-	    $.getJSON('http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=ids&rvdir=newer&callback=?',{'titles':page,'rvlimit':rev},
+	    $.getJSON('https://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=ids&rvdir=newer&callback=?',{'titles':page,'rvlimit':rev},
 	      function(data){
 		//console.log(data);
 		result_key = Object.keys(data.query.pages);
@@ -21,11 +21,11 @@ $( document ).ready(function() {
     }
 	function wiki_diff(){
 	    //getting list of revisions
-	    $.getJSON('http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&rvexpandtemplates&rvparse&callback=?',{'revids':start_rev},
+	    $.getJSON('https://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&rvexpandtemplates&rvparse&callback=?',{'revids':start_rev},
 				  function(data_1){
 					result_key_1 = Object.keys(data_1.query.pages);
 					data_rev_1 = data_1.query.pages[result_key_1].revisions[0]['*'];
-					$.getJSON('http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&rvparse&rvexpandtemplates&callback=?',{'revids':end_rev},
+					$.getJSON('https://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&rvparse&rvexpandtemplates&callback=?',{'revids':end_rev},
 					function(data_2){
 					      result_key_2 = Object.keys(data_2.query.pages);
 					      data_rev_2 = data_2.query.pages[result_key_2].revisions[0]['*'];
