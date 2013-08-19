@@ -31,7 +31,7 @@ $( document ).ready(function() {
 					      data_rev_2 = data_2.query.pages[result_key_2].revisions[0]['*'];
 					      //html diff
 					      modified_html = diff(data_rev_1,data_rev_2);
-					      });
+					      console.log(modified_html);
 					      //show the modifictaions by scrolling into view
 					      $('#wiki_body').html(modified_html);
 					      modify_list = $.makeArray($('del,ins'));
@@ -42,6 +42,12 @@ $( document ).ready(function() {
 								element = modify_list[0];
 								console.log(element);
 								element.scrollIntoView();
+                                                                if ($(element).prop('tagName') == 'DEL'){
+                                                                        $(element).fadeOut(500);
+                                                                }
+                                                                else{
+                                                                        $(element).show(500,'linear');
+                                                                }
 								modify_list.shift();
 								animate_diff();
 							    }
@@ -54,6 +60,7 @@ $( document ).ready(function() {
 							    }
 					      },1000);
 					      }
+                                               });
 					});
 		}
 	
