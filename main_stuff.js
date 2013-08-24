@@ -7,21 +7,49 @@ $( document ).ready(function() {
 		get_revisions(page,rev);
 	    });
 });
+            function info_box(rev_info){
+                        $('.info_box').html('');
+                        for (key in rev_info){            
+                                    
+                                    if(key == 'revid'){
+                                                var url_base = 'http://en.wikipedia.org/w/index.php?oldid='+rev_info[key];
+                                                var anchor =$('<a>'+rev_info[key]+'</a>').attr({'target':'_blank','href':url_base});
+                                                 $('.info_box').append(anchor);
+                                    }
+                                    else{
+                                                $('.info_box').append('<span>'+rev_info[key]+'</span>');
+                                    }
+                        }
+            }
 	function get_revisions(page,rev){
-	    $.getJSON('https://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=ids&rvdir=newer&callback=?',{'titles':page,'rvlimit':rev},
+	    $.getJSON('https://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=ids|user|timestamp|size|flags&rvdir=newer&callback=?',{'titles':page,'rvlimit':rev},
 	      function(data){
 		//console.log(data);
 		result_key = Object.keys(data.query.pages);
 		list_of_revisions=data.query.pages[result_key].revisions;
 		//console.log(list_of_revisions)
+                page_title = data.query.pages[result_key].title;
 		start_rev = list_of_revisions.shift().revid;
-		end_rev = list_of_revisions.shift().revid;
+                revision_info = list_of_revisions[0];
+                end_rev = revision_info.revid;
+		list_of_revisions.shift();
 		wiki_diff();
+                
 		});
     }
 	function wiki_diff(){
 	    //getting list of revisions
-	    $.getJSON('https://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&rvexpandtemplates&rvparse&callback=?',{'revids':start_rev},
+            rev_info = new Object();
+            rev_info.title = page_title;
+            rev_info.revid = revision_info.revid
+            rev_info.user = revision_info.user;
+            rev_info.timestamp = revision_info.timestamp.slice(0,10);
+            if (revision_info.hasOwnProperty('anon')){rev_info.anon = 'anon';}
+            if (revision_info.hasOwnProperty('minor')){rev_info.minor = 'minor';}
+            //rev_info.size = revision_info.size;
+            info_box(rev_info);
+            console.log(rev_info);
+            $.getJSON('https://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&rvexpandtemplates&rvparse&callback=?',{'revids':start_rev},
 				  function(data_1){
 					result_key_1 = Object.keys(data_1.query.pages);
 					data_rev_1 = data_1.query.pages[result_key_1].revisions[0]['*'];
@@ -54,7 +82,8 @@ $( document ).ready(function() {
 							    else{
 								if(list_of_revisions.length>0){
 								    start_rev = end_rev;
-								    end_rev = list_of_revisions.shift().revid;
+								    revision_info = list_of_revisions.shift();
+                                                                    end_rev = revision_info.revid;
 								    setTimeout(wiki_diff,200);
 								}	
 							    }
