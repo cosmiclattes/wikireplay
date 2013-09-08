@@ -60,7 +60,7 @@ display : block;
 }
 #wikiBody{
     display:none;
-    max-height: 500px;
+    max-height: 400px;
     overflow: auto;
     margin: 5px;
     padding: 5px;
