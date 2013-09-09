@@ -79,18 +79,28 @@ $( document ).ready(function() {
                                     $('select.languageNamespace').append(option);
                         }
             }
+            function customScrollIntoView(parent,element){
+                        console.log(' ',element,' ',$(element).offset().top)
+                        $(parent).animate({scrollTop: $(element).offset().top}, 100);
+            }
             function animateDiff(){
                         if(playAnimation){
                                     setTimeout(function(){
                                                 if(modify_list.length>0){
                                                             element = modify_list[0];
-                                                            console.log(element);
-                                                            element.scrollIntoView();
+                                                            element.scrollIntoView(true);
+                                                            //customScrollIntoView('#wikiBody',element);
+                                                           
                                                             if ($(element).prop('tagName') == 'DEL'){
-                                                                    $(element).fadeOut(animationSpeed);
+                                                                        //customScrollIntoView('#wikiBody',element);
+                                                                        $(element).fadeOut(animationSpeed);
+                                                                   
                                                             }
                                                             else{
-                                                                    $(element).show(animationSpeed,'linear');
+                                                                    $(element).fadeIn(animationSpeed);
+                                                                     /* Temp fix for scroll into view */
+                                                                    element.scrollIntoView(true);
+                                                                    //customScrollIntoView('#wikiBody',element);
                                                             }
                                                             modify_list.shift();
                                                             animateDiff();
@@ -128,22 +138,22 @@ $( document ).ready(function() {
             revisionListDict['titles'] = page;
             revisionListDict['rvlimit'] = rev;
 	    $.getJSON(baseUrl,revisionListDict,
-	      function(data){
-		//console.log(data);
-		result_key = Object.keys(data.query.pages);
-		list_of_revisions=data.query.pages[result_key].revisions;
-		//console.log(list_of_revisions)
-                page_title = data.query.pages[result_key].title;
-		start_rev = list_of_revisions.shift().revid;
-                revision_info = list_of_revisions[0];
-                end_rev = revision_info.revid;
-		list_of_revisions.shift();
-		wiki_diff();
+                        function(data){
+                                    //console.log(data);
+                                    result_key = Object.keys(data.query.pages);
+                                    list_of_revisions=data.query.pages[result_key].revisions;
+                                    //console.log(list_of_revisions)
+                                    page_title = data.query.pages[result_key].title;
+                                    start_rev = list_of_revisions.shift().revid;
+                                    revision_info = list_of_revisions[0];
+                                    end_rev = revision_info.revid;
+                                    list_of_revisions.shift();
+                                    wiki_diff();
                 
-		});
+                        });
     }
 	function wiki_diff(){
-	    //getting list of revisions
+	    //Creating the info box about the revisions
             rev_info = new Object();
             rev_info.title = page_title;
             rev_info.revid = revision_info.revid
@@ -151,29 +161,28 @@ $( document ).ready(function() {
             rev_info.timestamp = revision_info.timestamp.slice(0,10);
             if (revision_info.hasOwnProperty('anon')){rev_info.anon = 'anon';}
             if (revision_info.hasOwnProperty('minor')){rev_info.minor = 'minor';}
-            //rev_info.size = revision_info.size;
+            
             info_box(rev_info);
-            console.log(rev_info);
+            
             compareRevisionDict['revids'] = start_rev;
             $.getJSON(baseUrl,compareRevisionDict,
-				  function(data_1){
-					result_key_1 = Object.keys(data_1.query.pages);
-					data_rev_1 = data_1.query.pages[result_key_1].revisions[0]['*'];
-                                        compareRevisionDict['revids'] = end_rev;
-					$.getJSON(baseUrl,compareRevisionDict,
-					function(data_2){
-					      result_key_2 = Object.keys(data_2.query.pages);
-					      data_rev_2 = data_2.query.pages[result_key_2].revisions[0]['*'];
-					      //html diff
-					      modified_html = diff(data_rev_1,data_rev_2);
-					      console.log(modified_html);
-					      //show the modifictaions by scrolling into view
-					      $('#wikiBody').html(modified_html);
-					      modify_list = $.makeArray($('del,ins'));
-					      animateDiff();
-                                               });
-					});
-		}
+                        function(data_1){
+                                    result_key_1 = Object.keys(data_1.query.pages);
+                                    data_rev_1 = data_1.query.pages[result_key_1].revisions[0]['*'];
+                                    compareRevisionDict['revids'] = end_rev;
+                                    $.getJSON(baseUrl,compareRevisionDict,
+                                    function(data_2){
+                                                result_key_2 = Object.keys(data_2.query.pages);
+                                                data_rev_2 = data_2.query.pages[result_key_2].revisions[0]['*'];
+                                                //html diff
+                                                modified_html = diff(data_rev_1,data_rev_2);
+
+                                                $('#wikiBody').html(modified_html);
+                                                modify_list = $.makeArray($('del,ins'));
+                                                animateDiff();
+                                    });
+			});
+	    }
 	
 	
 	
