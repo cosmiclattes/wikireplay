@@ -30,6 +30,8 @@ display : block;
 display : block;
 }
 .controls{
+    /*temp*/
+    float: left;
     border: solid 2px #333;
     width: 250px;
     height: 70px;
@@ -58,6 +60,9 @@ display : block;
 	height: 50px;
 	float: right;
 }
+.cB{
+	clear: both;
+}
 #wikiBody{
     display:none;
     max-height: 400px;
@@ -66,4 +71,16 @@ display : block;
     padding: 5px;
     border: solid 2px #333;
     border-radius: 5px;
+}
+
+:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+}
+
+#fullscreen{
+	position: relative;
+	top: 23px;
+}
+.controlsAndButtons{
 }

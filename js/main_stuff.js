@@ -25,6 +25,21 @@ $( document ).ready(function() {
                         usingLanguageNamespace = $(this).val();
                         baseUrl = 'https://'+usingLanguageNamespace+'.wikipedia.org/w/api.php?callback=?'
                         });
+            //The fullscreen Api handling
+            function fullscreenApi(screen){
+                        var elem = $(screen).get(0);
+                        if (elem.requestFullscreen) {
+                                    elem.requestFullscreen();
+                        } else if (elem.mozRequestFullScreen) {
+                                    elem.mozRequestFullScreen();
+                        } else if (elem.webkitRequestFullscreen) {
+                                    elem.webkitRequestFullscreen();
+                        }
+            }
+            //Fullscreen
+            $('#fullscreen').click(function(){
+                        fullscreenApi('body');            
+            });
             //Speed Control
             $(".noUiSlider").noUiSlider({
                         range: [200, 1000]
