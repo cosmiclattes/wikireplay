@@ -28,9 +28,11 @@ function playback(){
 	  baseUrl = 'https://'+language+'.wikipedia.org/w/api.php?callback=?';
 	};
 	
-	this.getRevisions = function (page,rev){
+	this.getRevisions = function (page,start,end){
 		revisionListDict['titles'] = page;
-		revisionListDict['rvlimit'] = rev;
+		//revisionListDict['rvlimit'] = rev;
+		revisionListDict['rvstartid'] = start;
+		revisionListDict['rvendid'] = end;
 		$.getJSON(baseUrl,revisionListDict,function(data){
 			var resultKey = Object.keys(data.query.pages);
 			listOfRevisions=data.query.pages[resultKey].revisions;
@@ -171,42 +173,3 @@ function fullscreenApi(screen){
 		elem.webkitRequestFullscreen();
 	}
 };
-
-
-$( document ).ready(function() {
-    //Creating Language Namespace dropdown
-    wikiPlayback = new playback();
-    addLanguageOptions(languageNamespace);
-    $('select.languageNamespace').change(function(){
-		wikiPlayback.wikiNameSpace($(this).val());
-	});
-    
-    //Fullscreen
-    $('#fullscreen').click(function(){
-		fullscreenApi('body');            
-        });
-  
-        //Speed Control
-    $(".noUiSlider").noUiSlider({
-        range: [200, 1000],
-       	start: 500,
-        step: 100,
-        handles: 1,
-        slide: function(){
-        	wikiPlayback.animationSpeed = $(this).val();
-        }        
-    });
-     
-    //Attaching Play/Pause contorls
-    wikiPlayback.playbackControl();
-     
-    //Attaching Event to get the list of revisions
-    $('#page_button').click(function(){
-		$('#wikiBody,.infoBox').show();        
-    	$('#playButton').removeClass().addClass('pause');        
-		wikiPlayback.getRevisions($('#page_name').val(),$('#page_rev').val());
-    });
-    
-
-
-});
