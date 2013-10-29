@@ -26,7 +26,17 @@
 		this.height = options.height;
         this.barGraphBarwidth = options.barGraphBarwidth;
         this.enlargedBarGraphBarwidth = options.enlargedBarGraphBarwidth;
-
+		
+		/* Callbacks for the Primary & Secondry slider*/
+		this.primarySliderCallback = null ;
+		this.secondrySliderCallback = null;
+		if (options.primarySliderMoveCallback && typeof(options.primarySliderMoveCallback) === 'function'){
+			this.primarySliderCallback = options.primarySliderMoveCallback;
+		}
+		
+		if (options.secondrySliderMoveCallback && typeof(options.secondrySliderMoveCallback) === 'function'){
+			this.secondrySliderCallback = options.secondrySliderMoveCallback;
+		}
 		
 		/* Used Variables */
 		var svgWidth  = 0;
@@ -111,16 +121,16 @@
 		
 		this.cleanUp = function () {
 			  completeRevData = [];
-			  rvContinueHash = null;
+			  rvContinueHash = true;
 		};
 		
 		//Cleanup big time
 		/** To get the list of revisions selected in the slider **/
-		this.getSelection() = function () {
+		this.getSelection = function () {
 			var brushExtent = brush.extent();
 			var start = Math.floor(brushExtent[0]/that.barGraphBarwidth);
-			var end = Math.ceil(brushExtent[0]/that.barGraphBarwidth);
-			return [start,end];
+			var end = Math.ceil(brushExtent[1]/that.barGraphBarwidth);
+			return completeRevData.slice(start,end);
 		};
 		
 		this.wikiNameSpace = function (language) {
@@ -241,6 +251,10 @@
 	        else{
 	            d3.event.target.extent([slid_s[0],slid_s[0]+95]); d3.event.target(d3.select(this));
 	        }
+	        /*Calling Primary Slider callback*/
+			if (that.primarySliderCallback){
+				that.primarySliderCallback();
+			}
     	}
     	function temp(){
     			var brushExtent = brush.extent();
@@ -279,14 +293,23 @@
 		                .duration(500)      
 		                .style("opacity", 0);   
 		        })
+		        .on("click", function(){
+					if (that.secondrySliderCallback){
+						that.secondrySliderCallback();
+					}
+		        })
 		       .style({'fill': function(d,i){
 					return d.dir == 'p' ? 'blue':'red' ;}
 				});
+				
 		                                       
 				newGraph.exit().remove();
 				startDate.text(timeParse.parse(new_graph[0].timestamp).toDateString().slice(4));
 				endDate.text(timeParse.parse(new_graph[new_graph.length-1].timestamp).toDateString().slice(4)).attr({'x':lastX-50});
 				that.fixWidth(lastX);
+				
+				/* Calling Secondry slider callback */
+				
     	}
     	return this;
     }

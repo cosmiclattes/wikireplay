@@ -28,21 +28,16 @@ function playback(){
 	  baseUrl = 'https://'+language+'.wikipedia.org/w/api.php?callback=?';
 	};
 	
-	this.getRevisions = function (page,start,end){
-		revisionListDict['titles'] = page;
-		//revisionListDict['rvlimit'] = rev;
-		revisionListDict['rvstartid'] = start;
-		revisionListDict['rvendid'] = end;
-		$.getJSON(baseUrl,revisionListDict,function(data){
-			var resultKey = Object.keys(data.query.pages);
-			listOfRevisions=data.query.pages[resultKey].revisions;
-	        pageTitle = data.query.pages[resultKey].title;
+	this.getRevisions = function (page,selectedEdits){
+
+			listOfRevisions = selectedEdits;
+	        pageTitle = page;
 	        startRev = listOfRevisions.shift().revid;
 	        revisionInfo = listOfRevisions[0];
 	        endRev = revisionInfo.revid;
 	        listOfRevisions.shift();
 	        that.wikiDiff();
-        });
+       
 	};
 	this.wikiDiff = function(){
 	    //Creating the info box about the revisions
@@ -128,26 +123,34 @@ function playback(){
 		$(parent).animate({scrollTop: $(element).offset().top}, 100);
 	};
 	
+	this.startPlayback = function(button){
+		var page = $('#page_name').val();
+	    var rev = $('#page_rev').val();
+	    //Handling the case where the the player was paused
+	    if(listOfRevisions.length > 0){
+	        $(button).removeClass('play').addClass('pause');
+	        playAnimation = true;
+	        that.animateDiff();
+	    }
+	    else{
+	        that.getRevisions(page,rev); 
+	    }
+	};
+	
+	this.pausePlayback = function(button){
+		$(button).removeClass('pause').addClass('play');
+		$('del,ins').finish();
+		playAnimation = false;
+	};
 	//Attaching control for play / pause
 	this.playbackControl  = function(){
 		$('#playButton').click(function(){
-			if($(this).hasClass('play')){
-			    var page = $('#page_name').val();
-			    var rev = $('#page_rev').val();
-			    //Handling the case where the the player was paused
-			    if(listOfRevisions.length > 0){
-			        $(this).removeClass('play').addClass('pause');
-			        playAnimation = true;
-			        that.animateDiff();
-			    }
-			    else{
-			        that.getRevisions(page,rev); 
-			    }
+			var button = this;
+			if($(button).hasClass('play')){
+				that.startPlayback(button);		    
 			}
 			else{
-			    $(this).removeClass('pause').addClass('play');
-			    $('del,ins').finish();
-			    playAnimation = false;
+				that.pausePlayback(button);
 			}
 		});
 	};

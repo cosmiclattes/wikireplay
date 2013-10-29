@@ -22,9 +22,35 @@ window.onload = function(){
     //Attaching Play/Pause contorls
     wikiPlayback.playbackControl();
     
+    //Attaching Event to get the list of revisions
+    var pageTitle ;
+    $('#page_button').click(function(){
+		$('#wikiBody,.infoBox').show();        
+    	$('#playButton').removeClass().addClass('pause');        
+		//wikiPlayback.getRevisions($('#page_name').val(),$('#page_rev').val());
+		pageTitle = $('#page_name').val();
+		//wikiPlayback.getRevisions(pageTitle);
+		
+		/* From slider */
+		slider.cleanUp();
+		slider.getData(pageTitle);
+    }); 
+    
+    var button = $('#playButton');
+    var pause = function(button){
+    	wikiPlayback.pausePlayback(button);
+    };
+    
+    var play  = function(){
+    	var selectedEdits = slider.getSelection();
+    	wikiPlayback.getRevisions(pageTitle,selectedEdits);
+    };
+    
 	var slider = new wikiSlider({	height : 400,
 								barGraphBarwidth : 2,
-								enlargedBarGraphBarwidth : 4	
+								enlargedBarGraphBarwidth : 4,
+								primarySliderMoveCallback : pause,
+								secondrySliderMoveCallback : play
 							});
 	slider.init(); 
 	
@@ -35,17 +61,6 @@ window.onload = function(){
 		slider.wikiNameSpace(language);
 	});
 	
-    //Attaching Event to get the list of revisions
-    $('#page_button').click(function(){
-		$('#wikiBody,.infoBox').show();        
-    	$('#playButton').removeClass().addClass('pause');        
-		//wikiPlayback.getRevisions($('#page_name').val(),$('#page_rev').val());
-		var pageTitle = $('#page_name').val();
-		wikiPlayback.getRevisions(pageTitle);
-		
-		/* From slider */
-		slider.cleanUp();
-		slider.getData(pageTitle);
-    }); 
+    
 };
     
