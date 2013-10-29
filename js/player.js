@@ -59,7 +59,7 @@ function playback(){
 				var resultKey = Object.keys(dataSecond.query.pages);
 				var dataSecondRev = dataSecond.query.pages[resultKey].revisions[0]['*'];
 				//html diff
-				var modifiedHtml = diff(dataFirstRev,dataSecondRev);
+				var modifiedHtml = HtmlDiff.formatTextDiff(dataFirstRev,dataSecondRev);
 				$('#wikiBody').html(modifiedHtml);
 				modifyList = $.makeArray($('del,ins'));
 				that.animateDiff();
