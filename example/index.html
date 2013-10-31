@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<style>
+    .tooltip {   
+        position: absolute;           
+        text-align: center;           
+        width: 100px;                  
+        height: 50px;                 
+        padding: 2px;             
+        font: 10px sans-serif;        
+        background: #ddd;   
+        border: 0px;      
+        border-radius: 5px;           
+        pointer-events: none;         
+    }
+    rect {
+        stroke: black;
+        fill: steelblue;
+    }
+    .blue{
+        /*
+        fill: steelblue;
+        stroke: steelblue;
+        */
+        stroke: white;
+    }
+    .red{
+        /*
+        fill: red;
+        stroke: red;
+        */
+        stroke: white;
+    }
+    .green{
+        fill:green;
+        stroke: green;
+    }
+    .brush{
+        fill-opacity: .125;
+    }
+    
+    .slider .handle {
+        fill: #fff;
+        stroke: #000;
+        stroke-opacity: .5;
+        stroke-width: 1.25px;
+        fill-opacity: .125;
+        pointer-events: none;
+    }
+    #outer{
+        width: 97%;
+        overflow: auto;
+        height: 150px;
+        border-style: solid;
+        border-width: 3px;
+        border-color: #ddd;
+        padding: 3px;
+        border-radius: 5px;
+        margin: 3px;
+        position: absolute;
+        top: 250px;
+    }
+    #enlarged{
+        border-color: #ddd;
+        border-width: 6px;
+        border-radius: 5px;
+        width: 450px;
+        height: 200px;
+        padding: 10px;
+        border-style: solid;
+        margin: 10px;
+        position: absolute;
+	/*overflow: hidden;*/
+
+    }
+    .enlargedButton{
+        position: absolute;
+        color: #ddd;
+    }
+    .legendText{
+	font-size: 10px;
+	font-color:#333;
+    }
+
+</style>
+<script src="d3.v3.min.js"></script>
+<script src="jquery-2.0.2.min.js"></script>
+<script src="slider.js"></script>
+<script>
+window.onload = function(){
+	url = 'https://en.wikipedia.org/w/api.php?callback=?';
+    postDict ={
+        vdir:'older',
+        format:'json',
+        action:'query',
+        prop:'revisions',
+        //titles:'George_W._Bush',
+		//titles:'Myriangium',
+		titles:'Kerala',
+        rvprop:'user|timestamp|flags|ids|size',
+        rvlimit:'max'
+    };
+    
+	var slider = new wikiSlider({	height : 400,
+        							barGraphBarwidth : 2,
+									enlargedBarGraphBarwidth : 4	
+								});
+        slider.init();
+    };
+    
+</script>
+<body>
+    <div id="sliderComplete">
+        <div id='outer'></div>
+        <div id='enlarged'>
+            <span class='enlargedButton'>v</span>
+        </div>
+    </div>
+</body>
+</html>
