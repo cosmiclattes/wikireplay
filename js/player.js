@@ -108,6 +108,7 @@ function playback(){
                         startRev = endRev;
                         revisionInfo = listOfRevisions.shift();
                         endRev = revisionInfo.revid;
+                        $('body').trigger( "editAnimationBegins", [startRev] );
                         //setTimeout(wiki_diff,200);
                         that.wikiDiff();
                     }

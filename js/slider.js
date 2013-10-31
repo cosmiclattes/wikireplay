@@ -34,7 +34,7 @@
 		var yscale = null, yscale2 = null, xscale = null;
 		var brush = null;
 		var toolTipDiv, svg, svgBox, svgEnlargedBox;
-		var primaryContainer, primaryGraph, secondaryContainer, secondaryGraph;
+		var primaryContainer, primaryGraph, secondaryContainer, secondaryGraph, newGraph;
 		var outerLength = 50, enlargedLength = 80;
 		var endLine, startDate, endDate;
 		var bars;
@@ -124,7 +124,17 @@
 		        rvlimit:'max',
 	    	};
 		};
-		
+		//Cleanup big time
+		/** To highlight the revision currently being animated **/
+		this.modifySecondryGraph = function(field,value,color) {
+			newGraph.filter(function(){return true;})
+				.style({'fill': function(d,i){
+							return d.dir == 'p' ? 'blue':'red' ;}
+					});
+			newGraph.filter(function(d){
+				return d[field] == value;
+			}).style('fill',color);
+		};
 		//Cleanup big time
 		/** To get the list of revisions selected in the slider **/
 		this.getSelection = function () {

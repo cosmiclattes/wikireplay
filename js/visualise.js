@@ -56,6 +56,10 @@ window.onload = function(){
 							});
 	slider.init(); 
 	
+	$('body').on( "editAnimationBegins", function( event,revid ) {
+		slider.modifySecondryGraph('revid',revid,'green');
+	});
+	
 	addLanguageOptions(languageNamespace);
     $('select.languageNamespace').change(function(){
     	var language = $(this).val();
