@@ -1,3 +1,7 @@
+body{
+	margin:0px;
+	padding:0px;
+}
 .page_container{
 	position: absolute;
 	top:100px;
@@ -11,6 +15,9 @@ ins{
 	background-color: #cfc;
 	text-decoration: none;
 	display:none;
+}
+.pageAndLangauage{
+	
 }
 .infoBox{
 	display:none;
@@ -36,24 +43,24 @@ display : block;
     border: solid 2px #333;
     width: 250px;
     height: 70px;
-    height: 50px;
+    height: 25px;
     border-radius:  10px;
-    margin: 5px;
+    margin: 0px;
     padding: 5px;
     background-color: #333;
 }
 .play{
-	background: url('../images/icons.svg') -384px -445px;
+	background: url('../images/icons.svg') -384px -455px;
 	width: 20px;
-	height: 50px;
+	height: 25px;
 	margin-left: 20px;
 	float: left;
 }
 .pause{
-	background: url('../images/icons.svg') -495px -445px;
+	background: url('../images/icons.svg') -495px -455px;
 	width: 20px;
 	height: 50px;
-	margin-left: 20px;
+	margin-left: 20px; 
 	float: left;
 }
 .speedSlider{
@@ -66,7 +73,7 @@ display : block;
 }
 #wikiBody{
     display:none;
-    max-height: 400px;
+    max-height: 450px;
     overflow: auto;
     margin: 5px;
     padding: 5px;
@@ -81,7 +88,7 @@ display : block;
 
 #fullscreen{
 	position: relative;
-	top: 23px;
+	top: 0px;
 }
 .controlsAndButtons{
 }
@@ -134,9 +141,10 @@ rect {
     pointer-events: none;
 }
 #outer{
-    width: 97%;
+    /* width: 97%; */
+	max-width:1200px;
     overflow: auto;
-    height: 150px;
+    height: 120px;
     border-style: solid;
     border-width: 3px;
     border-color: #ddd;
@@ -144,17 +152,17 @@ rect {
     border-radius: 5px;
     margin: 3px;
     position: absolute;
-    top: 250px;
+    top: 175px;
 }
 #enlarged{
     border-color: #ddd;
-    border-width: 6px;
+    border-width: 3px;
     border-radius: 5px;
     width: 450px;
-    height: 200px;
-    padding: 10px;
+    height: 160px;
+    padding: 3px;
     border-style: solid;
-    margin: 10px;
+    margin: 2px;
     position: absolute;
 /*overflow: hidden;*/
 
@@ -166,4 +174,20 @@ rect {
 .legendText{
 	font-size: 10px;
 	font-color:#333;
+}
+.left{
+	float:left;
+}
+.right{
+	float:right;
+}
+.absolute{
+	position:absolute;
+}
+#sliderComplete{
+	position: absolute;
+	bottom: 225px;
+}
+#wikiBodySlider{
+	height:80%;
 }

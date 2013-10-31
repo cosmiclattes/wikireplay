@@ -36,6 +36,7 @@ function playback(){
 	        revisionInfo = listOfRevisions[0];
 	        endRev = revisionInfo.revid;
 	        listOfRevisions.shift();
+	        playAnimation = true;
 	        that.wikiDiff();
        
 	};
@@ -126,6 +127,8 @@ function playback(){
 	this.startPlayback = function(button){
 		var page = $('#page_name').val();
 	    var rev = $('#page_rev').val();
+	    
+	    
 	    //Handling the case where the the player was paused
 	    if(listOfRevisions.length > 0){
 	        $(button).removeClass('play').addClass('pause');

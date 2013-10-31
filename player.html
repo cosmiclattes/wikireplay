@@ -9,7 +9,9 @@
 		
 		<script src="js/lib/d3.v3.min.js"></script>
 		<script src="js/lib/jquery-2.0.2.min.js"></script>
-		<script src="js/lib/html_diff.js"></script>
+		<script src="js/lib/meyersdiff.js"></script>
+		<script src="js/lib/diff_match_patch.js"></script>
+		<script src="js/lib/underscore-min.js"></script>
 		<script src="js/lib/jquery.nouislider.min.js"></script>
 		<script src="js/lib/namespace.js"></script>
 		<script src="js/slider.js"></script>
@@ -23,12 +25,13 @@
 		<div class='infoBox'></div>
 		<div id="page_container">
 		    <!-- <p>Enter the page name</p> -->
-		    <span>Page :</span><input id="page_name"></input>
-		    <!-- <span>Revisions :</span><input id="page_rev"></input> -->
-		    <select class="languageNamespace"></select>
-		    <button id="page_button">Ok</button>
-		    
-		    <div class="controlsAndButtons">
+		    <div class="pageAndLangauage left">
+			    <span>Page :</span><input id="page_name"></input>
+			    <!-- <span>Revisions :</span><input id="page_rev"></input> -->
+			    <select class="languageNamespace"></select>
+			    <button id="page_button">Ok</button>
+		    </div>
+		    <div class="controlsAndButtons left">
 				<div class="controls">
 				    <div id="playButton"class="play"></div>
 				    <div class="speedSlider">
@@ -38,15 +41,16 @@
 			<button id="fullscreen">Go Fullscreen!</button>
 		    </div>
 		</div>
-		<div id="wikiBody"></div>
-		<!-- end -->
-		
-		<!-- The html fot the slider -->
-		<div id="sliderComplete">
-	        <div id='outer'></div>
-	        <div id='enlarged'>
-	            <span class='enlargedButton'>v</span>
-	        </div>
+		<div class="cB"></div>
+		<div id="wikiBodySlider" class="absolute">
+			<div id="wikiBody"></div>
+			<!-- The html for the slider -->
+			<div id="sliderComplete">
+		        <div id='outer'></div>
+		        <div id='enlarged'>
+		            <span class='enlargedButton'>v</span>
+		        </div>
+		    </div>
 	    </div>
 	    <!-- end -->
     

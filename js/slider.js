@@ -1,26 +1,14 @@
     function wikiSlider(options){
-    	/*
-    	gettingDataFlag = true;
-        rvContinueHash = true;
-        yscale = null;
-        yscale2 = null;
-        xscale = null;
-        brush = null;
-        completeRevData = [];
-        svgWidth  = 0;
-		hoverUser = '';
-		*/
-		
+    	
 		var url = 'https://en.wikipedia.org/w/api.php?callback=?';
 	    var postDict ={
-		        vdir:'older',
+		        rvdir:'older',
 		        format:'json',
 		        action:'query',
 		        prop:'revisions',
-		        //remove hard coding
-				titles:'Kerala',
+				titles:'',
 		        rvprop:'user|timestamp|flags|ids|size',
-		        rvlimit:'max'
+		        rvlimit:'max',
 	    	};
 		
 		this.height = options.height;
@@ -41,12 +29,13 @@
 		/* Used Variables */
 		var svgWidth  = 0;
 		var hoverUser = '';
-		var completeRevData = [];
+		var completeRevData = [], secondrySliderSelection = [];
 		var rvContinueHash = true,gettingDataFlag = true;
-		var  yscale = null, yscale2 = null, xscale = null;
+		var yscale = null, yscale2 = null, xscale = null;
 		var brush = null;
 		var toolTipDiv, svg, svgBox, svgEnlargedBox;
 		var primaryContainer, primaryGraph, secondaryContainer, secondaryGraph;
+		var outerLength = 50, enlargedLength = 80;
 		var endLine, startDate, endDate;
 		var bars;
 		var timeFormat = "%Y-%m-%dT%H:%M:%SZ";
@@ -56,11 +45,11 @@
 			/*Enlarged view toggle*/
         	d3.select('.enlargedButton').on('click',function(){
 	            if (d3.select('#enlarged').style('height').split('px')[0] > 20){
-	                d3.select('#enlarged').style({'height':'15px','top':'180px'}).select('svg').style('display','none');
+	                d3.select('#enlarged').style({'height':'15px','top':'145px'}).select('svg').style('display','none');
 	                d3.select(this).text('^');
 	            }
 	            else{
-	                d3.select('#enlarged').style({'height':'200px','top':'5px'}).select('svg').style('display','block');
+	                d3.select('#enlarged').style({'height':enlargedLength*2+'px', top:0+'px'}).select('svg').style('display','block');
 	                d3.select(this).text('v');
 	            }
 	            });
@@ -69,9 +58,9 @@
         	tooltipDiv = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
         	
         	
-        	svg = d3.select('#outer').append('svg').attr({'height':130,'width':600});
+        	svg = d3.select('#outer').append('svg').attr({'height':100,'width':600});
             svgBox = svg.append('g').attr({'transform':'translate(0,0)'});
-            svgEnlargedBox = d3.select('#enlarged').append('svg').attr({'height':200,'width':450})
+            svgEnlargedBox = d3.select('#enlarged').append('svg').attr({'height':enlargedLength*2,'width':450})
                                             .append('g').attr('transform','translate(0,0)');
         
 	        primaryContainer = svgBox.append('g').attr('id','primaryContainer');
@@ -81,19 +70,22 @@
 	        secondaryGraph = secondaryContainer.append('g').attr('id','secondaryGraph');
 	        
         	/*Baseline in enlarged graph*/
-        	d3.select('#enlarged svg').append('line').attr({'x1':0,'x2':450,'y1':100,'y2':100,'stroke':'gray','stroke-width':'.5'});
-			d3.select('#enlarged svg').append('line').attr({'x1':0,'x2':0,'y1':100,'y2':190,'stroke':'gray','stroke-width':'.5'});
-			endLine = d3.select('#enlarged svg').append('line').attr({'x1':450,'x2':450,'y1':100,'y2':190,'stroke':'gray','stroke-width':'.5'});
-        	startDate = secondaryContainer.append('text').attr({'x':0,'y':190}).style('font-size',9);
-			endDate = secondaryContainer.append('text').attr({'x':450,'y':190}).style('font-size',9);
+        	d3.select('#enlarged svg').append('line').attr({'x1':0,'x2':450,'y1':enlargedLength,'y2':enlargedLength,'stroke':'gray','stroke-width':'.5'});
+			d3.select('#enlarged svg').append('line').attr({'x1':0,'x2':0,'y1':enlargedLength,'y2':enlargedLength*2-10,'stroke':'gray','stroke-width':'.5'});
+			endLine = d3.select('#enlarged svg').append('line').attr({'x1':450,'x2':450,'y1':enlargedLength,'y2':enlargedLength*2-10,'stroke':'gray','stroke-width':'.5'});
+        	startDate = secondaryContainer.append('text').attr({'x':0,'y':enlargedLength*2-10}).style('font-size',9);
+			endDate = secondaryContainer.append('text').attr({'x':450,'y':enlargedLength*2-10}).style('font-size',9);
 			
 			/* Calling it direcly with getData by the user*/
         	//this.getData();
         	
 		};
 		this.getData = function(title){
-			postDict['titles'] = title;
+			if(title){
+				postDict['titles'] = title;
+			}
 			if (gettingDataFlag && rvContinueHash){
+				//console.log('postDict',postDict);
         		$.getJSON(url,postDict,function(data){
             		if ('query-continue' in data){
                     	rvContinueHash = data['query-continue'].revisions.rvcontinue;
@@ -122,6 +114,15 @@
 		this.cleanUp = function () {
 			  completeRevData = [];
 			  rvContinueHash = true;
+			  postDict ={
+		        rvdir:'older',
+		        format:'json',
+		        action:'query',
+		        prop:'revisions',
+				titles:'',
+		        rvprop:'user|timestamp|flags|ids|size',
+		        rvlimit:'max',
+	    	};
 		};
 		
 		//Cleanup big time
@@ -132,7 +133,9 @@
 			var end = Math.ceil(brushExtent[1]/that.barGraphBarwidth);
 			return completeRevData.slice(start,end);
 		};
-		
+		this.getSecondrySliderSelection = function (i){
+			return secondrySliderSelection;
+		};
 		this.wikiNameSpace = function (language) {
 	  		usingLanguageNamespace = language;
 	  		baseUrl = 'https://'+language+'.wikipedia.org/w/api.php?callback=?';
@@ -183,8 +186,8 @@
    		
    		this.fixScales = function (){
 	        if(xscale == null){
-				yscale = d3.scale.pow().exponent(.4).domain([0,d3.max(completeRevData, function(d) { return d.editSize; })]).range([2,65]);
-				yscale2 = d3.scale.pow().exponent(.4).domain([0,d3.max(completeRevData, function(d) { return d.editSize; })]).range([2,100]);
+				yscale = d3.scale.pow().exponent(.4).domain([0,d3.max(completeRevData, function(d) { return d.editSize; })]).range([2,outerLength]);
+				yscale2 = d3.scale.pow().exponent(.4).domain([0,d3.max(completeRevData, function(d) { return d.editSize; })]).range([2,enlargedLength]);
 				xscale = d3.scale.linear().domain([0,completeRevData.svgWidth]).range([0,completeRevData.svgWidth]);
 				diffscale = d3.scale.linear().domain([0,d3.max(completeRevData, function(d) { return d.timeDiff; })]).range([0,10]);
 			}
@@ -202,7 +205,7 @@
 	        bars.enter().append("rect");
 	        bars.attr({
                         'x':function(d,i){ return i * that.barGraphBarwidth; },
-                        'y':function(d,i){ return d.dir == 'p' ? 65 - yscale(d.editSize) : 65; },
+                        'y':function(d,i){ return d.dir == 'p' ? outerLength - yscale(d.editSize) : outerLength; },
                         'width':that.barGraphBarwidth,
                         'height':function(d,i){ return yscale(d.editSize); },
                         'class':function(d,i){ return d.dir == 'p' ? 'blue':'red'; },
@@ -221,7 +224,7 @@
 		            var brushg = svgBox.append("g").attr("class", "brush")
 		                                    .attr("id","primaryBrush")
 		                                    .call(brush);
-		            brushg.selectAll("rect").attr("height", 130)
+		            brushg.selectAll("rect").attr("height", 100)
 		                                    .attr("y",0);
 		            //Fix it
 		            //brushmove();
@@ -245,7 +248,7 @@
 		        temp();
 		       
 		        if (brushExtent[1]> completeRevData.length*that.barGraphBarwidth - 50){
-		            getData();
+		            that.getData();
 		        }
 	        }
 	        else{
@@ -258,58 +261,59 @@
     	}
     	function temp(){
     			var brushExtent = brush.extent();
-    		 	var new_graph = completeRevData.slice(brushExtent[0]/that.barGraphBarwidth,brushExtent[1]/that.barGraphBarwidth );
-		        var diffScaleAbs = 0;
-				var lastX = 0;
-		        //console.log(brushExtent);
-		        newGraph = secondaryGraph.selectAll("rect").data(new_graph);
-		        newGraph.enter().append("rect");
-		        newGraph.attr("x",function(d,i){
-		            diffScaleAbs += d.timeDiff*3;
-			    	lastX = diffScaleAbs +  i*that.enlargedBarGraphBarwidth;
-		            return lastX;
-				})
-		        .attr("y",function(d,i){
-					return d.dir == 'p' ? 100 - yscale2(d.editSize) : 100;})
-				.attr("width",that.enlargedBarGraphBarwidth)
-				.attr("height",function(d){ return yscale2(d.editSize); })
-				.attr("class",function(d){ return d.dir=='p'?'blue':'red'; })
-				.attr("timeDiff",function(d){ return d.timeDiff; })
-				.attr("title",function(d){ return d.user; })
-				.on("mouseover", function(d) {      
-					tooltipDiv.transition().duration(200).style("opacity", .9);
-					bars.filter(function(d){ return d.user == hoverUser; })
-					.style({'fill':'steelblue'});
-				    hoverUser = d.user;
-		            tooltipDiv.html(d.user + "<br/>"  + d.date)  
-		                .style("left", (d3.event.pageX) + "px")     
-		                .style("top", (d3.event.pageY - 28) + "px");    
-		            bars.filter(function(d){
-						return d.user == hoverUser;
-						}).style({'fill':'orange'});
-				})                      
-		        .on("mouseout", function(d) {       
-		            tooltipDiv.transition()        
-		                .duration(500)      
-		                .style("opacity", 0);   
-		        })
-		        .on("click", function(){
-					if (that.secondrySliderCallback){
-						that.secondrySliderCallback();
-					}
-		        })
-		       .style({'fill': function(d,i){
-					return d.dir == 'p' ? 'blue':'red' ;}
-				});
-				
-		                                       
-				newGraph.exit().remove();
-				startDate.text(timeParse.parse(new_graph[0].timestamp).toDateString().slice(4));
-				endDate.text(timeParse.parse(new_graph[new_graph.length-1].timestamp).toDateString().slice(4)).attr({'x':lastX-50});
-				that.fixWidth(lastX);
-				
-				/* Calling Secondry slider callback */
-				
+	    		 	var new_graph = completeRevData.slice(brushExtent[0]/that.barGraphBarwidth,brushExtent[1]/that.barGraphBarwidth );
+	    		 	if (new_graph.length){
+				        var diffScaleAbs = 0;
+						var lastX = 0;
+				        //console.log(brushExtent);
+				        newGraph = secondaryGraph.selectAll("rect").data(new_graph);
+				        newGraph.enter().append("rect");
+				        newGraph.attr("x",function(d,i){
+				            diffScaleAbs += d.timeDiff*3;
+					    	lastX = diffScaleAbs +  i*that.enlargedBarGraphBarwidth;
+				            return lastX;
+						})
+				        .attr("y",function(d,i){
+							return d.dir == 'p' ? enlargedLength - yscale2(d.editSize) : enlargedLength;})
+						.attr("width",that.enlargedBarGraphBarwidth)
+						.attr("height",function(d){ return yscale2(d.editSize); })
+						.attr("class",function(d){ return d.dir=='p'?'blue':'red'; })
+						.attr("timeDiff",function(d){ return d.timeDiff; })
+						.attr("title",function(d){ return d.user; })
+						.attr("number",function(d,i){ return i; })
+						.on("mouseover", function(d) {      
+							tooltipDiv.transition().duration(200).style("opacity", .9);
+							bars.filter(function(d){ return d.user == hoverUser; })
+							.style({'fill':'steelblue'});
+						    hoverUser = d.user;
+				            tooltipDiv.html(d.user + "<br/>"  + d.date)  
+				                .style("left", (d3.event.pageX) + "px")     
+				                .style("top", (d3.event.pageY - 28) + "px");    
+				            bars.filter(function(d){
+								return d.user == hoverUser;
+								}).style({'fill':'orange'});
+						})                      
+				        .on("mouseout", function(d) {       
+				            tooltipDiv.transition()        
+				                .duration(500)      
+				                .style("opacity", 0);   
+				        })
+				        .on("click", function(d,i){
+				        	secondrySliderSelection = that.getSelection().slice(0,i+1).reverse();
+							if (that.secondrySliderCallback){
+								that.secondrySliderCallback();
+							}
+				        })
+				       .style({'fill': function(d,i){
+							return d.dir == 'p' ? 'blue':'red' ;}
+						});
+						
+				                                       
+						newGraph.exit().remove();
+						startDate.text(timeParse.parse(new_graph[0].timestamp).toDateString().slice(4));
+						endDate.text(timeParse.parse(new_graph[new_graph.length-1].timestamp).toDateString().slice(4)).attr({'x':lastX-50});
+						that.fixWidth(lastX);
+				}
     	}
     	return this;
     }

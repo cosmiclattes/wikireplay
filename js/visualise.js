@@ -26,7 +26,7 @@ window.onload = function(){
     var pageTitle ;
     $('#page_button').click(function(){
 		$('#wikiBody,.infoBox').show();        
-    	$('#playButton').removeClass().addClass('pause');        
+    	//$('#playButton').removeClass().addClass('pause');        
 		//wikiPlayback.getRevisions($('#page_name').val(),$('#page_rev').val());
 		pageTitle = $('#page_name').val();
 		//wikiPlayback.getRevisions(pageTitle);
@@ -36,13 +36,15 @@ window.onload = function(){
 		slider.getData(pageTitle);
     }); 
     
-    var button = $('#playButton');
+    
     var pause = function(button){
+    	var button = $('#playButton');
     	wikiPlayback.pausePlayback(button);
     };
     
-    var play  = function(){
-    	var selectedEdits = slider.getSelection();
+    var play  = function(button){
+    	var button = $('#playButton');
+    	var selectedEdits = slider.getSecondrySliderSelection();
     	wikiPlayback.getRevisions(pageTitle,selectedEdits);
     };
     
