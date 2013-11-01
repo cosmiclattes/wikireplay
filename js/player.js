@@ -60,7 +60,8 @@ function playback(){
 				var resultKey = Object.keys(dataSecond.query.pages);
 				var dataSecondRev = dataSecond.query.pages[resultKey].revisions[0]['*'];
 				//html diff
-				var modifiedHtml = HtmlDiff.formatTextDiff(dataFirstRev,dataSecondRev);
+				//var modifiedHtml = HtmlDiff.formatTextDiff(dataFirstRev,dataSecondRev);
+				var modifiedHtml = diff(dataFirstRev,dataSecondRev);
 				$('#wikiBody').html(modifiedHtml);
 				modifyList = $.makeArray($('del,ins'));
 				that.animateDiff();
@@ -119,10 +120,11 @@ function playback(){
 			},that.animationSpeed);
 		}
 	};
-	
 	this.customScrollIntoView = function(parent,element){
-		console.log(' ',element,' ',$(element).offset().top);
-		$(parent).animate({scrollTop: element.offsetHeight}, 150);
+		console.log(' ',element,' ',element.offsetTop);
+		$(parent).animate({scrollTop: element.offsetTop+10}, 300);
+		//Remove the scroll plugin & write it 
+		//$(element).scrollIntoView(250);
 	};
 	
 	this.startPlayback = function(button){
