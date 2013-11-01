@@ -87,18 +87,18 @@ function playback(){
             setTimeout(function(){
                 if(modifyList.length>0){
                     var element = modifyList[0];
-                    element.scrollIntoView(true);
-                    //customScrollIntoView('#wikiBody',element);
+                    //element.scrollIntoView(true);
+                    //that.customScrollIntoView('#wikiBody',element);
                    
                     if ($(element).prop('tagName') == 'DEL'){
-                        //customScrollIntoView('#wikiBody',element);
+                        that.customScrollIntoView('#wikiBody',element);
                         $(element).fadeOut(that.animationSpeed);
                     }
                     else{
                         $(element).fadeIn(that.animationSpeed);
                          /* Temp fix for scroll into view */
-                        element.scrollIntoView(true);
-                        //customScrollIntoView('#wikiBody',element);
+                        //element.scrollIntoView(true);
+                        that.customScrollIntoView('#wikiBody',element);
                     }
                     modifyList.shift();
                     that.animateDiff();
@@ -122,7 +122,7 @@ function playback(){
 	
 	this.customScrollIntoView = function(parent,element){
 		console.log(' ',element,' ',$(element).offset().top);
-		$(parent).animate({scrollTop: $(element).offset().top}, 100);
+		$(parent).animate({scrollTop: element.offsetHeight}, 150);
 	};
 	
 	this.startPlayback = function(button){
