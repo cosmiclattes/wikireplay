@@ -40,6 +40,25 @@ function playback(){
 	        that.wikiDiff();
        
 	};
+	/** Caching the results memoization **/
+	var hashTable = hashTable || {};
+	function getRequest(revid){
+		var deferredReady = $.Deferred();
+		if (revid in hashTable){
+			console.log('cache hit', revid);
+			deferredReady.resolve();
+			return deferredReady.promise();
+		}
+		else{
+			console.log('cache fail',revid );
+			compareRevisionDict['revids'] = revid;
+			return $.getJSON(baseUrl,compareRevisionDict,function(data){
+				var resultKey = Object.keys(data.query.pages);
+				var dataRev = data.query.pages[resultKey].revisions[0]['*'];
+				hashTable[revid] = dataRev;
+			});
+		}
+	};
 	this.wikiDiff = function(){
 	    //Creating the info box about the revisions
         var revInfo = {
@@ -51,21 +70,13 @@ function playback(){
 				'minor': revisionInfo.hasOwnProperty('minor')? 'minor' : null
 		};
 		that.infoBox(revInfo);
-        compareRevisionDict['revids'] = startRev;
-        $.getJSON(baseUrl,compareRevisionDict,function(dataFirst){
-			var resultKey = Object.keys(dataFirst.query.pages);
-			var dataFirstRev = dataFirst.query.pages[resultKey].revisions[0]['*'];
-			compareRevisionDict['revids'] = endRev;
-			$.getJSON(baseUrl,compareRevisionDict,function(dataSecond){
-				var resultKey = Object.keys(dataSecond.query.pages);
-				var dataSecondRev = dataSecond.query.pages[resultKey].revisions[0]['*'];
-				//html diff
-				//var modifiedHtml = HtmlDiff.formatTextDiff(dataFirstRev,dataSecondRev);
-				var modifiedHtml = diff(dataFirstRev,dataSecondRev);
+		$.when(getRequest(startRev),getRequest(endRev)).done(function(){
+			var dataFirstRev  = hashTable[startRev];
+			var dataSecondRev = hashTable[endRev];
+			var modifiedHtml = diff(dataFirstRev,dataSecondRev);
 				$('#wikiBody').html(modifiedHtml);
 				modifyList = $.makeArray($('del,ins'));
 				that.animateDiff();
-			});
 		});		
 	};
 	
@@ -121,7 +132,7 @@ function playback(){
 		}
 	};
 	this.customScrollIntoView = function(parent,element){
-		console.log(' ',element,' ',element.offsetTop);
+		//console.log(' ',element,' ',element.offsetTop);
 		$(parent).animate({scrollTop: element.offsetTop+10}, 300);
 		//Remove the scroll plugin & write it 
 		//$(element).scrollIntoView(250);
