@@ -73,10 +73,11 @@ function playback(){
 		$.when(getRequest(startRev),getRequest(endRev)).done(function(){
 			var dataFirstRev  = hashTable[startRev];
 			var dataSecondRev = hashTable[endRev];
-			var modifiedHtml = diff(dataFirstRev,dataSecondRev);
-				$('#wikiBody').html(modifiedHtml);
-				modifyList = $.makeArray($('del,ins'));
-				that.animateDiff();
+			//var modifiedHtml = diff(dataFirstRev,dataSecondRev);
+			var modifiedHtml = HtmlDiff.formatTextDiff(dataFirstRev,dataSecondRev);
+			$('#wikiBody').html(modifiedHtml);
+			modifyList = $.makeArray($('del,ins'));
+			that.animateDiff();
 		});		
 	};
 	
@@ -133,7 +134,7 @@ function playback(){
 	};
 	this.customScrollIntoView = function(parent,element){
 		//console.log(' ',element,' ',element.offsetTop);
-		$(parent).animate({scrollTop: element.offsetTop+10}, 300);
+		$(parent).animate({scrollTop: element.offsetTop-10}, 300);
 		//Remove the scroll plugin & write it 
 		//$(element).scrollIntoView(250);
 	};
