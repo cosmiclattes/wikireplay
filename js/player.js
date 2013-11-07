@@ -45,12 +45,12 @@ function playback(){
 	function getRequest(revid){
 		var deferredReady = $.Deferred();
 		if (revid in hashTable){
-			console.log('cache hit', revid);
+			//console.log('cache hit', revid);
 			deferredReady.resolve();
 			return deferredReady.promise();
 		}
 		else{
-			console.log('cache fail',revid );
+			//console.log('cache fail',revid );
 			compareRevisionDict['revids'] = revid;
 			return $.getJSON(baseUrl,compareRevisionDict,function(data){
 				var resultKey = Object.keys(data.query.pages);
@@ -58,6 +58,9 @@ function playback(){
 				hashTable[revid] = dataRev;
 			});
 		}
+	};
+	function convert(str){
+		return jQuery('<div>').html(str).text();
 	};
 	this.wikiDiff = function(){
 	    //Creating the info box about the revisions
@@ -71,12 +74,23 @@ function playback(){
 		};
 		that.infoBox(revInfo);
 		$.when(getRequest(startRev),getRequest(endRev)).done(function(){
-			var dataFirstRev  = hashTable[startRev];
-			var dataSecondRev = hashTable[endRev];
+			//wrapping the html fragment to form a valid xml
+			var dataFirstRev  = '<htmlDiff>' + hashTable[startRev] + '</htmlDiff>';
+			var dataSecondRev = '<htmlDiff>' + hashTable[endRev] + '</htmlDiff>';
 			//var modifiedHtml = diff(dataFirstRev,dataSecondRev);
-			var modifiedHtml = HtmlDiff.formatTextDiff(dataFirstRev,dataSecondRev);
+			console.time('diffing');
+			var htmlDiffs = delta.Diff(dataFirstRev,dataSecondRev);
+			console.timeEnd('diffing');
+			console.time('annotate');
+			var modifiedHtml = delta.annotate(htmlDiffs[1],htmlDiffs[0].matching,false,htmlDiffs[0]);
+			console.timeEnd('annotate');
+			console.time('addingHtml');
+			//$('#wikiBody').html(convert(modifiedHtml));
 			$('#wikiBody').html(modifiedHtml);
+			console.timeEnd('addingHtml');
+			console.time('making array');
 			modifyList = $.makeArray($('del,ins'));
+			console.timeEnd('making array');
 			that.animateDiff();
 		});		
 	};
