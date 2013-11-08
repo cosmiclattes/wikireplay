@@ -62,6 +62,15 @@ function playback(){
 	function convert(str){
 		return jQuery('<div>').html(str).text();
 	};
+	var empty = function (list){
+		var l =[];
+		for (ll in list ){
+			if (!$(list[ll]).is(':empty')){
+				l.push(list[ll]);
+				}
+		} 
+		return l;
+	};
 	this.wikiDiff = function(){
 	    //Creating the info box about the revisions
         var revInfo = {
@@ -78,9 +87,9 @@ function playback(){
 			var dataFirstRev  = '<htmlDiff>' + hashTable[startRev] + '</htmlDiff>';
 			var dataSecondRev = '<htmlDiff>' + hashTable[endRev] + '</htmlDiff>';
 			//var modifiedHtml = diff(dataFirstRev,dataSecondRev);
-			console.time('diffing');
+			console.time('Total diffing');
 			var htmlDiffs = delta.Diff(dataFirstRev,dataSecondRev);
-			console.timeEnd('diffing');
+			console.timeEnd('Total diffing');
 			console.time('annotate');
 			var modifiedHtml = delta.annotate(htmlDiffs[1],htmlDiffs[0].matching,false,htmlDiffs[0]);
 			console.timeEnd('annotate');
@@ -89,7 +98,7 @@ function playback(){
 			$('#wikiBody').html(modifiedHtml);
 			console.timeEnd('addingHtml');
 			console.time('making array');
-			modifyList = $.makeArray($('del,ins'));
+			modifyList = empty($.makeArray($('del,ins')));
 			console.timeEnd('making array');
 			that.animateDiff();
 		});		
