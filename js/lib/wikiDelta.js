@@ -4601,6 +4601,7 @@ var xhtmlToHtml = function (xhtmlString) {
         return xhtmlString;
 };
 
+/*
 var parseCorrect = function(htmlString){
 	
 	console.time('parserHTML');
@@ -4621,27 +4622,22 @@ var parseCorrect = function(htmlString){
 	console.time('source regex');
 	str = str.replace(/(<source[^>]+)>/gm, "$1/>");
 	console.timeEnd('source regex');
-	/*
+	
 	var doc = new DOMParser().parseFromString('<div>'+htmlString+'</div>', 'text/html');
 	var result = new XMLSerializer().serializeToString(doc);
 	return result;
-	*/
+
 	return str;
 };
+*/
+
 delta.Diff = function(origcontent, changedcontent) {
 	
-    //var doc1 = docProfile.loadOriginalDocument(htmlToXhtml(origcontent));
-    console.time('fixing syntax with regex');
-    var docParse1 = parseCorrect(origcontent);
-    var docParse2 = parseCorrect(changedcontent);
-    console.timeEnd('fixing syntax with regex');
     console.time('doc profile');
-    var doc1 = docProfile.loadOriginalDocument(docParse1);
+    var doc1 = docProfile.loadOriginalDocument(origcontent);
+    var doc2 = docProfile.loadInputDocument(changedcontent);
     console.timeEnd('doc profile');
-    var doc2 = docProfile.loadInputDocument(docParse2);
-	console.time('doc profile');
     var d = new diff.Diff(skelmatchDiffProfile, docProfile, deltaProfile);
-    console.timeEnd('doc profile');
     console.time('diffing creating delta doc');
     var deltadoc = d.diff(doc1, doc2);
     console.timeEnd('diffing creating delta doc');
