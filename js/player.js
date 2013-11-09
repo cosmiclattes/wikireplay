@@ -1,51 +1,6 @@
-/*
- * DOMParser HTML extension
- * 2012-09-04
- * 
- * By Eli Grey, http://eligrey.com
- * Public domain.
- * NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
- */
-
-/*! @source https://gist.github.com/1129031 */
-/*global document, DOMParser*/
-
-(function(DOMParser) {
-	"use strict";
-
-	var
-	  DOMParser_proto = DOMParser.prototype
-	, real_parseFromString = DOMParser_proto.parseFromString
-	;
-
-	// Firefox/Opera/IE throw errors on unsupported types
-	try {
-		// WebKit returns null on unsupported types
-		if ((new DOMParser).parseFromString("", "text/html")) {
-			// text/html parsing is natively supported
-			return;
-		}
-	} catch (ex) {}
-
-	DOMParser_proto.parseFromString = function(markup, type) {
-		if (/^\s*text\/html\s*(?:;|$)/i.test(type)) {
-			var
-			  doc = document.implementation.createHTMLDocument("")
-			;
-	      		if (markup.toLowerCase().indexOf('<!doctype') > -1) {
-        			doc.documentElement.innerHTML = markup;
-      			}
-      			else {
-        			doc.body.innerHTML = markup;
-      			}
-			return doc;
-		} else {
-			return real_parseFromString.apply(this, arguments);
-		}
-	};
-}(DOMParser));
-
 function playback(){
+	var diff = new htmlDiff();
+	diff.clearHash();
 	var listOfRevisions = [], pageTitle, startRev, endRev, revisionInfo, modifyList;
 	var playAnimation = true;
 	this.animationSpeed = 500;
@@ -117,15 +72,6 @@ function playback(){
 		return l;
 	};
 	
-	/*Serialise to valid xml*/
-	var domParser = new DOMParser();
-	var xmlSerialise = new XMLSerializer();
-	var htmlToXml = function(str){
-		var html = domParser.parseFromString(str, "text/html");
-		var str = xmlSerialise.serializeToString(html.querySelector('body'));
-		return str;
-	};
-	
 	this.wikiDiff = function(){
 	    //Creating the info box about the revisions
         var revInfo = {
@@ -138,21 +84,12 @@ function playback(){
 		};
 		that.infoBox(revInfo);
 		$.when(getRequest(startRev),getRequest(endRev)).done(function(){
-			//wrapping the html fragment to form a valid xml
-			var dataFirstRev  = htmlToXml(hashTable[startRev]);
-			var dataSecondRev = htmlToXml(hashTable[endRev]);
-			//var modifiedHtml = diff(dataFirstRev,dataSecondRev);
-			console.time('Total diffing');
-			var htmlDiffs = delta.Diff(dataFirstRev,dataSecondRev);
-			console.timeEnd('Total diffing');
-			console.time('annotate');
-			var modifiedHtml = delta.annotate(htmlDiffs[1],htmlDiffs[0].matching,false,htmlDiffs[0]);
-			console.timeEnd('annotate');
-			console.time('addingHtml');
-			//$('#wikiBody').html(convert(modifiedHtml));
+			var dataFirstRev  = hashTable[startRev];
+			var dataSecondRev = hashTable[endRev];
+			console.time('diff');
+			var modifiedHtml = diff.diff(dataFirstRev,dataSecondRev);
+			console.timeEnd('diff');
 			$('#wikiBody').html(modifiedHtml);
-			console.timeEnd('addingHtml');
-			console.time('making array');
 			modifyList = empty($.makeArray($('del,ins')));
 			console.timeEnd('making array');
 			that.animateDiff();
