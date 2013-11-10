@@ -120,10 +120,10 @@ function playback(){
                    
                     if ($(element).prop('tagName') == 'DEL'){
                         that.customScrollIntoView('#wikiBody',element);
-                        $(element).fadeOut(that.animationSpeed);
+                        $(element).fadeOut(that.animationSpeed).css('display','none');
                     }
                     else{
-                        $(element).fadeIn(that.animationSpeed);
+                        $(element).fadeIn(that.animationSpeed).css('display','inline-block');
                          /* Temp fix for scroll into view */
                         //element.scrollIntoView(true);
                         that.customScrollIntoView('#wikiBody',element);

@@ -59,8 +59,9 @@ function htmlDiff() {
 		console.timeEnd('html2plain');
 		console.time('toDiff');
 		var diffs = dmp.diff_main(convertedFirst,convertedSecond);
+		dmp.diff_cleanupSemantic(diffs);
 		console.timeEnd('toDiff');
-		var modified;
+		var modified = '';
 		console.time('toModify');
 		for (i=0;i<diffs.length;i++){
 			var diff = diffs[i];
