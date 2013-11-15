@@ -10,7 +10,7 @@ window.onload = function(){
   
         //Speed Control
     $(".noUiSlider").noUiSlider({
-        range: [200, 1000],
+        range: [200, 5000],
        	start: 500,
         step: 100,
         handles: 1,
@@ -55,6 +55,10 @@ window.onload = function(){
 								secondrySliderMoveCallback : play
 							});
 	slider.init(); 
+	
+	$('body').on( "editAnimationBegins", function( event,revid ) {
+		slider.modifySecondryGraph('revid',revid,'green');
+	});
 	
 	addLanguageOptions(languageNamespace);
     $('select.languageNamespace').change(function(){

@@ -6,16 +6,22 @@ body{
 	position: absolute;
 	top:100px;
 }
+
 del{
-	color: #999;
 	background-color:#FEC8C8;
 	text-decoration: none;
+	display: inline-block;
 	}
 ins{
 	background-color: #cfc;
 	text-decoration: none;
 	display:none;
 }
+del *,ins *{
+	opacity: inherit;
+	background-color: inherit;
+}
+
 .pageAndLangauage{
 	
 }

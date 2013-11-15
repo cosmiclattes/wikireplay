@@ -1,4 +1,6 @@
 function playback(){
+	var diff = new htmlDiff();
+	diff.clearHash();
 	var listOfRevisions = [], pageTitle, startRev, endRev, revisionInfo, modifyList;
 	var playAnimation = true;
 	this.animationSpeed = 500;
@@ -40,6 +42,35 @@ function playback(){
 	        that.wikiDiff();
        
 	};
+	/** Caching the results memoization **/
+	var hashTable = hashTable || {};
+	function getRequest(revid){
+		var deferredReady = $.Deferred();
+		if (revid in hashTable){
+			//console.log('cache hit', revid);
+			return true;
+		}
+		else{
+			//console.log('cache fail',revid );
+			compareRevisionDict['revids'] = revid;
+			return $.getJSON(baseUrl,compareRevisionDict,function(data){
+				var resultKey = Object.keys(data.query.pages);
+				var dataRev = data.query.pages[resultKey].revisions[0]['*'];
+				hashTable[revid] = dataRev;
+			});
+		}
+	};
+	
+	var empty = function (list){
+		var l =[];
+		for (ll in list ){
+			if (!$(list[ll]).is(':empty')){
+				l.push(list[ll]);
+				}
+		} 
+		return l;
+	};
+	
 	this.wikiDiff = function(){
 	    //Creating the info box about the revisions
         var revInfo = {
@@ -51,20 +82,17 @@ function playback(){
 				'minor': revisionInfo.hasOwnProperty('minor')? 'minor' : null
 		};
 		that.infoBox(revInfo);
-        compareRevisionDict['revids'] = startRev;
-        $.getJSON(baseUrl,compareRevisionDict,function(dataFirst){
-			var resultKey = Object.keys(dataFirst.query.pages);
-			var dataFirstRev = dataFirst.query.pages[resultKey].revisions[0]['*'];
-			compareRevisionDict['revids'] = endRev;
-			$.getJSON(baseUrl,compareRevisionDict,function(dataSecond){
-				var resultKey = Object.keys(dataSecond.query.pages);
-				var dataSecondRev = dataSecond.query.pages[resultKey].revisions[0]['*'];
-				//html diff
-				var modifiedHtml = HtmlDiff.formatTextDiff(dataFirstRev,dataSecondRev);
-				$('#wikiBody').html(modifiedHtml);
-				modifyList = $.makeArray($('del,ins'));
-				that.animateDiff();
-			});
+		$.when(getRequest(startRev),getRequest(endRev)).done(function(){
+			var dataFirstRev  = hashTable[startRev];
+			var dataSecondRev = hashTable[endRev];
+			console.time('diff');
+			var modifiedHtml = diff.diff(dataFirstRev,dataSecondRev);
+			console.timeEnd('diff');
+			$('#wikiBody').html(modifiedHtml);
+			console.time('making array');
+			modifyList = empty($.makeArray($('del,ins')));
+			console.timeEnd('making array');
+			that.animateDiff();
 		});		
 	};
 	
@@ -84,49 +112,56 @@ function playback(){
 	
 	this.animateDiff = function () {
 		if(playAnimation){
-            setTimeout(function(){
                 if(modifyList.length>0){
-                    var element = modifyList[0];
-                    element.scrollIntoView(true);
-                    //customScrollIntoView('#wikiBody',element);
-                   
-                    if ($(element).prop('tagName') == 'DEL'){
-                        //customScrollIntoView('#wikiBody',element);
-                        $(element).fadeOut(that.animationSpeed);
-                    }
-                    else{
-                        $(element).fadeIn(that.animationSpeed);
-                         /* Temp fix for scroll into view */
-                        element.scrollIntoView(true);
-                        //customScrollIntoView('#wikiBody',element);
-                    }
+					var element = modifyList[0];
+					var scrollPromise = that.customScrollIntoView('#wikiBody',element);
                     modifyList.shift();
-                    that.animateDiff();
+                    $.when(scrollPromise).then(function(){
+                    	if ($(element).prop('tagName') == 'DEL'){
+                        	//console.log('scroll end:: animation begin add ',Date.now(),modifyList.length,element.id);
+                        	return $(element).fadeOut(that.animationSpeed);
+                    	}
+                    	else{
+                    		//console.log('scroll end:: animation begin delete ',Date.now(),modifyList.length,element.id);
+                        	return $(element).fadeIn(that.animationSpeed).css('display','inline-block');                        
+                    	}
+                    	
+                    }).then(function(){ 
+                    		//console.log('animation end',Date.now(),modifyList.length,element.id);
+                    		that.animateDiff();
+                    	});
 				}
                 else{
                     if(listOfRevisions.length>0){
                         startRev = endRev;
                         revisionInfo = listOfRevisions.shift();
                         endRev = revisionInfo.revid;
-                        //setTimeout(wiki_diff,200);
+                        $('body').trigger( "editAnimationBegins", [startRev] );
                         that.wikiDiff();
                     }
                     else{
 						$('#playButton').removeClass().addClass('play');
                     }
 				}
-			},that.animationSpeed);
+			
 		}
 	};
-	
 	this.customScrollIntoView = function(parent,element){
-		console.log(' ',element,' ',$(element).offset().top);
-		$(parent).animate({scrollTop: $(element).offset().top}, 100);
+		//console.log('scroll begin',Date.now(),modifyList.length,element.id);
+		var offset = 0;
+		if ($(element).css('display') == 'none'){
+			offset = $(element).css('display','inline-block')[0].offsetTop;
+			$(element).css('display','none');
+		}
+		else{
+			offset = $(element)[0].offsetTop;
+		}
+		return $(parent).animate({scrollTop: offset }, that.animationSpeed);
 	};
 	
 	this.startPlayback = function(button){
 		var page = $('#page_name').val();
-	    var rev = $('#page_rev').val();
+	    //var rev = $('#page_rev').val();
 	    
 	    
 	    //Handling the case where the the player was paused
