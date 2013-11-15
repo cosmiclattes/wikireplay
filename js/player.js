@@ -48,8 +48,7 @@ function playback(){
 		var deferredReady = $.Deferred();
 		if (revid in hashTable){
 			//console.log('cache hit', revid);
-			deferredReady.resolve();
-			return deferredReady.promise();
+			return true;
 		}
 		else{
 			//console.log('cache fail',revid );
@@ -90,6 +89,7 @@ function playback(){
 			var modifiedHtml = diff.diff(dataFirstRev,dataSecondRev);
 			console.timeEnd('diff');
 			$('#wikiBody').html(modifiedHtml);
+			console.time('making array');
 			modifyList = empty($.makeArray($('del,ins')));
 			console.timeEnd('making array');
 			that.animateDiff();
@@ -112,24 +112,24 @@ function playback(){
 	
 	this.animateDiff = function () {
 		if(playAnimation){
-            setTimeout(function(){
                 if(modifyList.length>0){
-                    var element = modifyList[0];
-                    //element.scrollIntoView(true);
-                    //that.customScrollIntoView('#wikiBody',element);
-                   
-                    if ($(element).prop('tagName') == 'DEL'){
-                        that.customScrollIntoView('#wikiBody',element);
-                        $(element).fadeOut(that.animationSpeed).css('display','none');
-                    }
-                    else{
-                        $(element).fadeIn(that.animationSpeed).css('display','inline-block');
-                         /* Temp fix for scroll into view */
-                        //element.scrollIntoView(true);
-                        that.customScrollIntoView('#wikiBody',element);
-                    }
+					var element = modifyList[0];
+					var scrollPromise = that.customScrollIntoView('#wikiBody',element);
                     modifyList.shift();
-                    that.animateDiff();
+                    $.when(scrollPromise).then(function(){
+                    	if ($(element).prop('tagName') == 'DEL'){
+                        	//console.log('scroll end:: animation begin add ',Date.now(),modifyList.length,element.id);
+                        	return $(element).fadeOut(that.animationSpeed);
+                    	}
+                    	else{
+                    		//console.log('scroll end:: animation begin delete ',Date.now(),modifyList.length,element.id);
+                        	return $(element).fadeIn(that.animationSpeed).css('display','inline-block');                        
+                    	}
+                    	
+                    }).then(function(){ 
+                    		//console.log('animation end',Date.now(),modifyList.length,element.id);
+                    		that.animateDiff();
+                    	});
 				}
                 else{
                     if(listOfRevisions.length>0){
@@ -137,26 +137,31 @@ function playback(){
                         revisionInfo = listOfRevisions.shift();
                         endRev = revisionInfo.revid;
                         $('body').trigger( "editAnimationBegins", [startRev] );
-                        //setTimeout(wiki_diff,200);
                         that.wikiDiff();
                     }
                     else{
 						$('#playButton').removeClass().addClass('play');
                     }
 				}
-			},that.animationSpeed);
+			
 		}
 	};
 	this.customScrollIntoView = function(parent,element){
-		//console.log(' ',element,' ',element.offsetTop);
-		$(parent).animate({scrollTop: element.offsetTop-10}, 300);
-		//Remove the scroll plugin & write it 
-		//$(element).scrollIntoView(250);
+		//console.log('scroll begin',Date.now(),modifyList.length,element.id);
+		var offset = 0;
+		if ($(element).css('display') == 'none'){
+			offset = $(element).css('display','inline-block')[0].offsetTop;
+			$(element).css('display','none');
+		}
+		else{
+			offset = $(element)[0].offsetTop;
+		}
+		return $(parent).animate({scrollTop: offset }, that.animationSpeed);
 	};
 	
 	this.startPlayback = function(button){
 		var page = $('#page_name').val();
-	    var rev = $('#page_rev').val();
+	    //var rev = $('#page_rev').val();
 	    
 	    
 	    //Handling the case where the the player was paused

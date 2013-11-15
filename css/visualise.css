@@ -8,7 +8,6 @@ body{
 }
 
 del{
-	color: #999;
 	background-color:#FEC8C8;
 	text-decoration: none;
 	display: inline-block;
@@ -18,22 +17,11 @@ ins{
 	text-decoration: none;
 	display:none;
 }
-ins pre, ins th, ins tr{
-	background-color: #cfc;
-}
-del pre, del th, del tr{
-	background-color: #FEC8C8;
-}
-/*
-.added{
-	background-color: #cfc;
-	display:none;
+del *,ins *{
+	opacity: inherit;
+	background-color: inherit;
 }
 
-.deleted{
-	background-color:#FEC8C8;
-}
-*/
 .pageAndLangauage{
 	
 }

@@ -33,7 +33,7 @@ function htmlDiff() {
 	  return html;
 	}
 	function plain2html(plain) {
-		var back;
+		var back = '';
 		for (i=0;i<plain.length;i++){
 			if(_revHtmlHash[plain[i]]){
 				back += _revHtmlHash[plain[i]];
@@ -69,10 +69,10 @@ function htmlDiff() {
 				modified += diff[1];
 			}
 			else if (diff[0]==1){
-				modified += '<ins>'+diff[1]+'</ins>';
+				modified += '<ins id='+i+'>'+diff[1]+'</ins>';
 			}
 			else {
-				modified += '<del>'+diff[1]+'</del>';
+				modified += '<del id='+i+'>'+diff[1]+'</del>';
 			}
 		}
 		console.timeEnd('toModify');
