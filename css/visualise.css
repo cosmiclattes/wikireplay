@@ -11,11 +11,13 @@ del{
 	background-color:#FEC8C8;
 	text-decoration: none;
 	display: inline-block;
+	white-space: pre;
 	}
 ins{
 	background-color: #cfc;
 	text-decoration: none;
 	display:none;
+	white-space: pre;
 }
 del *,ins *{
 	opacity: inherit !important;
@@ -61,6 +63,7 @@ display : block;
 	height: 25px;
 	margin-left: 20px;
 	float: left;
+	cursor: pointer;
 }
 .pause{
 	background: url('../images/icons.svg') -495px -455px;
@@ -68,6 +71,7 @@ display : block;
 	height: 50px;
 	margin-left: 20px; 
 	float: left;
+	cursor: pointer;
 }
 .speedSlider{
 	width: 200px;
@@ -129,6 +133,9 @@ rect {
     stroke: red;
     */
     stroke: white;
+}
+.pointer{
+	cursor: pointer;
 }
 .green{
     fill:green;

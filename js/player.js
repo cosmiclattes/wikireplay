@@ -63,7 +63,7 @@ function playback(){
 	var empty = function (list){
 		var l =[];
 		for (ll in list ){
-			if ($(list[ll]).children().text().trim()){
+			if ($(list[ll]).text().trim()){
 				l.push(list[ll]);
 				}
 		} 
@@ -71,10 +71,10 @@ function playback(){
 	};
 	//hard coding parent element
 	var removeRef = function(parentElement){
-		$('del a[href^=#CITE_NOTE],del a[href^=#CITE_REF],del *[id^=CITE_NOTE]').remove();
-		$('del sup a[href^=#CITE_NOTE]').parent().parent().remove();
-		$('a[href^=#CITE_NOTE] del').remove();
-		$('a[href^=#CITE_NOTE] ins').each(function(){
+		$('del a[href^=#cite_note],del a[href^=#cite_ref],del *[id^=cite_note]').remove();
+		$('del sup a[href^=#cite_note]').parent().parent().remove();
+		$('a[href^=#cite_note] del').remove();
+		$('a[href^=#cite_note] ins').each(function(){
 			var element = $(this);
 			element.replaceWith(element.text());
 		});
@@ -179,20 +179,22 @@ function playback(){
 		return $(parent).animate({scrollTop: offset }, that.animationSpeed);
 	};
 	
-	this.startPlayback = function(button){
+	this.startPlayback = function(button,selectedEdits,reset){
+		$(button).removeClass('play').addClass('pause');
 		var page = $('#page_name').val();
-	    //var rev = $('#page_rev').val();
-	    
-	    
+		if(reset){
+			that.getRevisions(page,selectedEdits); 
+		}
+		else{
 	    //Handling the case where the the player was paused
-	    if(listOfRevisions.length > 0){
-	        $(button).removeClass('play').addClass('pause');
-	        playAnimation = true;
-	        that.animateDiff();
-	    }
-	    else{
-	        that.getRevisions(page,rev); 
-	    }
+		    if(listOfRevisions.length > 0){
+		        playAnimation = true;
+		        that.animateDiff();
+		    }
+		    else{
+		        that.getRevisions(page,selectedEdits); 
+		    }
+	   }
 	};
 	
 	this.pausePlayback = function(button){

@@ -37,15 +37,14 @@ window.onload = function(){
     }); 
     
     
-    var pause = function(button){
+    var pause = function(){
     	var button = $('#playButton');
     	wikiPlayback.pausePlayback(button);
     };
     
-    var play  = function(button){
+    var play  = function(selectedEdits,reset){
     	var button = $('#playButton');
-    	var selectedEdits = slider.getSecondrySliderSelection();
-    	wikiPlayback.getRevisions(pageTitle,selectedEdits);
+    	wikiPlayback.startPlayback(button,selectedEdits,reset);
     };
     
 	var slider = new wikiSlider({	height : 400,

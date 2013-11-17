@@ -144,7 +144,7 @@
 			return completeRevData.slice(start,end);
 		};
 		this.getSecondrySliderSelection = function (i){
-			return secondrySliderSelection;
+			return that.getSelection().slice(0,i+1).reverse();
 		};
 		this.wikiNameSpace = function (language) {
 	  		usingLanguageNamespace = language;
@@ -287,7 +287,7 @@
 							return d.dir == 'p' ? enlargedLength - yscale2(d.editSize) : enlargedLength;})
 						.attr("width",that.enlargedBarGraphBarwidth)
 						.attr("height",function(d){ return yscale2(d.editSize); })
-						.attr("class",function(d){ return d.dir=='p'?'blue':'red'; })
+						.attr("class",function(d){ return d.dir=='p'?'pointer blue':'pointer red'; })
 						.attr("timeDiff",function(d){ return d.timeDiff; })
 						.attr("title",function(d){ return d.user; })
 						.attr("number",function(d,i){ return i; })
@@ -309,9 +309,9 @@
 				                .style("opacity", 0);   
 				        })
 				        .on("click", function(d,i){
-				        	secondrySliderSelection = that.getSelection().slice(0,i+1).reverse();
 							if (that.secondrySliderCallback){
-								that.secondrySliderCallback();
+								var selectedEdits = that.getSecondrySliderSelection(i);
+								that.secondrySliderCallback(selectedEdits,1);
 							}
 				        })
 				       .style({'fill': function(d,i){
