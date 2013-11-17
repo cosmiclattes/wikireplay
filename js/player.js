@@ -60,17 +60,25 @@ function playback(){
 			});
 		}
 	};
-	
 	var empty = function (list){
 		var l =[];
 		for (ll in list ){
-			if (!$(list[ll]).is(':empty')){
+			if ($(list[ll]).children().text().trim()){
 				l.push(list[ll]);
 				}
 		} 
 		return l;
 	};
-	
+	//hard coding parent element
+	var removeRef = function(parentElement){
+		$('del a[href^=#CITE_NOTE],del a[href^=#CITE_REF],del *[id^=CITE_NOTE]').remove();
+		$('del sup a[href^=#CITE_NOTE]').parent().parent().remove();
+		$('a[href^=#CITE_NOTE] del').remove();
+		$('a[href^=#CITE_NOTE] ins').each(function(){
+			var element = $(this);
+			element.replaceWith(element.text());
+		});
+	};
 	this.wikiDiff = function(){
 	    //Creating the info box about the revisions
         var revInfo = {
@@ -89,6 +97,8 @@ function playback(){
 			var modifiedHtml = diff.diff(dataFirstRev,dataSecondRev);
 			console.timeEnd('diff');
 			$('#wikiBody').html(modifiedHtml);
+			// To remove ref changes 
+			removeRef();
 			console.time('making array');
 			modifyList = empty($.makeArray($('del,ins')));
 			console.timeEnd('making array');
@@ -105,7 +115,9 @@ function playback(){
                  $('.infoBox').append(anchor);
             }
             else{
-                $('.infoBox').append('<span>'+revInfo[key]+'</span>');
+            	if (revInfo[key]){
+                	$('.infoBox').append('<span>'+revInfo[key]+'</span>');
+               	}
             }
         }
 	};
@@ -146,15 +158,23 @@ function playback(){
 			
 		}
 	};
+	var getOffsetTop = function(element){
+		if (element.parentElement.tagName == 'TD'){
+			return element.parentElement.offsetTop;
+		}
+		else{
+			return element.offsetTop;
+		}
+	};
 	this.customScrollIntoView = function(parent,element){
 		//console.log('scroll begin',Date.now(),modifyList.length,element.id);
 		var offset = 0;
 		if ($(element).css('display') == 'none'){
-			offset = $(element).css('display','inline-block')[0].offsetTop;
+			offset = getOffsetTop($(element).css('display','inline-block')[0]);
 			$(element).css('display','none');
 		}
 		else{
-			offset = $(element)[0].offsetTop;
+			offset = getOffsetTop(element);
 		}
 		return $(parent).animate({scrollTop: offset }, that.animationSpeed);
 	};

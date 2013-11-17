@@ -19,14 +19,13 @@ function htmlDiff() {
 	  _revHtmlHash = {};
 	  _currentHash = 44032; //朝鲜文音节 Hangul Syllables
 	};
-	
 	function html2plain(html) {
 	  html = html.replace(/<(S*?)[^>]*>.*?|<.*?\/>/g, function(tag){
 	    //debug:
 	    if (_is_debug) {
-	      return pushHash(tag.toUpperCase().replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+	      return pushHash(tag.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
 	    } else {
-	      return pushHash(tag.toUpperCase());
+	      return pushHash(tag);
 	    }
 	  });
 	  
@@ -44,13 +43,6 @@ function htmlDiff() {
 		}
 		return back;
 	};	
-	/*
-	function plain2html(plain) {
-	  for(var tag in _htmlHash){
-	    plain = plain.replace(RegExp(_htmlHash[tag], 'g'), tag);
-	  }
-	  return plain;
-	}*/
 	var dmp = new diff_match_patch();
 	this.diff = function(first,second){
 		console.time('html2plain');

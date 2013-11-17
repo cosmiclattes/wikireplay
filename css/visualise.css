@@ -18,8 +18,8 @@ ins{
 	display:none;
 }
 del *,ins *{
-	opacity: inherit;
-	background-color: inherit;
+	opacity: inherit !important;
+	background-color: inherit !important;
 }
 
 .pageAndLangauage{
