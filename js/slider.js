@@ -144,7 +144,7 @@
 			return completeRevData.slice(start,end);
 		};
 		this.getSecondrySliderSelection = function (i){
-			return that.getSelection().slice(0,i+1).reverse();
+			return i ? that.getSelection().slice(0,i+1).reverse():that.getSelection().reverse();
 		};
 		this.wikiNameSpace = function (language) {
 	  		usingLanguageNamespace = language;
