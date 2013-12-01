@@ -40,10 +40,9 @@ window.onload = function(){
     	wikiPlayback.pausePlayback(button);
     };
     
-    var play  = function(selectedEdits,reset){
-    	var button = $('#playButton');
-    	var selectedEdits = slider.getSecondrySliderSelection();
-    	wikiPlayback.startPlayback(button,selectedEdits,reset);
+    var play  = function(edits,reset){
+    	var selectedEdits = reset ? edits : slider.getSecondrySliderSelection();
+    	wikiPlayback.startPlayback(selectedEdits,reset);
     };
     
 	var slider = new wikiSlider({	height : 400,

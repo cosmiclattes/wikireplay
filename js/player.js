@@ -183,8 +183,8 @@ function playback(){
 		return $(parent).animate({scrollTop: offset }, that.animationSpeed);
 	};
 	
-	this.startPlayback = function(button,selectedEdits,reset){
-		$(button).removeClass('play').addClass('pause');
+	this.startPlayback = function(selectedEdits,reset){
+		$('#playButton').removeClass('play').addClass('pause');
 		var page = $('#page_name').val();
 		if(reset){
 			that.getRevisions(page,selectedEdits); 
@@ -211,7 +211,7 @@ function playback(){
 		$('#playButton').click(function(){
 			var button = this;
 			if($(button).hasClass('play')){
-				that.startPlayback(button);		    
+				that.startPlayback();		    
 			}
 			else{
 				that.pausePlayback(button);
