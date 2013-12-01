@@ -246,7 +246,7 @@
          	$('#outer').scrollLeft(brush.extent()[0]);
    		};
    		this.fixWidth = function (width){
-			d3.select('#enlarged').style('width',width+'px').select('svg').style('width',width).select('line').attr('x2',width);
+			d3.select('#enlarged svg').style('width',width).select('line').attr('x2',width);
 			endLine.attr({'x1':width,'x2':width});
     	};
 		function brushmove(){
@@ -294,14 +294,14 @@
 						.on("mouseover", function(d) {      
 							tooltipDiv.transition().duration(200).style("opacity", .9);
 							bars.filter(function(d){ return d.user == hoverUser; })
-							.style({'fill':'steelblue'});
+							.style({'fill':'gray'});
 						    hoverUser = d.user;
 				            tooltipDiv.html(d.user + "<br/>"  + d.date)  
 				                .style("left", (d3.event.pageX) + "px")     
 				                .style("top", (d3.event.pageY - 28) + "px");    
 				            bars.filter(function(d){
 								return d.user == hoverUser;
-								}).style({'fill':'orange'});
+								}).style({'fill':'gold'});
 						})                      
 				        .on("mouseout", function(d) {       
 				            tooltipDiv.transition()        
@@ -313,10 +313,12 @@
 								var selectedEdits = that.getSecondrySliderSelection(i);
 								that.secondrySliderCallback(selectedEdits,1);
 							}
-				        })
+				        });
+				        /*
 				       .style({'fill': function(d,i){
 							return d.dir == 'p' ? 'blue':'red' ;}
 						});
+						*/
 						
 				                                       
 						newGraph.exit().remove();

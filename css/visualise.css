@@ -27,56 +27,43 @@ del *,ins *{
 .pageAndLangauage{
 	
 }
-.infoBox{
-	display:none;
-	position:fixed;
-	top: 10px;
-	right: 25px;
-	opacity: 0.6;
-    padding: 5px;
-    opacity: .6;
-    border: solid 2px #333;
-    border-radius: 15px;
+#infoBox{
+	color:gray;
     font-size: 11px;
+    display: inline-block;
 }
-.infoBox span{
-display : block;
-}
-.infoBox a{
-display : block;
+#infoBox > div{
+	margin:2px;
 }
 .controls{
     /*temp*/
-    float: left;
-    border: solid 2px #333;
+	display: inline-block;
     width: 250px;
-    height: 70px;
-    height: 25px;
     border-radius:  10px;
     margin: 0px;
     padding: 5px;
-    background-color: #333;
 }
 .play{
 	background: url('../images/icons.svg') -384px -455px;
 	width: 20px;
 	height: 25px;
-	margin-left: 20px;
-	float: left;
 	cursor: pointer;
 }
 .pause{
 	background: url('../images/icons.svg') -495px -455px;
 	width: 20px;
-	height: 50px;
-	margin-left: 20px; 
-	float: left;
+	height: 20px; 
 	cursor: pointer;
+}
+#playButtonContainer{
+	width: 40px;
+	height: 20px;
+	float: left;	
 }
 .speedSlider{
 	width: 200px;
-	height: 50px;
-	float: right;
+	height: 20px;
+	float: left;
 }
 .cB{
 	clear: both;
@@ -118,7 +105,10 @@ display : block;
 }
 rect {
     stroke: black;
-    fill: steelblue;
+    fill: gray;
+}
+#secondaryGraph rect{
+	fill: #b4e2ef;
 }
 .blue{
     /*
@@ -154,31 +144,25 @@ rect {
     pointer-events: none;
 }
 #outer{
-    /* width: 97%; */
-	max-width:1200px;
+	max-width:99%;
     overflow: auto;
-    height: 120px;
     border-style: solid;
     border-width: 3px;
     border-color: #ddd;
     padding: 3px;
     border-radius: 5px;
     margin: 3px;
-    position: absolute;
-    top: 175px;
+    display: inline-block;
 }
-#enlarged{
+#enlargedContainer{
     border-color: #ddd;
     border-width: 3px;
     border-radius: 5px;
-    width: 450px;
-    height: 160px;
+    min-width: 100px;
     padding: 3px;
     border-style: solid;
     margin: 2px;
-    position: absolute;
-/*overflow: hidden;*/
-
+    display: inline-block;
 }
 .enlargedButton{
     position: absolute;
@@ -199,8 +183,7 @@ rect {
 }
 #sliderComplete{
 	position: absolute;
-	bottom: 225px;
+	bottom: 0px;
 }
 #wikiBodySlider{
-	height:80%;
 }

@@ -82,12 +82,10 @@ function playback(){
 	this.wikiDiff = function(){
 	    //Creating the info box about the revisions
         var revInfo = {
-				'title': pageTitle,
 				'revid': revisionInfo.revid,
 				'user': revisionInfo.user,
 				'timestamp': revisionInfo.timestamp.slice(0,10),
-				'anon': revisionInfo.hasOwnProperty('anon')? 'anon' : null,
-				'minor': revisionInfo.hasOwnProperty('minor')? 'minor' : null
+				'minor': revisionInfo.hasOwnProperty('minor')? 'M' : null
 		};
 		that.infoBox(revInfo);
 		$.when(getRequest(startRev),getRequest(endRev)).done(function(){
@@ -107,17 +105,23 @@ function playback(){
 	};
 	
 	this.infoBox = function (revInfo){
-        $('.infoBox').html('');
+        //$('#infoBox').html('');
         for (key in revInfo){                   
             if(key == 'revid'){
                 var urlBase = 'https://'+usingLanguageNamespace+'.wikipedia.org/w/index.php?oldid='+revInfo[key];
                 var anchor =$('<a>'+revInfo[key]+'</a>').attr({'target':'_blank','href':urlBase});
-                 $('.infoBox').append(anchor);
+                 $('#infoBox .revisionLink').html(anchor);
+            }
+            else if(key == 'timestamp'){
+            	$('#infoBox .editDate').html(revInfo[key]);
+            }
+            else if(key == 'user'){
+            	$('#infoBox .userName').html(revInfo[key]);
             }
             else{
-            	if (revInfo[key]){
-                	$('.infoBox').append('<span>'+revInfo[key]+'</span>');
-               	}
+            	var minor = revInfo[key]?revInfo[key]:'';
+                $('#infoBox .minor').html(minor);
+               	
             }
         }
 	};

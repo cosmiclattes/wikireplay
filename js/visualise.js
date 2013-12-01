@@ -25,11 +25,8 @@ window.onload = function(){
     //Attaching Event to get the list of revisions
     var pageTitle ;
     $('#page_button').click(function(){
-		$('#wikiBody,.infoBox').show();        
-    	//$('#playButton').removeClass().addClass('pause');        
-		//wikiPlayback.getRevisions($('#page_name').val(),$('#page_rev').val());
+		$('#wikiBody').show();        
 		pageTitle = $('#page_name').val();
-		//wikiPlayback.getRevisions(pageTitle);
 		
 		/* From slider */
 		slider.cleanUp();
@@ -44,6 +41,7 @@ window.onload = function(){
     
     var play  = function(selectedEdits,reset){
     	var button = $('#playButton');
+    	var selectedEdits = slider.getSecondrySliderSelection();
     	wikiPlayback.startPlayback(button,selectedEdits,reset);
     };
     
