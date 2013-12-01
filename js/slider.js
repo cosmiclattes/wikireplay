@@ -141,16 +141,12 @@
 		//Cleanup big time
 		/** To highlight the revision currently being animated **/
 		this.modifySecondryGraph = function(field,value,color) {
-			newGraph.filter(function(){return true;})
-				.style({'fill': function(d,i){
-							return d.dir == 'p' ? 'blue':'red' ;}
-					});
 			newGraph.filter(function(d){
 				if(d[field] == value){
 					progressBar.attr('x1',d.lastX);
 					return true;
 				}
-			}).style('fill',color);
+			});
 		};
 		//Cleanup big time
 		/** To get the list of revisions selected in the slider **/
@@ -283,6 +279,7 @@
 	            d3.event.target.extent([slid_s[0],slid_s[0]+95]); d3.event.target(d3.select(this));
 	        }
 	        /*Calling Primary Slider callback*/
+	       	cleanupProgressBar();
 			if (that.primarySliderCallback){
 				that.primarySliderCallback();
 			}
@@ -324,6 +321,9 @@
 							tooltipDiv.transition().duration(200).style("opacity", .9);
 							bars.filter(function(d){ return d.user == hoverUser; })
 							.style({'fill':'gray'});
+							newGraph.filter(function(d){
+								return d.user == hoverUser;
+							}).style({'fill':'#b4e2ef'});
 						    hoverUser = d.user;
 				            tooltipDiv.html(d.user + "<br/>"  + d.date)  
 				                .style("left", (d3.event.pageX) + "px")     
@@ -331,6 +331,11 @@
 				            bars.filter(function(d){
 								return d.user == hoverUser;
 								}).style({'fill':'gold'});
+								
+							
+							newGraph.filter(function(d){
+								return d.user == hoverUser;
+							}).style({'fill':'gold'});
 						})                      
 				        .on("mouseout", function(d) {       
 				            tooltipDiv.transition()        
