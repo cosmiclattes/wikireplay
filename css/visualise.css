@@ -144,7 +144,7 @@ rect {
     pointer-events: none;
 }
 #outer{
-	max-width:99%;
+	max-width:1200px;
     overflow: auto;
     border-style: solid;
     border-width: 3px;

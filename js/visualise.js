@@ -1,5 +1,6 @@
 window.onload = function(){
-	
+	//Setting the max-width of the slider to the screen width
+	$('#outer').css('max-width',$(window).width()-50+'px'); 
     //Creating Language Namespace dropdown
     wikiPlayback = new playback();
     

@@ -271,7 +271,7 @@
     	}
     	function temp(){
     			var brushExtent = brush.extent();
-	    		 	var new_graph = completeRevData.slice(brushExtent[0]/that.barGraphBarwidth,brushExtent[1]/that.barGraphBarwidth );
+	    		 	var new_graph = completeRevData.slice(Math.floor(brushExtent[0]/that.barGraphBarwidth),Math.ceil(brushExtent[1]/that.barGraphBarwidth) );
 	    		 	if (new_graph.length){
 				        var diffScaleAbs = 0;
 						var lastX = 0;
@@ -281,7 +281,7 @@
 				        newGraph.attr("x",function(d,i){
 				            diffScaleAbs += d.timeDiff*3;
 					    	lastX = diffScaleAbs +  i*that.enlargedBarGraphBarwidth;
-				            return lastX;
+					    	return lastX;
 						})
 				        .attr("y",function(d,i){
 							return d.dir == 'p' ? enlargedLength - yscale2(d.editSize) : enlargedLength;})
@@ -324,7 +324,8 @@
 						newGraph.exit().remove();
 						startDate.text(timeParse.parse(new_graph[0].timestamp).toDateString().slice(4));
 						endDate.text(timeParse.parse(new_graph[new_graph.length-1].timestamp).toDateString().slice(4)).attr({'x':lastX-50});
-						that.fixWidth(lastX);
+						enlargedBarGraphSvgWidth = lastX + that.enlargedBarGraphBarwidth;
+						that.fixWidth(enlargedBarGraphSvgWidth);
 				}
     	}
     	return this;
