@@ -291,8 +291,17 @@
     		progressBar.attr({'stroke-width':progressBarWidth,
     						'x1':d.lastX,
     						'x2':d.lastX+progressBarWidth
-    						});
-    		
+    						});	
+    	};
+    	function highlightSelectedEdit(graph,field,id,color){
+    		graph.filter(function(d){
+    			return d[field] == id;
+				}).style({'fill':color});
+    	};
+    	function cleanupHighlightSelectedEdit(graph,field,id,color,type){
+    		graph.filter(function(d){
+    			return type ? !(d[field] == id) : d[field] == id;
+				}).style({'fill':color});
     	};
     	function temp(){
     			var brushExtent = brush.extent();
@@ -319,28 +328,20 @@
 						.attr("number",function(d,i){ return i; })
 						.on("mouseover", function(d) {      
 							tooltipDiv.transition().duration(200).style("opacity", .9);
-							bars.filter(function(d){ return d.user == hoverUser; })
-							.style({'fill':'gray'});
-							newGraph.filter(function(d){
-								return d.user == hoverUser;
-							}).style({'fill':'#b4e2ef'});
+
+							cleanupHighlightSelectedEdit(bars,'user',hoverUser,'gray',0);
+							cleanupHighlightSelectedEdit(newGraph,'user',hoverUser,'#b4e2ef',0);
 						    hoverUser = d.user;
 				            tooltipDiv.html(d.user + "<br/>"  + d.date)  
-				                .style("left", (d3.event.pageX) + "px")     
-				                .style("top", (d3.event.pageY - 28) + "px");    
-				            bars.filter(function(d){
-								return d.user == hoverUser;
-								}).style({'fill':'gold'});
-								
+				                .style("left", (d3.event.pageX + 5) + "px")     
+				                .style("top", (d3.event.pageY - 23) + "px");    
+				                
+							highlightSelectedEdit(bars,'user',hoverUser,'gold');	
+							highlightSelectedEdit(newGraph,'user',hoverUser,'gold');
 							
-							newGraph.filter(function(d){
-								return d.user == hoverUser;
-							}).style({'fill':'gold'});
 						})                      
 				        .on("mouseout", function(d) {       
-				            tooltipDiv.transition()        
-				                .duration(500)      
-				                .style("opacity", 0);   
+				            tooltipDiv.transition().duration(500).style("opacity", 0);   
 				        })
 				        .on("click", function(d,i){
 				        	cleanupProgressBar();
@@ -352,6 +353,8 @@
 				        });
 				                               
 						newGraph.exit().remove();
+						cleanupHighlightSelectedEdit(newGraph,'user',hoverUser,'#b4e2ef',1);
+						highlightSelectedEdit(newGraph,'user',hoverUser,'gold');
 						startDate.text(timeParse.parse(new_graph[0].timestamp).toDateString().slice(4));
 						endDate.text(timeParse.parse(new_graph[new_graph.length-1].timestamp).toDateString().slice(4)).attr({'x':lastX-50});
 						enlargedBarGraphSvgWidth = lastX + that.enlargedBarGraphBarwidth;
