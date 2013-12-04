@@ -148,18 +148,17 @@ function playback(){
                     	});
 				}
                 else{
+                	$('body').trigger( "editAnimationBegins", [endRev] );
                     if(listOfRevisions.length>0){
                         startRev = endRev;
                         revisionInfo = listOfRevisions.shift();
                         endRev = revisionInfo.revid;
-                        $('body').trigger( "editAnimationBegins", [startRev] );
                         that.wikiDiff();
                     }
                     else{
 						$('#playButton').removeClass().addClass('play');
-                    }
+                    } 
 				}
-			
 		}
 	};
 	var getOffsetTop = function(element){
@@ -184,6 +183,7 @@ function playback(){
 	};
 	
 	this.startPlayback = function(selectedEdits,reset){
+		userNotification('play');
 		$('#playButton').removeClass('play').addClass('pause');
 		var page = $('#page_name').val();
 		if(reset){
@@ -202,6 +202,7 @@ function playback(){
 	};
 	
 	this.pausePlayback = function(button){
+		userNotification('pause');
 		$(button).removeClass('pause').addClass('play');
 		$('del,ins').finish();
 		playAnimation = false;

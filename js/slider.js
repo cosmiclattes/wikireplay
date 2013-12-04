@@ -140,7 +140,7 @@
 		};
 		//Cleanup big time
 		/** To highlight the revision currently being animated **/
-		this.modifySecondryGraph = function(field,value,color) {
+		this.modifySecondryGraph = function(field,value) {
 			newGraph.filter(function(d){
 				if(d[field] == value){
 					progressBar.attr('x1',d.lastX);
@@ -272,7 +272,8 @@
 		        temp();
 		       
 		        if (brushExtent[1]> completeRevData.length*that.barGraphBarwidth - 50){
-		         //   that.getData();
+		       		userNotification('load');
+		       		that.getData();
 		        }
 	        }
 	        else{

@@ -54,7 +54,7 @@ window.onload = function(){
 	slider.init(); 
 	
 	$('body').on( "editAnimationBegins", function( event,revid ) {
-		slider.modifySecondryGraph('revid',revid,'green');
+		slider.modifySecondryGraph('revid',revid);
 	});
 	
 	addLanguageOptions(languageNamespace);
