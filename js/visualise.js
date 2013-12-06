@@ -25,9 +25,9 @@ window.onload = function(){
     
     //Attaching Event to get the list of revisions
     var pageTitle ;
-    $('#page_button').click(function(){
+    $('#pageButton').click(function(){
 		$('#wikiBody').show();        
-		pageTitle = $('#page_name').val();
+		pageTitle = $('#pageTitle').val();
 		
 		/* From slider */
 		slider.cleanUp();

@@ -1,7 +1,31 @@
 body{
 	margin:0px;
 	padding:0px;
+	width:100%;
+	background: white;
 }
+
+#header{
+	width :290px;
+	background:#f5f5f5;
+	margin:auto;
+	padding:5px 10px;
+}
+#fullscreen{
+	position: absolute;
+	right: 20px;
+	top:5px;
+}
+input{
+	border: #f5f5f5 2px solid;
+	padding:10px;
+	border-radius: 5px;
+}
+input[type=submit]{
+	background: #46C2E5;
+	color:#ffffff;
+}
+
 .page_container{
 	position: absolute;
 	top:100px;
@@ -76,6 +100,7 @@ del *,ins *{
     padding: 5px;
     border: solid 2px #333;
     border-radius: 5px;
+    background: #f6f6f6;
 }
 
 :-webkit-full-screen {
@@ -83,12 +108,6 @@ del *,ins *{
   height: 100%;
 }
 
-#fullscreen{
-	position: relative;
-	top: 0px;
-}
-.controlsAndButtons{
-}
 
 /* Slider */
 .tooltip {   
@@ -186,4 +205,13 @@ rect {
 	bottom: 0px;
 }
 #wikiBodySlider{
+}
+.resize > rect {
+	visibility:visible !important;
+	fill-opacity:1;
+	fill: gainsboro;
+	stroke: #d7d7d7; 
+}
+.extent{
+	stroke:white;
 }

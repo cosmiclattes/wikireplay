@@ -185,7 +185,7 @@ function playback(){
 	this.startPlayback = function(selectedEdits,reset){
 		userNotification('play');
 		$('#playButton').removeClass('play').addClass('pause');
-		var page = $('#page_name').val();
+		var page = $('#pageTitle').val();
 		if(reset){
 			that.getRevisions(page,selectedEdits); 
 		}
