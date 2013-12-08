@@ -182,6 +182,7 @@ rect {
     border-style: solid;
     margin: 2px;
     display: inline-block;
+    background: white;
 }
 .enlargedButton{
     position: absolute;

@@ -97,9 +97,9 @@ function playback(){
 			$('#wikiBody').html(modifiedHtml);
 			// To remove ref changes 
 			removeRef();
-			console.time('making array');
+			//console.time('making array');
 			modifyList = empty($.makeArray($('del,ins')));
-			console.timeEnd('making array');
+			//console.timeEnd('making array');
 			that.animateDiff();
 		});		
 	};
@@ -131,7 +131,7 @@ function playback(){
                 if(modifyList.length>0){
 					var element = modifyList[0];
 					var scrollPromise = that.customScrollIntoView('#wikiBody',element);
-                    modifyList.shift();
+                    
                     $.when(scrollPromise).then(function(){
                     	if ($(element).prop('tagName') == 'DEL'){
                         	//console.log('scroll end:: animation begin add ',Date.now(),modifyList.length,element.id);
@@ -144,6 +144,7 @@ function playback(){
                     	
                     }).then(function(){ 
                     		//console.log('animation end',Date.now(),modifyList.length,element.id);
+                    		modifyList.shift();
                     		that.animateDiff();
                     	});
 				}
@@ -170,7 +171,7 @@ function playback(){
 		}
 	};
 	this.customScrollIntoView = function(parent,element){
-		//console.log('scroll begin',Date.now(),modifyList.length,element.id);
+		//console.log('scroll begin',Date.now(),modifyList.length,element);
 		var offset = 0;
 		if ($(element).css('display') == 'none'){
 			offset = getOffsetTop($(element).css('display','inline-block')[0]);
