@@ -35,7 +35,7 @@
 		var brush = null;
 		var toolTipDiv, svg, svgBox, svgEnlargedBox;
 		var primaryContainer, primaryGraph, secondaryContainer, secondaryGraph, newGraph;
-		var outerLength = 50, enlargedLength = 80;
+		var outerLength = 35, enlargedLength = 55;
 		var endLine, startDate, endDate;
 		var progressBar,progressBarWidth = 4;
 		var bars;
@@ -59,7 +59,7 @@
         	tooltipDiv = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
         	
         	
-        	svg = d3.select('#outer').append('svg').attr({'height':100,'width':600});
+        	svg = d3.select('#outer').append('svg').attr({'height':outerLength*2,'width':600});
             svgBox = svg.append('g').attr({'transform':'translate(0,0)'});
             svgEnlargedBox = d3.select('#enlarged').append('svg').attr({'height':enlargedLength*2,'width':450})
                                             .append('g').attr('transform','translate(0,0)');
@@ -152,8 +152,8 @@
 		/** To get the list of revisions selected in the slider **/
 		this.getSelection = function () {
 			var brushExtent = brush.extent();
-			var start = Math.floor(brushExtent[0]/that.barGraphBarwidth);
-			var end = Math.ceil(brushExtent[1]/that.barGraphBarwidth);
+			var start = Math.floor(brushExtent[0]/(that.barGraphBarwidth+1));
+			var end = Math.ceil(brushExtent[1]/(that.barGraphBarwidth+1));
 			return completeRevData.slice(start,end);
 		};
 		this.getSecondrySliderSelection = function (i){
@@ -201,7 +201,7 @@
 	            }
 	            d.date = timeParse.parse(d.timestamp);
 	            });
-        		data.svgWidth = data.length*that.barGraphBarwidth < 100 ? 100 : data.length*that.barGraphBarwidth;
+        		data.svgWidth = data.length*(that.barGraphBarwidth+1) < 100 ? 100 : data.length*(that.barGraphBarwidth+1);
         		data.yscale = [0,d3.max(data, function(d) { return d.editSize; })];
         		
    		};
@@ -228,7 +228,7 @@
 	        bars = rect.selectAll('rect').data(data);
 	        bars.enter().append("rect");
 	        bars.attr({
-                        'x':function(d,i){ return i * that.barGraphBarwidth; },
+                        'x':function(d,i){ return i * that.barGraphBarwidth + i; },
                         'y':function(d,i){ return d.dir == 'p' ? outerLength - yscale(d.editSize) : outerLength; },
                         'width':that.barGraphBarwidth,
                         'height':function(d,i){ return yscale(d.editSize); },
@@ -306,7 +306,7 @@
     	};
     	function temp(){
     			var brushExtent = brush.extent();
-	    		 	var new_graph = completeRevData.slice(Math.floor(brushExtent[0]/that.barGraphBarwidth),Math.ceil(brushExtent[1]/that.barGraphBarwidth) );
+	    		 	var new_graph = completeRevData.slice(Math.floor(brushExtent[0]/(that.barGraphBarwidth+1)),Math.ceil(brushExtent[1]/(that.barGraphBarwidth+1)) );
 	    		 	if (new_graph.length){
 				        var diffScaleAbs = 0;
 						var lastX = 0;
@@ -315,7 +315,7 @@
 				        newGraph.enter().append("rect");
 				        newGraph.attr("x",function(d,i){
 				            diffScaleAbs += d.timeDiff*3;
-					    	lastX = diffScaleAbs +  i*that.enlargedBarGraphBarwidth;
+					    	lastX = diffScaleAbs +  i*that.enlargedBarGraphBarwidth + i;
 					    	d.lastX = lastX;
 					    	return lastX;
 						})

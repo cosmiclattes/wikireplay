@@ -9,8 +9,35 @@ body{
 	width :290px;
 	background:#f5f5f5;
 	margin:auto;
-	padding:5px 10px;
+	padding: 5px 10px 10px;
+	position: absolute;
+	top: -45px;
+	left: 0;
+	box-shadow: 0 2px 2px #ccc;
+	right: 0;
+	z-index: 10;
+	transition: 0.3s ease;
 }
+#header:before, #header:after{
+	content: "";
+	width: 20px;
+	height: 2px;
+	position: absolute;
+	bottom: 5px;
+	left: 42%;
+	box-shadow: 1px 1px #ccc;
+	z-index: 10;
+}
+#header:after{
+	bottom: 8px;
+}
+#header:hover{
+	top: 0;
+}
+#header:hover:after,#header:hover:before{
+	width: 0px;
+}
+
 #fullscreen{
 	position: absolute;
 	right: 20px;
@@ -24,6 +51,10 @@ input{
 input[type=submit]{
 	background: #46C2E5;
 	color:#ffffff;
+}
+
+input[type=submit]:hover {
+background: #56d2f5;
 }
 
 .page_container{
@@ -94,12 +125,14 @@ del *,ins *{
 }
 #wikiBody{
     display:none;
-    max-height: 450px;
+    max-height: 81%;
     overflow: auto;
-    margin: 5px;
+    margin: 7px 2px 2px 2px;
     padding: 5px;
-    border: solid 2px #333;
+    /* 
+    border: solid 2px #ddd;
     border-radius: 5px;
+    */
     background: #f6f6f6;
 }
 
@@ -125,9 +158,12 @@ del *,ins *{
 rect {
     stroke: black;
     fill: gray;
+    stroke-width:0px;
+    
 }
 #secondaryGraph rect{
 	fill: #b4e2ef;
+	stroke-width:0px;
 }
 .blue{
     /*
@@ -163,26 +199,24 @@ rect {
     pointer-events: none;
 }
 #outer{
-	max-width:1200px;
-    overflow: auto;
-    border-style: solid;
-    border-width: 3px;
-    border-color: #ddd;
-    padding: 3px;
-    border-radius: 5px;
-    margin: 3px;
-    display: inline-block;
+	max-width: 1200px;
+	overflow: auto;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #ddd;
+	padding: 3px;
+	border-radius: 5px;
+	margin: 1px 2px 0px 2px;
+	display: inline-block;
 }
-#enlargedContainer{
-    border-color: #ddd;
-    border-width: 3px;
-    border-radius: 5px;
-    min-width: 100px;
-    padding: 3px;
-    border-style: solid;
-    margin: 2px;
-    display: inline-block;
-    background: white;
+
+#enlargedContainer {
+	min-width: 100px;
+	padding: 0px 3px 0px 3px;
+	margin: 0px 2px 0px 2px;
+	display: inline-block;
+	background: white;
+	box-shadow: 1px -1px 2px #ccc;
 }
 .enlargedButton{
     position: absolute;
@@ -209,7 +243,7 @@ rect {
 }
 .resize > rect {
 	visibility:visible !important;
-	fill-opacity:1;
+	fill-opacity:.7;
 	fill: gainsboro;
 	stroke: #d7d7d7; 
 }
