@@ -45,9 +45,9 @@ window.onload = function(){
     	wikiPlayback.startPlayback(selectedEdits,reset);
     };
     
-	var slider = new wikiSlider({	height : 400,
+	slider = new wikiSlider({	height : 400,
 								barGraphBarwidth : 2,
-								enlargedBarGraphBarwidth : 5,
+								enlargedBarGraphBarwidth : 4,
 								primarySliderMoveCallback : pause,
 								secondrySliderMoveCallback : play
 							});

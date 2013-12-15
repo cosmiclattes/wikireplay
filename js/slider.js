@@ -37,7 +37,7 @@
 		var primaryContainer, primaryGraph, secondaryContainer, secondaryGraph, newGraph;
 		var outerLength = 35, enlargedLength = 55;
 		var endLine, startDate, endDate;
-		var progressBar,progressBarWidth = 4;
+		var progressBar,progressBarWidth = 3;
 		var bars;
 		var timeFormat = "%Y-%m-%dT%H:%M:%SZ";
         var timeParse = d3.time.format(timeFormat);
@@ -66,18 +66,19 @@
         
 	        primaryContainer = svgBox.append('g').attr('id','primaryContainer');
 	        primaryGraph = primaryContainer.append('g').attr('id','primaryGraph');
-	        primaryContainer.append('text').text('Edit Size').attr({'x':10,'y':10,'class':'legendText'});
+	        //Commenting out Edit size
+	        //primaryContainer.append('text').text('Edit Size').attr({'x':10,'y':10,'class':'legendText'});
 	        secondaryContainer = svgEnlargedBox.append('g').attr({'id':'secondaryContainer'});
 	        secondaryGraph = secondaryContainer.append('g').attr('id','secondaryGraph');
 	        
         	/*Baseline in enlarged graph*/
         	d3.select('#enlarged svg').append('line').attr({'x1':0,'x2':450,
         													'y1':enlargedLength+progressBarWidth/2,'y2':enlargedLength+progressBarWidth/2,
-        													'stroke':'white',
+        													'stroke':'#d0eeed',
         													'stroke-width':progressBarWidth});
         	progressBar =  d3.select('#enlarged svg').append('line').attr({'x1':0,'x2':450,
         													'y1':enlargedLength+progressBarWidth/2,'y2':enlargedLength+progressBarWidth/2,
-        													'stroke':'blue',
+        													'stroke':'#1ebce2',
         													'stroke-width':0});
 			d3.select('#enlarged svg').append('line').attr({'x1':0,'x2':0,
 															'y1':enlargedLength+progressBarWidth/2,'y2':enlargedLength*2-10,
@@ -265,7 +266,7 @@
     	};
 		function brushmove(){
 	        var brushExtent = brush.extent();
-	        slid_s = d3.event.target.extent();
+	        var slid_s = d3.event.target.extent();
 	        if(slid_s[1] - slid_s[0] < 100){
 	        
 		        /* the secondary slider */
@@ -288,7 +289,7 @@
     	function cleanupProgressBar(){
     		progressBar.attr('stroke-width',0);
     	};
-    	function refreshProgressBar(d){
+    	this.refreshProgressBar = function (d){
     		progressBar.attr({'stroke-width':progressBarWidth,
     						'x1':d.lastX,
     						'x2':d.lastX+progressBarWidth
@@ -345,8 +346,8 @@
 				            tooltipDiv.transition().duration(500).style("opacity", 0);   
 				        })
 				        .on("click", function(d,i){
-				        	cleanupProgressBar();
-				        	refreshProgressBar(d);
+				        	//cleanupProgressBar();
+				        	that.refreshProgressBar(d);
 							if (that.secondrySliderCallback){
 								var selectedEdits = that.getSecondrySliderSelection(i);
 								that.secondrySliderCallback(selectedEdits,1);

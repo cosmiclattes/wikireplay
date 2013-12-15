@@ -45,7 +45,7 @@ function playback(){
 	/** Caching the results memoization **/
 	var hashTable = hashTable || {};
 	function getRequest(revid){
-		var deferredReady = $.Deferred();
+		//var deferredReady = $.Deferred();
 		if (revid in hashTable){
 			//console.log('cache hit', revid);
 			return true;
@@ -192,11 +192,14 @@ function playback(){
 		}
 		else{
 	    //Handling the case where the the player was paused
-		    if(listOfRevisions.length > 0){
+		    if(listOfRevisions.length && listOfRevisions.length > 0){
 		        playAnimation = true;
 		        that.animateDiff();
 		    }
 		    else{
+		    	//refractor this
+		    	selectedEdits = slider.getSecondrySliderSelection();
+		    	slider.refreshProgressBar(selectedEdits[0]);
 		        that.getRevisions(page,selectedEdits); 
 		    }
 	   }
