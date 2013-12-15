@@ -4,7 +4,9 @@ var userNotification = function(type){
 			$('.notify').removeClass().addClass('notify').addClass('notifyPlay').show().fadeOut(2000);
 		}
 		else if (type == 'pause'){
-			$('.notify').removeClass().addClass('notify').addClass('notifyPause').show().fadeOut(2000);
+			if(!$('.notify').hasClass('notifyPause')){
+				$('.notify').removeClass().addClass('notify').addClass('notifyPause').show().fadeOut(2000);
+			}
 		}
 		else{
 			$('.notify').removeClass().addClass('notify').addClass('notifyLoad').show().fadeOut(2000);
