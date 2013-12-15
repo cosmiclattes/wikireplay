@@ -93,7 +93,7 @@ del *,ins *{
 .controls{
     /*temp*/
 	display: inline-block;
-    width: 200px;
+    width: 145px;
     margin: 0px;
     padding: 5px;
 }
@@ -127,7 +127,7 @@ del *,ins *{
 	border-color: #b4e2ef; 
 }
 .speedSlider{
-	width: 160px;
+	width: 120px;
 	height: 20px;
 	float: left;
 }
@@ -236,6 +236,23 @@ text{
 .enlargedButton{
     position: absolute;
     color: #ddd;
+    top: 2px;
+    cursor: pointer;
+	width: 6px;
+	border-top: 2px solid #ccc;
+	border-right: 2px solid #ccc;
+	height: 6px;
+	margin: 6px 5px;
+}
+.up{
+	-webkit-transform: rotate(135deg);
+	-moz-transform: rotate(135deg);
+	transform: rotate(135deg);
+}
+.down{
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	transform: rotate(-45deg);
 }
 .legendText{
 	font-size: 10px;
@@ -286,8 +303,8 @@ text{
 	
 }
 /*
- Style for Minor edit
- width: 15px;
+Style for Minor edit
+width: 15px;
 line-height: 1;
 height: 10px;
 border-radius: 50%;
@@ -298,15 +315,6 @@ position: absolute;
 top: 5px;
 right: 5px;
 }
-Play Pause , add moz & normal
-width: 6px;
-border-top: 2px solid #ccc;
-border-right: 2px solid #ccc;
-height: 6px;
--webkit-transform: rotate(45deg);
-margin: 6px 5px;
-
-
 --------
 1px -1px 5px #ccc
 */

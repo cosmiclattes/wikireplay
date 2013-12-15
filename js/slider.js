@@ -47,11 +47,13 @@
         	d3.select('.enlargedButton').on('click',function(){
 	            if (d3.select('#enlarged').style('height').split('px')[0] > 20){
 	                d3.select('#enlarged').style({'height':'15px','top':'145px'}).select('svg').style('display','none');
-	                d3.select(this).text('^');
+	                d3.select(this).classed('up',false);
+	                d3.select(this).classed('down',true);
 	            }
 	            else{
 	                d3.select('#enlarged').style({'height':enlargedLength*2+'px', top:0+'px'}).select('svg').style('display','block');
-	                d3.select(this).text('v');
+	                d3.select(this).classed('down',false);
+	                d3.select(this).classed('up',true);
 	            }
 	            });
         
