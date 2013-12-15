@@ -301,7 +301,24 @@ text{
 }
 .notifyLoad{
 	background-position: center;
-	
+}
+#overlay{
+	height: 100%;
+	width: 100%;
+	background: #ffffff;
+	z-index: 20;
+	position: absolute;
+}
+#overlayHeader{
+	width :290px;
+	background:#f5f5f5;
+	margin:auto;
+	padding: 5px 10px 10px;
+	position: absolute;
+	top: 45%;
+	left: 0;
+	box-shadow: 1px 1px 1px #ccc;
+	right: 0;
 }
 /*
 Style for Minor edit
@@ -316,8 +333,6 @@ position: absolute;
 top: 5px;
 right: 5px;
 }
---------
-1px -1px 5px #ccc
 */
 
 

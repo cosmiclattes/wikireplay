@@ -4,7 +4,7 @@ var userNotification = function(type){
 			$('.notify').removeClass().addClass('notify').addClass('notifyPlay').show().fadeOut(2000);
 		}
 		else if (type == 'pause'){
-			if(!$('.notify').hasClass('notifyPause')){
+			if(!$('.notify').hasClass('notifyPause') && $('.notify').hasClass('notifyPlay')){
 				$('.notify').removeClass().addClass('notify').addClass('notifyPause').show().fadeOut(2000);
 			}
 		}

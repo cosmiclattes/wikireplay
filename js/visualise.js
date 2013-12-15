@@ -1,4 +1,5 @@
 window.onload = function(){
+	
 	//Setting the max-width of the slider to the screen width
 	$('#outer').css('max-width',$(window).width()-50+'px'); 
     //Creating Language Namespace dropdown
@@ -25,16 +26,23 @@ window.onload = function(){
     
     //Attaching Event to get the list of revisions
     var pageTitle ;
-    $('#pageButton').click(function(){
+    var start = function(titleHolder){
 		$('#wikiBody').show();        
-		pageTitle = $('#pageTitle').val();
-		
-		/* From slider */
+		pageTitle = $(titleHolder).val();
 		slider.cleanUp();
 		slider.getData(pageTitle);
+    };
+    
+    $('#pageButton').click(function(){
+    	start('#pageTitle');
     }); 
     
-    
+    $('#overlayLoad').click(function(){
+    	$('#pageTitle').val($('#overlayTitle').val());
+    	start('#pageTitle');
+    	$('#overlay').fadeOut(2500);
+    	
+    });
     var pause = function(){
     	var button = $('#playButton');
     	wikiPlayback.pausePlayback(button);
