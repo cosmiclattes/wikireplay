@@ -12,8 +12,8 @@ window.onload = function(){
         //Speed Control
     $(".noUiSlider").noUiSlider({
         range: [200, 5000],
-       	start: 500,
-        step: 100,
+       	start: 1000,
+        step: 200,
         handles: 1,
         slide: function(){
         	wikiPlayback.animationSpeed = $(this).val();

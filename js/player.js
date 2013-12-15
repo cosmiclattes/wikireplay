@@ -3,7 +3,7 @@ function playback(){
 	diff.clearHash();
 	var listOfRevisions = [], pageTitle, startRev, endRev, revisionInfo, modifyList;
 	var playAnimation = true;
-	this.animationSpeed = 500;
+	this.animationSpeed = 1000;
 	var usingLanguageNamespace = 'en';
 	var modifyList =[];
 	var revisionListDict = {
