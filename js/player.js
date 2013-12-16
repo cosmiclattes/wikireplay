@@ -29,7 +29,10 @@ function playback(){
 	  usingLanguageNamespace = language;
 	  baseUrl = 'https://'+language+'.wikipedia.org/w/api.php?callback=?';
 	};
-	
+	this.cleanUp = function(){
+		listOfRevisions = [];
+		$('#wikiBody').html('');
+	};
 	this.getRevisions = function (page,selectedEdits){
 
 			listOfRevisions = selectedEdits;

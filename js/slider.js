@@ -255,8 +255,9 @@
 		                                    .attr("y",0);
 		            //Fix it
 		            //brushmove();
-		            temp();
 			}
+			temp();
+			cleanupProgressBar();
 		};
 		this.handleScroll = function (){
         	//d3.select('#outer').transition().property('scrollLeft',brush.extent()[0]);
