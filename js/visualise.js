@@ -29,6 +29,7 @@ window.onload = function(){
     var start = function(titleHolder){
 		$('#wikiBody').show();        
 		pageTitle = $(titleHolder).val();
+		wikiPlayback.cleanUp();
 		slider.cleanUp();
 		slider.getData(pageTitle);
     };
