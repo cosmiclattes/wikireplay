@@ -310,7 +310,11 @@ text{
 	position: absolute;
 }
 #overlayHeader{
+<<<<<<< HEAD
 	width :290px;
+=======
+	width: 350px;
+>>>>>>> gh-pages
 	background:#f5f5f5;
 	margin:auto;
 	padding: 5px 10px 10px;
@@ -320,6 +324,12 @@ text{
 	box-shadow: 1px 1px 1px #ccc;
 	right: 0;
 }
+<<<<<<< HEAD
+=======
+#overlayRand {
+	background: #e67e22;
+}
+>>>>>>> gh-pages
 /*
 Style for Minor edit
 width: 15px;
