@@ -310,7 +310,7 @@ text{
 	position: absolute;
 }
 #overlayHeader{
-	width :290px;
+	width: 350px;
 	background:#f5f5f5;
 	margin:auto;
 	padding: 5px 10px 10px;
@@ -319,6 +319,9 @@ text{
 	left: 0;
 	box-shadow: 1px 1px 1px #ccc;
 	right: 0;
+}
+#overlayRand {
+	background: #e67e22;
 }
 /*
 Style for Minor edit

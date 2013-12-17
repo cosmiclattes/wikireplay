@@ -248,3 +248,21 @@ function fullscreenApi(screen){
 		elem.webkitRequestFullscreen();
 	}
 };
+
+function chooseRandomArticle(lang_code) {
+	lang_code = lang_code ? lang_code : 'en';
+	var api_url = 'https://' + lang_code + '.wikipedia.org/w/api.php?callback=?';
+	var params = {
+		'action': 'query',
+		'list': 'random',
+		'rnnamespace': 0,
+		'rnlimit': 1,
+		'format': 'json'
+	};
+	$.getJSON(api_url, params, function(data, e) {
+		var page_title = data['query']['random'][0]['title'];
+		console.log('Randomly selected:', page_title)
+		$('#overlayTitle').val(page_title);
+		$('#overlayLoad').trigger('click');
+	});
+}
