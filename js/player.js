@@ -247,7 +247,9 @@ function fullscreenApi(screen){
 	else if (elem.webkitRequestFullscreen) {
 		elem.webkitRequestFullscreen();
 	}
+
 };
+
 
 function chooseRandomArticle(lang_code) {
 	lang_code = lang_code ? lang_code : 'en';

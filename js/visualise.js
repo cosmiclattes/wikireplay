@@ -36,7 +36,7 @@ window.onload = function(){
     
     $('#pageButton').click(function(){
     	start('#pageTitle');
-    });
+    }); 
 
     $('#overlayRand').click(function() {
         chooseRandomArticle();
