@@ -59,7 +59,7 @@ window.onload = function(){
     };
     
 	slider = new wikiSlider({	height : 400,
-								barGraphBarwidth : 2,
+								barGraphBarwidth : 1,
 								enlargedBarGraphBarwidth : 4,
 								primarySliderMoveCallback : pause,
 								secondrySliderMoveCallback : play
