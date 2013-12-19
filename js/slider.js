@@ -35,7 +35,7 @@
 		var brush = null;
 		var toolTipDiv, svg, svgBox, svgEnlargedBox;
 		var primaryContainer, primaryGraph, secondaryContainer, secondaryGraph, newGraph;
-		var outerLength = 35, enlargedLength = 55;
+		var outerLength = 25, enlargedLength = 60;
 		var endLine, startDate, endDate;
 		var progressBar,progressBarWidth = 3;
 		var bars;
@@ -212,7 +212,7 @@
    		this.fixScales = function (){
 	        if(xscale == null){
 				yscale = d3.scale.pow().exponent(.4).domain([0,d3.max(completeRevData, function(d) { return d.editSize; })])
-													.range([2,outerLength]);
+													.range([1,outerLength]);
 				yscale2 = d3.scale.pow().exponent(.4).domain([0,d3.max(completeRevData, function(d) { return d.editSize; })])
 													.range([2,enlargedLength]);
 				xscale = d3.scale.linear().domain([0,completeRevData.svgWidth]).range([0,completeRevData.svgWidth]);
