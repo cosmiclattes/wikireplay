@@ -35,9 +35,9 @@
 		var brush = null;
 		var toolTipDiv, svg, svgBox, svgEnlargedBox;
 		var primaryContainer, primaryGraph, secondaryContainer, secondaryGraph, newGraph;
-		var outerLength = 25, enlargedLength = 60;
+		var outerLength = 25, enlargedLength = 65;
 		var endLine, startDate, endDate;
-		var progressBar,progressBarWidth = 3;
+		var progressBar,progressBarWidth = 5;
 		var bars;
 		var timeFormat = "%Y-%m-%dT%H:%M:%SZ";
         var timeParse = d3.time.format(timeFormat);
@@ -214,7 +214,7 @@
 				yscale = d3.scale.pow().exponent(.4).domain([0,d3.max(completeRevData, function(d) { return d.editSize; })])
 													.range([1,outerLength]);
 				yscale2 = d3.scale.pow().exponent(.4).domain([0,d3.max(completeRevData, function(d) { return d.editSize; })])
-													.range([2,enlargedLength]);
+													.range([3,enlargedLength]);
 				xscale = d3.scale.linear().domain([0,completeRevData.svgWidth]).range([0,completeRevData.svgWidth]);
 				diffscale = d3.scale.linear().domain([0,d3.max(completeRevData, function(d) { return d.timeDiff; })]).range([0,10]);
 			}
@@ -329,7 +329,7 @@
 						.attr("height",function(d){ return yscale2(d.editSize); })
 						.attr("class",function(d){ return d.dir=='p'?'pointer blue':'pointer red'; })
 						.attr("timeDiff",function(d){ return d.timeDiff; })
-						.attr("title",function(d){ return d.user; })
+						.attr("data-title",function(d){ return d.user; })
 						.attr("number",function(d,i){ return i; })
 						.on("mouseover", function(d) {      
 							tooltipDiv.transition().duration(200).style("opacity", .9);

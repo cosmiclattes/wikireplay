@@ -104,32 +104,31 @@ del *,ins *{
 }
 .play{
 	cursor: pointer;
-	width: 6px;
-	border-top: 2px solid #ccc;
-	border-right: 2px solid #ccc;
-	height: 6px;
-	-webkit-transform: rotate(45deg);
-	-moz-transform: rotate(45deg);
-	transform: rotate(45deg);
-	margin: 6px 5px;
+	border: solid;
+	border-color: #535050 transparent;
+	border-width: 12px 12px 0px 12px;
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	transform: rotate(-90deg);
+	margin: 6px 1px;
 }
 .pause{
 	cursor: pointer;
 	width: 4px;
-	border-left: 2px solid #ccc;
-	border-right: 2px solid #ccc;
-	height: 6px;
+	border-left: 4px solid #535050;
+	border-right: 4px solid #535050;
+	height: 14px;
 	margin: 6px 5px;
 }
 #playButtonContainer{
 	width: 20px;
 	height: 20px;
-	border: solid #ccc 2px;
+	/*border: solid #ccc 2px;*/
 	border-radius: 50%;
 	float: left;	
 }
 #playButtonContainer:hover,.pause:hover,.play:hover{
-	border-color: #b4e2ef; 
+	/* border-color: #b4e2ef; */ 
 }
 .speedSlider{
 	width: 120px;
@@ -217,6 +216,17 @@ text{
     fill-opacity: .125;
     pointer-events: none;
 }
+/*
+.minor{
+	border-radius: 50%;
+	background: #ddd;
+	padding: 4px 2px;
+	text-align: center;
+	width: 15px;
+	line-height: 1;
+	height: 10px;
+}
+*/
 #outer{
 	max-width: 1200px;
 	overflow: auto;
@@ -327,6 +337,34 @@ text{
 }
 #overlayRand {
 	background: #e67e22;
+}
+
+/* Tooltip */
+.customTooltip{
+    position: relative;
+}
+.customTooltip:hover:after{
+    background: #333;
+    background: rgba(0,0,0,.8);
+    border-radius: 5px;
+    bottom: 26px;
+    color: #fff;
+    content: attr(data-title);
+    left: 15%;
+    padding: 5px 15px;
+    position: absolute;
+    z-index: 98;
+    font-size: 11px;
+}
+.customTooltip:hover:before{
+    border: solid;
+    border-color: #333 transparent;
+    border-width: 6px 6px 0 6px;
+    bottom: 20px;
+    content: "";
+    left: 50%;
+    position: absolute;
+    z-index: 99;
 }
 /*
 Style for Minor edit
