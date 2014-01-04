@@ -90,14 +90,14 @@ del *,ins *{
 #infoBox{
 	color:gray;
     font-size: 11px;
-    display: inline-block;
+    float: left;
 }
 #infoBox > div{
 	margin:2px;
 }
 .controls{
     /*temp*/
-	display: inline-block;
+	float: left;
     width: 145px;
     margin: 0px;
     padding: 5px;
@@ -123,8 +123,8 @@ del *,ins *{
 #playButtonContainer{
 	width: 20px;
 	height: 20px;
-	/*border: solid #ccc 2px;*/
-	border-radius: 50%;
+	/*border: solid #ccc 2px;
+	border-radius: 50%; */
 	float: left;	
 }
 #playButtonContainer:hover,.pause:hover,.play:hover{
@@ -230,10 +230,12 @@ text{
 #outer{
 	max-width: 1200px;
 	overflow: auto;
+	/*
 	border-style: solid;
-	border-width: 1px;
+	border-width: 0px 1px;
 	border-color: #ddd;
-	padding: 3px;
+	*/
+	padding: 1px;
 	margin: 1px 2px 0px 2px;
 }
 
@@ -365,6 +367,36 @@ text{
     left: 50%;
     position: absolute;
     z-index: 99;
+}
+#outerContainer{
+	margin: 10px 0px 0px 0px;
+	position: relative;
+}
+#outerOlderEdit{
+	right: 5px;
+	top: -10px;
+}
+#outerEndDate{
+	left: 5px;
+	/*bottom: 20px;*/
+}
+#outerStartDate{
+	right: 5px;
+	/*bottom: 35px;*/
+}
+.outerInfo{
+	font-size: 9px;
+	position: absolute;
+}
+.leg{
+	position: absolute;
+	border-style: solid;
+	border-width: 0px 1px 0px 0px;
+	height: 28px;
+	border-color: #ddd;
+}
+#outerStartDateLeg{
+	right: 0px;
 }
 /*
 Style for Minor edit

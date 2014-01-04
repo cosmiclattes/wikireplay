@@ -45,7 +45,7 @@ window.onload = function(){
     $('#overlayLoad').click(function(){
     	$('#pageTitle').val($('#overlayTitle').val());
     	start('#pageTitle');
-    	$('#overlay').fadeOut(2500);
+    	$('#overlay').slideUp(2500);
     	
     });
     var pause = function(){

@@ -42,6 +42,19 @@
 		var timeFormat = "%Y-%m-%dT%H:%M:%SZ";
         var timeParse = d3.time.format(timeFormat);
 		var that = this;
+		
+		var outerScrollDateUpdate = function (){
+    		var barGraphBarGap = 1;
+    		var outerWidth = $('#outer').width();
+    		var outerViewportHidden = $('#outer').eq(0).scrollLeft();
+    		var outerViewportStart = outerViewportHidden/(that.barGraphBarwidth + barGraphBarGap);
+    		var outerViewportEnd = (outerViewportHidden + outerWidth)/(that.barGraphBarwidth + barGraphBarGap);
+    		var outerViewportShown =  completeRevData.slice(outerViewportStart,outerViewportEnd);
+    		$('#outerEndDate').html(timeParse.parse(outerViewportShown[0].timestamp).toDateString().slice(4));
+    		$('#outerStartDate').html(timeParse.parse(outerViewportShown[outerViewportShown.length -1].timestamp).toDateString().slice(4));
+    		console.log('outer scroll');
+    	};
+    	
 		this.init = function(){
 			/*Enlarged view toggle*/
         	d3.select('.enlargedButton').on('click',function(){
@@ -82,6 +95,7 @@
         													'y1':enlargedLength+progressBarWidth/2,'y2':enlargedLength+progressBarWidth/2,
         													'stroke':'#1ebce2',
         													'stroke-width':0});
+        	/*
 			d3.select('#enlarged svg').append('line').attr({'x1':0,'x2':0,
 															'y1':enlargedLength+progressBarWidth/2,'y2':enlargedLength*2-10,
 															'stroke':'gray',
@@ -92,6 +106,18 @@
 																	'stroke-width':'.5'});
         	startDate = secondaryContainer.append('text').attr({'x':0,'y':enlargedLength*2-10}).style('font-size',9);
 			endDate = secondaryContainer.append('text').attr({'x':450,'y':enlargedLength*2-10}).style('font-size',9);
+			*/
+			d3.select('#enlarged svg').append('line').attr({'x1':0,'x2':0,
+															'y1':10,'y2':enlargedLength+progressBarWidth/2,
+															'stroke':'gray',
+															'stroke-width':'.5'});
+			endLine = d3.select('#enlarged svg').append('line').attr({'x1':450,'x2':450,
+																	'y1':10,'y2':enlargedLength+progressBarWidth/2,
+																	'stroke':'gray',
+																	'stroke-width':'.5'});
+        	startDate = secondaryContainer.append('text').attr({'x':0,'y':15}).style('font-size',9);
+			endDate = secondaryContainer.append('text').attr({'x':450,'y':15}).style('font-size',9);
+			$('#outer').scroll(outerScrollDateUpdate);
 			
 			/* Calling it direcly with getData by the user*/
         	//this.getData();
@@ -120,6 +146,9 @@
 	            that.addData(primaryGraph,completeRevData,yscale);
 	            that.callBrush();
 	            gettingDataFlag = true;
+	            $('#outer').scroll();
+        		}).error(function() { 
+        			gettingDataFlag = true; 
         		});
         		gettingDataFlag = false;
         	}	
@@ -247,12 +276,16 @@
 		        d3.select('#primaryBrush').call(brush);
 			}
 			else{
-		            brush = d3.svg.brush().x(xscale).extent([10, 50]).on("brush", brushmove);
+		            brush = d3.svg.brush().x(xscale).extent([0, 70]).on("brush", brushmove);
 		            var brushg = svgBox.append("g").attr("class", "brush")
 		                                    .attr("id","primaryBrush")
 		                                    .call(brush);
 		            brushg.selectAll("rect").attr("height", 100)
 		                                    .attr("y",0);
+		            //Cleanup
+		            brushg.selectAll(".resize rect").attr("width",2).attr("x",-2);
+		            //remove it from here
+		            $('#outer').scroll();
 		            //Fix it
 		            //brushmove();
 			}
@@ -275,7 +308,7 @@
 		        /* the secondary slider */
 		        temp();
 		       
-		        if (brushExtent[1]> completeRevData.length*that.barGraphBarwidth - 50){
+		        if (brushExtent[1]> completeRevData.length*(that.barGraphBarwidth + 1) - 50){
 		       		userNotification('load');
 		       		that.getData();
 		        }
@@ -361,7 +394,7 @@
 						cleanupHighlightSelectedEdit(newGraph,'user',hoverUser,'#b4e2ef',1);
 						highlightSelectedEdit(newGraph,'user',hoverUser,'gold');
 						startDate.text(timeParse.parse(new_graph[0].timestamp).toDateString().slice(4));
-						endDate.text(timeParse.parse(new_graph[new_graph.length-1].timestamp).toDateString().slice(4)).attr({'x':lastX-50});
+						endDate.text(timeParse.parse(new_graph[new_graph.length-1].timestamp).toDateString().slice(4)).attr({'x':lastX-47});
 						enlargedBarGraphSvgWidth = lastX + that.enlargedBarGraphBarwidth;
 						that.fixWidth(enlargedBarGraphSvgWidth);
 				}
