@@ -397,6 +397,7 @@ text{
 #olderEditsInfo{
 	position: absolute;
 	top: -15px;
+	right: 5px;
 	background: gray;
 	width: 10px;
 	height: 10px;
