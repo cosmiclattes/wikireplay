@@ -13,7 +13,7 @@ window.onload = function(){
         //Speed Control
     $(".noUiSlider").noUiSlider({
         range: [500, 5000],
-       	start: 1000,
+       	start: 4500,
         step: 200,
         handles: 1,
         slide: function(){

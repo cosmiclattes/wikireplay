@@ -42,6 +42,7 @@ function playback(){
 	        endRev = revisionInfo.revid;
 	        listOfRevisions.shift();
 	        playAnimation = true;
+	        $('body').trigger( "editAnimationBegins", [startRev] );
 	        that.wikiDiff();
        
 	};
@@ -190,22 +191,18 @@ function playback(){
 		userNotification('play');
 		$('#playButton').removeClass('play').addClass('pause');
 		var page = $('#pageTitle').val();
-		if(reset){
-			that.getRevisions(page,selectedEdits); 
-		}
-		else{
 	    //Handling the case where the the player was paused
-		    if(listOfRevisions.length && listOfRevisions.length > 0){
+		    if(!slider.pegMoved && listOfRevisions.length && listOfRevisions.length > 0){
 		        playAnimation = true;
 		        that.animateDiff();
 		    }
 		    else{
 		    	//refractor this
-		    	selectedEdits = slider.getSecondrySliderSelection();
+		    	selectedEdits = slider.selectedEdits;
 		    	slider.refreshProgressBar(selectedEdits[0]);
+		    	slider.pegMoved = false;
 		        that.getRevisions(page,selectedEdits); 
 		    }
-	   }
 	};
 	
 	this.pausePlayback = function(button){
@@ -263,7 +260,7 @@ function chooseRandomArticle(lang_code) {
 	};
 	$.getJSON(api_url, params, function(data, e) {
 		var page_title = data['query']['random'][0]['title'];
-		console.log('Randomly selected:', page_title)
+		console.log('Randomly selected:', page_title);
 		$('#overlayTitle').val(page_title);
 		$('#overlayLoad').trigger('click');
 	});

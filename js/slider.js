@@ -33,7 +33,7 @@
 		var rvContinueHash = true,gettingDataFlag = true;
 		var yscale = null, yscale2 = null, xscale = null;
 		var brush = null;
-		var peg = null,pegScale = null,pegHandle;
+		var peg = null,pegScale = null,pegHandle,pegHandleContainer;
 		var toolTipDiv, svg, svgBox, svgEnlargedBox;
 		var primaryContainer, primaryGraph, secondaryContainer, secondaryGraph, newGraph;
 		var outerLength = 25, enlargedLength = 65;
@@ -43,6 +43,9 @@
 		var timeFormat = "%Y-%m-%dT%H:%M:%SZ";
         var timeParse = d3.time.format(timeFormat);
         
+        /* Selected Edits*/
+		this.selectedEdits = [];
+		this.pegMoved = true;
 		var that = this;
 		
 		var outerScrollDateUpdate = function (){
@@ -78,17 +81,8 @@
         	
         	svg = d3.select('#outer').append('svg').attr({'height':outerLength*2,'width':600});
             svgBox = svg.append('g').attr({'transform':'translate(0,0)'});
-            svgEnlargedBox = d3.select('#enlarged').append('svg').attr({'height':enlargedLength*2,'width':450})
-                                            .append('g').attr('transform','translate(0,0)');
-        
-	        primaryContainer = svgBox.append('g').attr('id','primaryContainer');
-	        primaryGraph = primaryContainer.append('g').attr('id','primaryGraph');
-	        //Commenting out Edit size
-	        //primaryContainer.append('text').text('Edit Size').attr({'x':10,'y':10,'class':'legendText'});
-	        secondaryContainer = svgEnlargedBox.append('g').attr({'id':'secondaryContainer'});
-	        secondaryGraph = secondaryContainer.append('g').attr('id','secondaryGraph');
-	        
-        	/*Baseline in enlarged graph*/
+            svgEnlarged = d3.select('#enlarged').append('svg').attr({'height':enlargedLength*2,'width':450});
+            /*Baseline in enlarged graph*/
         	d3.select('#enlarged svg').append('line').attr({'x1':0,'x2':450,
         													'y1':enlargedLength+progressBarWidth/2,'y2':enlargedLength+progressBarWidth/2,
         													'stroke':'#d0eeed',
@@ -106,6 +100,16 @@
 																	'y1':10,'y2':enlargedLength+progressBarWidth/2,
 																	'stroke':'gray',
 																	'stroke-width':'.5'});
+			svgEnlargedBox = svgEnlarged.append('g').attr('transform','translate(0,0)');
+			
+	        primaryContainer = svgBox.append('g').attr('id','primaryContainer');
+	        primaryGraph = primaryContainer.append('g').attr('id','primaryGraph');
+	        //Commenting out Edit size
+	        //primaryContainer.append('text').text('Edit Size').attr({'x':10,'y':10,'class':'legendText'});
+	        secondaryContainer = svgEnlargedBox.append('g').attr({'id':'secondaryContainer'});
+	        secondaryGraph = secondaryContainer.append('g').attr('id','secondaryGraph');
+	        
+        	
         	startDate = secondaryContainer.append('text').attr({'x':0,'y':15}).style('font-size',9);
 			endDate = secondaryContainer.append('text').attr({'x':450,'y':15}).style('font-size',9);
 			$('#outer').scroll(outerScrollDateUpdate);
@@ -167,6 +171,7 @@
 			newGraph.filter(function(d){
 				if(d[field] == value){
 					progressBar.attr('x1',d.lastX);
+					pegHandleContainer.transition().duration(750).call(peg.extent([d.lastX, d.lastX])).call(peg.event);
 					return true;
 				}
 			});
@@ -289,11 +294,10 @@
 			if (peg != null){
 		        peg.x(pegScale);
 		        d3.select('#peg').call(peg);
-		        peg.extent([0,0]);
 			}
 			else{
 		            peg = d3.svg.brush().x(pegScale).extent([0,0]).on("brush", pegMove);
-		            var pegHandleContainer = svgEnlargedBox.append("g")
+		            pegHandleContainer = svgEnlargedBox.append("g")
 		                                    .attr("id","peg")
 		                                    .call(peg);
 		            
@@ -317,7 +321,11 @@
 					    .attr("y", 0)
 						.attr("x",-4);
 		         }
-			
+			pegHandleContainer.call(peg.event)
+								.transition() // gratuitous intro!
+    							.duration(750)
+    							.call(peg.extent([0,0]))
+    							.call(peg.event);
 		};
 		this.handleScroll = function (){
         	//d3.select('#outer').transition().property('scrollLeft',brush.extent()[0]);
@@ -390,15 +398,7 @@
 						.attr("class",function(d){ return d.dir=='p'?'pointer blue':'pointer red'; })
 						.attr("timeDiff",function(d){ return d.timeDiff; })
 						.attr("data-title",function(d){ return d.user; })
-						.attr("number",function(d,i){ return i; })
-				        .on("click", function(d,i){
-				        	//cleanupProgressBar();
-				        	that.refreshProgressBar(d);
-							if (that.secondrySliderCallback){
-								var selectedEdits = that.getSecondrySliderSelection(i);
-								that.secondrySliderCallback(selectedEdits,1);
-							}
-				        });
+						.attr("number",function(d,i){ return i; });				        ;
 				                               
 						newGraph.exit().remove();
 						
@@ -415,12 +415,21 @@
     	}
     	var pegMove = function(){
 			console.log('Peg moved');
+			var relaxedSelectedBar;
 			var value = peg.extent()[0];
 			  if (d3.event.sourceEvent) { // not a programmatic event
 			    value = pegScale.invert(d3.mouse(this)[0]);
 			    peg.extent([value, value]);
+			    that.pegMoved = true;
+			    
+			     //Pausing if the player is playing
+			  if (that.primarySliderCallback){
+				that.primarySliderCallback();
+				cleanupProgressBar();
+				}
+
 			  }
-				selectedBar = newGraph.filter(function(d){
+				selectedBar = newGraph.filter(function(d,i){
 					if (d.lastX < value && value < d.lastX + that.enlargedBarGraphBarwidth){
 							cleanupHighlightSelectedEdit(bars,'user',hoverUser,'gray',0);
 							cleanupHighlightSelectedEdit(newGraph,'user',hoverUser,'#b4e2ef',0);
@@ -436,10 +445,18 @@
 							};
 							infoBox(revInfo);
 					}
+					if (d.lastX < value){
+						relaxedSelectedBar = i;
+					}
 					return d.lastX < value && value < d.lastX + that.enlargedBarGraphBarwidth;
 				});
+				
+				//Getting the selected edits 
+				that.selectedEdits = that.getSecondrySliderSelection(relaxedSelectedBar);
+				
+				
 				console.log(selectedBar);
 			  pegHandle.attr("transform","translate("+pegScale(value)+")");
-    	}; 
+			     	}; 
     	return this;
     }
