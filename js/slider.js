@@ -321,10 +321,14 @@
 					    .attr("y", 0)
 						.attr("x",-4);
 		         }
+		    var lastEditX = 0;
+		    newGraph.filter(function(d){
+		    	lastEditX = d.lastX;
+		    });
 			pegHandleContainer.call(peg.event)
 								.transition() // gratuitous intro!
     							.duration(750)
-    							.call(peg.extent([0,0]))
+    							.call(peg.extent([lastEditX,lastEditX]))
     							.call(peg.event);
 		};
 		this.handleScroll = function (){
