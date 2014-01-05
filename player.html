@@ -1,74 +1,87 @@
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
-	<head>
-		<style></style>
-		<title>Wiki Replay</title>
-		
-		<link rel="shortcut icon" href="https://bits.wikimedia.org/favicon/wikipedia.ico">
-		<link rel="stylesheet" href="https://bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=ext.gadget.DRN-wizard%2CReferenceTooltips%2Ccharinsert%2Cteahouse%7Cext.geshi.local%7Cext.rtlcite%2Cwikihiero%7Cmediawiki.legacy.commonPrint%2Cshared%7Cmw.PopUpMediaTransform%7Cskins.vector&amp;only=styles&amp;skin=vector&amp;*">
-		<link rel="stylesheet" href="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;skin=vector&amp;*">
-		<script src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector&amp;*"></script><script src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=jquery%2Cmediawiki%2CSpinner%7Cjquery.triggerQueueCallback%2CloadingSpinner%2CmwEmbedUtil%7Cmw.MwEmbedSupport&amp;only=scripts&amp;skin=vector&amp;version=20130621T050540Z"></script>
-		
-		<link rel="stylesheet" type="text/css" href="css/nouislider.custom.css">
-		<link rel="stylesheet" type="text/css" href="css/visualise.css">
-		
-		<script src="js/lib/d3.v3.min.js"></script>
-		<script src="js/lib/jquery-2.0.2.min.js"></script>
-		<script src="js/lib/diff_match_patch.js"></script>
-		<script src="js/lib/htmlDiff.js"></script> 
-		<script src="js/lib/jquery.nouislider.min.js"></script>
-		<script src="js/lib/namespace.js"></script>
-		<script src="js/utility.js"></script>
-		<script src="js/slider.js"></script>
-		<script src="js/player.js"></script>
-		<script src="js/visualise.js"></script>
-	</head>
+        <head>
+                <style></style>
+                <title>Wiki Replay</title>
+                
+                <link rel="shortcut icon" href="https://bits.wikimedia.org/favicon/wikipedia.ico">
+                <link rel="stylesheet" href="https://bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=ext.gadget.DRN-wizard%2CReferenceTooltips%2Ccharinsert%2Cteahouse%7Cext.geshi.local%7Cext.rtlcite%2Cwikihiero%7Cmediawiki.legacy.commonPrint%2Cshared%7Cmw.PopUpMediaTransform%7Cskins.vector&amp;only=styles&amp;skin=vector&amp;*">
+                <link rel="stylesheet" href="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;skin=vector&amp;*">
+                <script src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector&amp;*"></script><script src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=jquery%2Cmediawiki%2CSpinner%7Cjquery.triggerQueueCallback%2CloadingSpinner%2CmwEmbedUtil%7Cmw.MwEmbedSupport&amp;only=scripts&amp;skin=vector&amp;version=20130621T050540Z"></script>
+                
+                <link rel="stylesheet" type="text/css" href="css/nouislider.custom.css">
+                <link rel="stylesheet" type="text/css" href="css/visualise.css">
+                
+                <script src="js/lib/d3.v3.min.js"></script>
+                <script src="js/lib/jquery-2.0.2.min.js"></script>
+                <script src="js/lib/diff_match_patch.js"></script>
+                <script src="js/lib/htmlDiff.js"></script> 
+                <script src="js/lib/jquery.nouislider.min.js"></script>
+                <script src="js/lib/namespace.js"></script>
+                <script src="js/utility.js"></script>
+                <script src="js/slider.js"></script>
+                <script src="js/player.js"></script>
+                <script src="js/visualise.js"></script>
+        </head>
 
-	<body>
-			<div id="header">
-				<input id="pageTitle" type="text" placeholder="Enter article name"></input>
-				<input id="pageButton" type="submit" value="Load Edits"></input>
-			</div>
-			<!-- 
-			<select class="languageNamespace"></select>
-			<button id="fullscreen">Go Fullscreen!</button>
-			-->
-			<div class="cB"></div>
-			<div id="overlay">
-				<div id="overlayHeader">
-					<input id="overlayTitle" type="text" placeholder="Enter article name"></input>
-					<input id="overlayLoad" type="submit" value="Load Edits"></input>
-					<input id="overlayRand" type="submit" value="Random"></input>
-				</div>
-			</div>
-			</div>
-			<div class="notify"></div>
-			<div id="wikiBodySlider">
-				<div id="wikiBody" class="absolute"></div>
-				<div id="sliderComplete">
-			        <div id="enlargedContainer">
-			            <div class="enlargedButton up"></div>
-			            <div id="enlarged"></div>
-			            <div id="controlsInfoContainer">
-				            <div class="controls">
-				            	<div id="playButtonContainer">
-				            		<div id="playButton"class="play"></div>
-				            	</div>
-						    	<div class="speedSlider">
-									<div class="noUiSlider"></div>
-						    	</div>
-					    	</div>
-						    <div id="infoBox">
-						    		<div class="userName left"></div><div class="editDate left"></div>
-						    		<div class="cB"></div>
-						    		<div class="revisionLink left"></div><div class="minor left"></div>
-						    </div>
-					    </div>
-					</div>
-					<div></div>
-					<div id="outer"></div>
-				</div>
-			</div>
-	</body>
+        <body>
+                        <div id='header'>
+                                <input id='pageTitle' type="text" placeholder="Enter article name"></input>
+                                <input id='pageButton' type="submit" value="Load Edits"></input>
+                        </div>
+                        <!-- 
+                        <select class="languageNamespace"></select>
+                        <button id="fullscreen">Go Fullscreen!</button>
+                        -->
+                        <div class="cB"></div>
+                        <div id='overlay'>
+                                <div id='overlayHeader'>
+                                        <input id='overlayTitle' type="text" placeholder="Enter article name"></input>
+                                        <input id='overlayLoad' type="submit" value="Load Edits"></input>
+                                        <input id='overlayRand' type="submit" value="Random"></input>
+                                </div>
+                        </div>
+                        </div>
+                        <div class="notify"></div>
+                        <div id="wikiBodySlider">
+                                <div id="wikiBody" class="absolute"></div>
+                                <div id="sliderComplete">
+                                <div id='enlargedContainer'>
+                                    <!-- <div class="enlargedButton up"></div> -->
+                                    
+                                    <div id='controlsInfoContainer'>
+                                            <div class="controls">
+                                                    <div id="playButtonContainer" class="customTooltip" data-title="Play/Pause">
+                                                            <div id="playButton"class="play"></div>
+                                                    </div>
+                                                                    <div class="speedSlider customTooltip" data-title="Speed Control">
+                                                                                <div class="noUiSlider"></div>
+                                                                    </div>
+                                                    </div>
+                                                    <div id="infoBox">
+                                                                    <div class='userName left'></div>
+                                                                    <div class='editDate left'></div>
+                                                                    <!-- <div class='cB'></div>
+                                                                    <div class='revisionLink left'></div> -->
+                                                                    <div class='minor left'></div>
+                                                    </div>
+                                                </div>
+                                                <div id='enlarged'></div>
+                                            
+                                        </div>
+                                        <div></div>
+                                        <div id="outerContainer">
+                                                <div id="outerEndDateLeg" class="leg"></div>
+                                                <div id="outerStartDateLeg" class="leg"></div>
+                                                <div class="outerInfo" id="outerEndDate"></div>
+                                                <div class="outerInfo" id="outerStartDate"></div>
+                                                <div id="outer"></div>
+                                                <div class="info" id="olderEditsInfo">
+                                                        <span class="customTooltip" data-title="Drag slider right to load older edits">?</span>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+        </body>
 </html>

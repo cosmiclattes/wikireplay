@@ -12,12 +12,12 @@ window.onload = function(){
   
         //Speed Control
     $(".noUiSlider").noUiSlider({
-        range: [200, 5000],
-       	start: 1000,
+        range: [500, 5000],
+       	start: 4500,
         step: 200,
         handles: 1,
         slide: function(){
-        	wikiPlayback.animationSpeed = $(this).val();
+        	wikiPlayback.animationSpeed = 5500 - $(this).val();
         }        
     });
      
@@ -45,7 +45,7 @@ window.onload = function(){
     $('#overlayLoad').click(function(){
     	$('#pageTitle').val($('#overlayTitle').val());
     	start('#pageTitle');
-    	$('#overlay').fadeOut(2500);
+    	$('#overlay').slideUp(2500);
     	
     });
     var pause = function(){
@@ -60,7 +60,7 @@ window.onload = function(){
     
 	slider = new wikiSlider({	height : 400,
 								barGraphBarwidth : 1,
-								enlargedBarGraphBarwidth : 4,
+								enlargedBarGraphBarwidth : 5,
 								primarySliderMoveCallback : pause,
 								secondrySliderMoveCallback : play
 							});
