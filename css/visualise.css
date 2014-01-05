@@ -216,6 +216,12 @@ text{
     fill-opacity: .125;
     pointer-events: none;
 }
+
+/* Peg */
+.peg{
+	fill: orange;
+	cursor: pointer;
+}
 /*
 .minor{
 	border-radius: 50%;

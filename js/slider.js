@@ -33,6 +33,7 @@
 		var rvContinueHash = true,gettingDataFlag = true;
 		var yscale = null, yscale2 = null, xscale = null;
 		var brush = null;
+		var peg = null,pegScale = null,pegHandle;
 		var toolTipDiv, svg, svgBox, svgEnlargedBox;
 		var primaryContainer, primaryGraph, secondaryContainer, secondaryGraph, newGraph;
 		var outerLength = 25, enlargedLength = 65;
@@ -41,6 +42,7 @@
 		var bars;
 		var timeFormat = "%Y-%m-%dT%H:%M:%SZ";
         var timeParse = d3.time.format(timeFormat);
+        
 		var that = this;
 		
 		var outerScrollDateUpdate = function (){
@@ -95,18 +97,7 @@
         													'y1':enlargedLength+progressBarWidth/2,'y2':enlargedLength+progressBarWidth/2,
         													'stroke':'#1ebce2',
         													'stroke-width':0});
-        	/*
-			d3.select('#enlarged svg').append('line').attr({'x1':0,'x2':0,
-															'y1':enlargedLength+progressBarWidth/2,'y2':enlargedLength*2-10,
-															'stroke':'gray',
-															'stroke-width':'.5'});
-			endLine = d3.select('#enlarged svg').append('line').attr({'x1':450,'x2':450,
-																	'y1':enlargedLength+progressBarWidth/2,'y2':enlargedLength*2-10,
-																	'stroke':'gray',
-																	'stroke-width':'.5'});
-        	startDate = secondaryContainer.append('text').attr({'x':0,'y':enlargedLength*2-10}).style('font-size',9);
-			endDate = secondaryContainer.append('text').attr({'x':450,'y':enlargedLength*2-10}).style('font-size',9);
-			*/
+        	
 			d3.select('#enlarged svg').append('line').attr({'x1':0,'x2':0,
 															'y1':10,'y2':enlargedLength+progressBarWidth/2,
 															'stroke':'gray',
@@ -245,6 +236,8 @@
 				yscale2 = d3.scale.pow().exponent(.4).domain([0,d3.max(completeRevData, function(d) { return d.editSize; })])
 													.range([3,enlargedLength]);
 				xscale = d3.scale.linear().domain([0,completeRevData.svgWidth]).range([0,completeRevData.svgWidth]);
+				//cleanup pegscale
+				pegScale = d3.scale.linear().domain([0,completeRevData.svgWidth]).range([0,completeRevData.svgWidth]);
 				diffscale = d3.scale.linear().domain([0,d3.max(completeRevData, function(d) { return d.timeDiff; })]).range([0,10]);
 			}
 	        else{
@@ -291,6 +284,40 @@
 			}
 			temp();
 			cleanupProgressBar();
+		};
+		this.callPeg = function(){
+			if (peg != null){
+		        peg.x(pegScale);
+		        d3.select('#peg').call(peg);
+		        peg.extent([0,0]);
+			}
+			else{
+		            peg = d3.svg.brush().x(pegScale).extent([0,0]).on("brush", pegMove);
+		            var pegHandleContainer = svgEnlargedBox.append("g")
+		                                    .attr("id","peg")
+		                                    .call(peg);
+		            
+		            pegHandleContainer.selectAll(".extent,.resize").remove();
+					
+					pegHandleContainer.select(".background")
+					    .attr("height", enlargedLength * 2);
+					
+					/* Peg */
+					
+					pegHandle = pegHandleContainer.append("g");
+					pegHandle.append("rect")
+					    .attr("class", "peg")
+					    .attr("height",enlargedLength * 2)
+					    .attr("width",2)
+					    .attr("y", 0);
+					pegHandle.append("rect")
+					    .attr("class", "peg")
+					    .attr("height",5)
+					    .attr("width",10)
+					    .attr("y", 0)
+						.attr("x",-4);
+		         }
+			
 		};
 		this.handleScroll = function (){
         	//d3.select('#outer').transition().property('scrollLeft',brush.extent()[0]);
@@ -364,23 +391,6 @@
 						.attr("timeDiff",function(d){ return d.timeDiff; })
 						.attr("data-title",function(d){ return d.user; })
 						.attr("number",function(d,i){ return i; })
-						.on("mouseover", function(d) {      
-							tooltipDiv.transition().duration(200).style("opacity", .9);
-
-							cleanupHighlightSelectedEdit(bars,'user',hoverUser,'gray',0);
-							cleanupHighlightSelectedEdit(newGraph,'user',hoverUser,'#b4e2ef',0);
-						    hoverUser = d.user;
-				            tooltipDiv.html(d.user + "<br/>"  + d.date)  
-				                .style("left", (d3.event.pageX + 5) + "px")     
-				                .style("top", (d3.event.pageY - 23) + "px");    
-				                
-							highlightSelectedEdit(bars,'user',hoverUser,'gold');	
-							highlightSelectedEdit(newGraph,'user',hoverUser,'gold');
-							
-						})                      
-				        .on("mouseout", function(d) {       
-				            tooltipDiv.transition().duration(500).style("opacity", 0);   
-				        })
 				        .on("click", function(d,i){
 				        	//cleanupProgressBar();
 				        	that.refreshProgressBar(d);
@@ -391,13 +401,45 @@
 				        });
 				                               
 						newGraph.exit().remove();
+						
 						cleanupHighlightSelectedEdit(newGraph,'user',hoverUser,'#b4e2ef',1);
 						highlightSelectedEdit(newGraph,'user',hoverUser,'gold');
 						startDate.text(timeParse.parse(new_graph[0].timestamp).toDateString().slice(4));
 						endDate.text(timeParse.parse(new_graph[new_graph.length-1].timestamp).toDateString().slice(4)).attr({'x':lastX-47});
 						enlargedBarGraphSvgWidth = lastX + that.enlargedBarGraphBarwidth;
 						that.fixWidth(enlargedBarGraphSvgWidth);
+						pegScale.domain([0,enlargedBarGraphSvgWidth]).range([0,enlargedBarGraphSvgWidth]);
+						that.callPeg();
+						
 				}
     	}
+    	var pegMove = function(){
+			console.log('Peg moved');
+			var value = peg.extent()[0];
+			  if (d3.event.sourceEvent) { // not a programmatic event
+			    value = pegScale.invert(d3.mouse(this)[0]);
+			    peg.extent([value, value]);
+			  }
+				selectedBar = newGraph.filter(function(d){
+					if (d.lastX < value && value < d.lastX + that.enlargedBarGraphBarwidth){
+							cleanupHighlightSelectedEdit(bars,'user',hoverUser,'gray',0);
+							cleanupHighlightSelectedEdit(newGraph,'user',hoverUser,'#b4e2ef',0);
+						    hoverUser = d.user;    
+							highlightSelectedEdit(bars,'user',hoverUser,'gold');	
+							highlightSelectedEdit(newGraph,'user',hoverUser,'gold');
+							
+							var revInfo = {
+								'revid': d.revid,
+								'user': d.user,
+								'timestamp': d.timestamp.slice(0,10),
+								'minor': d.minor ? 'M' : null
+							};
+							infoBox(revInfo);
+					}
+					return d.lastX < value && value < d.lastX + that.enlargedBarGraphBarwidth;
+				});
+				console.log(selectedBar);
+			  pegHandle.attr("transform","translate("+pegScale(value)+")");
+    	}; 
     	return this;
     }
