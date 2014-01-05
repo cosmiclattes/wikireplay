@@ -133,6 +133,7 @@
                     	rvContinueHash = null;
             		}
 	            console.log(rvContinueHash);
+	            if (!rvContinueHash) $('olderEditsInfo').hide();
 	            var resultKey = Object.keys(data.query.pages);
 	            var revData = data.query.pages[resultKey].revisions;
 	            completeRevData = completeRevData.concat(revData);

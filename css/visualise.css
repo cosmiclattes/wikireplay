@@ -394,5 +394,18 @@ text{
 #outerStartDateLeg{
 	right: 0px;
 }
-
+#olderEditsInfo{
+	position: absolute;
+	top: -15px;
+	background: gray;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	padding:2px;
+	cursor: pointer;
+	font-size: 11px;
+}
+#olderEditsInfo > span{
+	margin: 3px;
+}
 
