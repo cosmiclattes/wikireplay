@@ -81,14 +81,14 @@
 background: transparent;
 }
 .noUiSlider.horizontal a{
-        background-color:#b4e2ef;
+        background-color:#f6921e;
 }
 .noUiSlider.horizontal {
 width: 100px;
 height: 5px;
 margin-top: 10px;
 margin-left: 10px;
-background-color: #1ebce2;
+background-color: #f6921e;
 }
 .noUiSlider.horizontal div {
 margin: -5px 0 0 -9px;

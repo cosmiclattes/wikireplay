@@ -407,7 +407,7 @@
 				                               
 						newGraph.exit().remove();
 						
-						cleanupHighlightSelectedEdit(newGraph,'user',hoverUser,'#b4e2ef',1);
+						cleanupHighlightSelectedEdit(newGraph,'user',hoverUser,'#929396',1);
 						highlightSelectedEdit(newGraph,'user',hoverUser,'gold');
 						startDate.text(timeParse.parse(new_graph[0].timestamp).toDateString().slice(4));
 						endDate.text(timeParse.parse(new_graph[new_graph.length-1].timestamp).toDateString().slice(4)).attr({'x':lastX-47});
@@ -437,7 +437,7 @@
 				selectedBar = newGraph.filter(function(d,i){
 					if (d.lastX < value && value < d.lastX + that.enlargedBarGraphBarwidth){
 							cleanupHighlightSelectedEdit(bars,'user',hoverUser,'gray',0);
-							cleanupHighlightSelectedEdit(newGraph,'user',hoverUser,'#b4e2ef',0);
+							cleanupHighlightSelectedEdit(newGraph,'user',hoverUser,'#929396',0);
 						    hoverUser = d.user;    
 							highlightSelectedEdit(bars,'user',hoverUser,'gold');	
 							highlightSelectedEdit(newGraph,'user',hoverUser,'gold');

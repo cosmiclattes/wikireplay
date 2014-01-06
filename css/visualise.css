@@ -292,10 +292,10 @@ rect {
 }
 text{
 	font-size: 9px;
-	fill: #666;
+	fill: #f6921e;
 }
 #secondaryGraph rect{
-	fill: #b4e2ef;
+	fill: #929396;
 	stroke-width:0px;
 }
 .blue{
@@ -349,6 +349,7 @@ text{
 #enlarged{
 	transition: 0.3s ease;
 	padding: 2px;
+	background: #FFFFFF;
 }
 .enlargedButton{
     position: absolute;
