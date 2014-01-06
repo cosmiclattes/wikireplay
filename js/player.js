@@ -101,9 +101,9 @@ function playback(){
 			$('#wikiBody').html(modifiedHtml);
 			// To remove ref changes 
 			removeRef();
-			//console.time('making array');
+			console.time('making array');
 			modifyList = empty($.makeArray($('del,ins')));
-			//console.timeEnd('making array');
+			console.timeEnd('making array');
 			that.animateDiff();
 		});		
 	};
@@ -138,16 +138,16 @@ function playback(){
                     
                     $.when(scrollPromise).then(function(){
                     	if ($(element).prop('tagName') == 'DEL'){
-                        	//console.log('scroll end:: animation begin add ',Date.now(),modifyList.length,element.id);
+                        	console.log('scroll end:: animation begin add ',Date.now(),modifyList.length,element.id);
                         	return $(element).fadeOut(that.animationSpeed);
                     	}
                     	else{
-                    		//console.log('scroll end:: animation begin delete ',Date.now(),modifyList.length,element.id);
+                    		console.log('scroll end:: animation begin delete ',Date.now(),modifyList.length,element.id);
                         	return $(element).fadeIn(that.animationSpeed).css('display','inline-block');                        
                     	}
                     	
                     }).then(function(){ 
-                    		//console.log('animation end',Date.now(),modifyList.length,element.id);
+                    		console.log('animation end',Date.now(),modifyList.length,element.id);
                     		modifyList.shift();
                     		that.animateDiff();
                     	});
