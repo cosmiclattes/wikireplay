@@ -34,64 +34,98 @@
 				
 				</script>
         </head>
-
-        <body>
-                        <div id='header'>
-                                <input id='pageTitle' type="text" placeholder="Enter article name"></input>
-                                <input id='pageButton' type="submit" value="Load Edits"></input>
-                        </div>
-                        <!-- 
-                        <select class="languageNamespace"></select>
-                        <button id="fullscreen">Go Fullscreen!</button>
-                        -->
-                        <div class="cB"></div>
-                        <div id='overlay'>
-                                <div id='overlayHeader'>
-                                        <input id='overlayTitle' type="text" placeholder="Enter article name"></input>
-                                        <input id='overlayLoad' type="submit" value="Load Edits"></input>
-                                        <input id='overlayRand' type="submit" value="Random"></input>
-                                </div>
-                        </div>
-                        </div>
-                        <div class="notify"></div>
-                        <div id="wikiBodySlider">
-                                <div id="wikiBody" class="absolute"></div>
-                                <div id="sliderComplete">
-                                <div id='enlargedContainer'>
-                                    <!-- <div class="enlargedButton up"></div> -->
-                                    
-                                    <div id='controlsInfoContainer'>
-                                            <div class="controls">
-                                                    <div id="playButtonContainer" class="customTooltip" data-title="Play/Pause">
-                                                            <div id="playButton"class="play"></div>
-                                                    </div>
-                                                                    <div class="speedSlider customTooltip" data-title="Speed Control">
-                                                                                <div class="noUiSlider"></div>
-                                                                    </div>
-                                                    </div>
-                                                    <div id="infoBox">
-                                                                    <div class='userName left'></div>
-                                                                    <div class='editDate left'></div>
-                                                                    <!-- <div class='cB'></div>
-                                                                    <div class='revisionLink left'></div> -->
-                                                                    <div class='minor left'></div>
-                                                    </div>
-                                                </div>
-                                                <div id='enlarged'></div>
-                                            
-                                        </div>
-                                        <div></div>
-                                        <div id="outerContainer">
-                                                <div id="outerEndDateLeg" class="leg"></div>
-                                                <div id="outerStartDateLeg" class="leg"></div>
-                                                <div class="outerInfo" id="outerEndDate"></div>
-                                                <div class="outerInfo" id="outerStartDate"></div>
-                                                <div id="outer"></div>
-                                                <div class="info" id="olderEditsInfo">
-                                                        <span class="customTooltip" data-title="Drag slider right to load older edits">?</span>
-                                                </div>
-                                        </div>
-                                </div>
-                        </div>
-        </body>
+        
+	<body>
+			<div id='header'>
+				<input id='pageTitle' type="text" placeholder="Enter article name"></input>
+				<input id='pageButton' type="submit" value="Load Edits"></input>
+			</div>
+			<!-- 
+			<select class="languageNamespace"></select>
+			<button id="fullscreen">Go Fullscreen!</button>
+			-->
+			<div class="cB"></div>
+			<div id='overlay'>
+				<div id="top">
+					<div id="logo"></div>
+					<div id='overlayHeader'>
+						<input id='overlayTitle' type="text" placeholder="Enter article name"></input>
+						<input id='overlayLoad' type="submit" value="Show History"></input>
+						<!-- <input id='overlayRand' type="submit" value="Random"></input> -->
+					</div>
+				</div>
+				<div id="bottom">
+					<div class="container">
+						<div id="step1" class="icon"></div>
+						<div class="text step1">
+							<span>Enter article name</span>
+						</div>
+					</div>
+					<div class="line"></div>
+					<div class="container">
+						<div id="step2" class="icon"></div>
+						<div class="text step2">
+							<span>Place the peg on the edit to play</span>
+						</div>
+					</div>
+					<div class="line"></div>
+					<div class="container">
+						<div id="step3" class="icon"></div>
+						<div class="text step3">
+							<span>Click Play</span>
+						</div>
+					</div>
+					<div class="line"></div>
+					<div class="container">
+						<div id="step4" class="icon"></div>
+						<div class="text step4">
+							<span>Enjoy viewing edits!</span>
+						</div>
+					</div>
+				</div>
+				<div id="overlayFooter">
+					<a href="http://meta.wikimedia.org/wiki/Grants:IEG/Replay_Edits">Replay Edits</a>
+				</div>
+			</div>
+			<div class="notify"></div>
+			<div id="wikiBodySlider">
+				<div id="wikiBody" class="absolute"></div>
+				<div id="sliderComplete">
+			        <div id='enlargedContainer'>
+			            <!-- <div class="enlargedButton up"></div> -->
+			            
+			            <div id='controlsInfoContainer'>
+				            <div class="controls">
+				            	<div id="playButtonContainer" class="customTooltip" data-title="Play/Pause">
+				            		<div id="playButton"class="play"></div>
+				            	</div>
+						    		<div class="speedSlider customTooltip" data-title="Speed Control">
+										<div class="noUiSlider"></div>
+						    		</div>
+					    	</div>
+						    <div id="infoBox">
+						    		<div class='userName left'></div>
+						    		<div class='editDate left'></div>
+						    		<!-- <div class='cB'></div>
+						    		<div class='revisionLink left'></div> -->
+						    		<div class='minor left'></div>
+						    </div>
+						</div>
+						<div id='enlarged'></div>
+					    
+					</div>
+					<div></div>
+					<div id="outerContainer">
+						<div id="outerEndDateLeg" class="leg"></div>
+						<div id="outerStartDateLeg" class="leg"></div>
+						<div class="outerInfo" id="outerEndDate"></div>
+						<div class="outerInfo" id="outerStartDate"></div>
+						<div id="outer"></div>
+						<div class="info" id="olderEditsInfo">
+							<span class="customTooltip" data-title="Drag slider right to load older edits">?</span>
+						</div>
+					</div>
+				</div>
+			</div>
+	</body>
 </html>

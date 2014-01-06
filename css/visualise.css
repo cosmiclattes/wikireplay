@@ -6,10 +6,10 @@ body{
 }
 
 #header{
-        width :290px;
+        width :266px;
         background:#f5f5f5;
         margin:auto;
-        padding: 5px 10px 10px;
+        padding: 10px 10px 10px 10px;
         position: absolute;
         top: -45px;
         left: 0;
@@ -44,14 +44,115 @@ body{
         top:5px;
 }
 input{
-        border: #f5f5f5 2px solid;
-        padding:10px;
-        border-radius: 5px;
+        padding:8px;
           -moz-box-sizing: border-box;
           box-sizing: border-box;
+          margin: 0px;
+          border-width: 0px;
+}
+.line{
+        height: 200px;
+        border-style: solid;
+        border-width: 0px 0px 0px 1px;
+        width: 0px;
+        border-color: #e0e2e4;
+}
+#bottom{
+        width: 803px;
+        margin: auto;
+        padding-top: 40px;
+}
+#top{
+        width: 100%;
+        height: 50%;
+        background: #f2f2f2;
+}
+#logo {
+        background: url('../images/logo.png');
+        background-position: center;
+        width: 99px;
+        height: 94px;
+        position: absolute;
+        margin: auto;
+        position: absolute;
+        top: 15%;
+        right: 0px;
+        left: 0px;
+}
+#bottom .line{
+        float: left;
+}
+#bottom .container{
+        width: 200px;
+        height: 200px;
+        float: left;
+        font-size: 11px;
+        color: #494a4b;
+}
+#bottom .icon{
+        margin: auto;
+        margin-top: 20px;
+}
+#bottom .text{
+        margin: auto;
+        margin-top: 10px;
+}
+/* To centre the texts*/
+#bottom .step1{
+        width:143px;
+        margin-top: 22px;
+}
+#bottom .step2{
+        width: 155px;
+}
+#bottom .step3{
+        width: 50px;
+        margin-top: 30px;
+}
+#bottom .step4{
+        width: 102px;
+}
+#step1{
+        background: url('../images/showhistory.png');
+        background-size: 192px 82px;
+        background-repeat: no-repeat;
+        width: 192px;
+        height: 82px;
+}
+#step2{
+        background: url('../images/peg.png');
+        background-size: 85px 96px;
+        background-repeat: no-repeat;
+        width: 85px;
+        height: 96px;
+}
+#step3{
+        background: url('../images/clicktoplay.png');
+        background-size: 35px 52px;
+        background-repeat: no-repeat;
+        width: 35px;
+        height: 52px;
+        margin-top: 43px !important;
+}
+#step4{
+        background: url('../images/enjoy.png');
+        background-size: 160px 102px;
+        background-repeat: no-repeat;
+        width: 160px;
+        height: 102px;
+}
+#overlayFooter{
+        position: absolute;
+        font-size: 13px;
+        margin: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100px;
+        padding: 5px;
 }
 #overlayTitle{
-        width:180px;
+        width:280px;
 }
 input[type=submit]{
         background: #46C2E5;
@@ -325,15 +426,16 @@ text{
         position: absolute;
 }
 #overlayHeader{
-        width: 380px;
-        background:#f5f5f5;
-        margin:auto;
-        padding: 5px 10px 10px;
+        width: 375px;
+        background: #f2f2f2;
+        margin: auto;
         position: absolute;
-        top: 45%;
+        top: 35%;
         left: 0;
         box-shadow: 1px 1px 1px #ccc;
         right: 0;
+        font-size: 0px;
+        border: solid 1px #ccc;
 }
 #overlayRand {
         background: #e67e22;
@@ -397,6 +499,7 @@ text{
 #olderEditsInfo{
         position: absolute;
         top: -15px;
+        right: 5px;
         background: gray;
         width: 10px;
         height: 10px;
