@@ -218,11 +218,11 @@ del *,ins *{
 	cursor: pointer;
 	border: solid;
 	border-color: #535050 transparent;
-	border-width: 12px 12px 0px 12px;
+	border-width: 10px 10px 0px 10px;
 	-webkit-transform: rotate(-90deg);
 	-moz-transform: rotate(-90deg);
 	transform: rotate(-90deg);
-	margin: 6px 1px;
+	margin: 8px 3px;
 }
 .pause{
 	cursor: pointer;
@@ -233,7 +233,7 @@ del *,ins *{
 	margin: 6px 5px;
 }
 #playButtonContainer{
-	width: 20px;
+	width: 23px;
 	height: 26px;
 	border-style: solid;
 	border-width: 0px 1px 0px 0px ;
