@@ -215,14 +215,14 @@ del *,ins *{
         border-color: #DDDDDD; 
 }
 .play{
-        cursor: pointer;
-        border: solid;
-        border-color: #535050 transparent;
-        border-width: 12px 12px 0px 12px;
-        -webkit-transform: rotate(-90deg);
-        -moz-transform: rotate(-90deg);
-        transform: rotate(-90deg);
-        margin: 6px 1px;
+	cursor: pointer;
+	border: solid;
+	border-color: #535050 transparent;
+	border-width: 10px 10px 0px 10px;
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	transform: rotate(-90deg);
+	margin: 8px 3px;
 }
 .pause{
         cursor: pointer;
@@ -233,12 +233,12 @@ del *,ins *{
         margin: 6px 5px;
 }
 #playButtonContainer{
-        width: 20px;
-        height: 26px;
-        border-style: solid;
-        border-width: 0px 1px 0px 0px ;
-        border-color: #DDDDDD; 
-        float: left;        
+	width: 23px;
+	height: 26px;
+	border-style: solid;
+	border-width: 0px 1px 0px 0px ;
+	border-color: #DDDDDD; 
+	float: left;	
 }
 #playButtonContainer:hover,.pause:hover,.play:hover{
 }
