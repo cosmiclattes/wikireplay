@@ -83,6 +83,16 @@ function playback(){
 			element.replaceWith(element.text());
 		});
 	};
+	//Removing TOC
+	var removeToc = function(list){
+		var modifiedList = [];
+		for (i=0;i<list.length;i++) {
+			if (!$(list[i]).find('[class^="toclevel"]').length) { 
+					modifiedList.push(list[i]);
+				} 
+			}
+		return modifiedList;
+	};
 	this.wikiDiff = function(){
 	    //Creating the info box about the revisions
         var revInfo = {
@@ -103,6 +113,7 @@ function playback(){
 			removeRef();
 			console.time('making array');
 			modifyList = empty($.makeArray($('del,ins')));
+			modifyList = removeToc(modifyList);
 			console.timeEnd('making array');
 			that.animateDiff();
 		});		
