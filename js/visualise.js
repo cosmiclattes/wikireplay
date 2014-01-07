@@ -45,6 +45,7 @@ window.onload = function(){
     $('#overlayLoad').click(function(){
     	$('#pageTitle').val($('#overlayTitle').val());
     	start('#pageTitle');
+    	$('#overlayFooter').hide();
     	$('#overlay').slideUp(2500);
     	
     });
