@@ -26,16 +26,24 @@ window.onload = function(){
     
     //Attaching Event to get the list of revisions
     var pageTitle ;
-    var start = function(titleHolder){
+    var start = function(title){
 		$('#wikiBody').show();        
-		pageTitle = $(titleHolder).val();
 		wikiPlayback.cleanUp();
+		wikiPlayback.articleName = title;
 		slider.cleanUp();
-		slider.getData(pageTitle);
+		slider.getData(title);
     };
     
-    $('#pageButton').click(function(){
-    	start('#pageTitle');
+    $('.load').click(function(){
+    	getArticleName = utility.redirectTitle($(this).parent().find('.articleName').val());
+    	$.when(getArticleName).done(function(){
+    		if (utility.articleTitle){
+    			start(utility.articleTitle);
+    		}
+    		else{
+    		//Add code for error messaging
+    		}
+    	});
     }); 
 
     $('#overlayRand').click(function() {
@@ -43,10 +51,7 @@ window.onload = function(){
     });
     
     $('#overlayLoad').click(function(){
-    	$('#pageTitle').val($('#overlayTitle').val());
-    	start('#pageTitle');
     	$('#overlay').slideUp(2500);
-    	
     });
     var pause = function(){
     	var button = $('#playButton');
@@ -77,6 +82,40 @@ window.onload = function(){
 		slider.wikiNameSpace(language);
 	});
 	
-    
+	/* Search box suggestion dropdown */
+	var dropdown_focus = function(parent){
+		$(parent + ' .articleName').focus(function(){
+			index = 0; 
+			$('.suggestionDropdown li').removeClass('suggestionBackground');
+			$(parent + ' .suggestionDropdown li').eq(index).addClass('suggestionBackground');
+		});
+	};
+	var dropdown_keyup = function(parent){	
+	$(parent + ' .articleName').on('keyup',function(e){
+			e.stopPropagation();
+			console.log(e.which,index);
+			$(parent + ' .suggestionDropdown li').removeClass('suggestionBackground');
+			if(e.which == 38 && index>0){
+				index--;
+			}
+			else if (e.which == 40 && index<parseInt($(parent + ' .suggestionDropdown').attr('data-length'))-1){
+				index++;
+			}
+			else if (e.which == 13) {
+				$('.articleName').val($(parent + ' .suggestionDropdown li').eq(index).text());
+				$('.articleName').blur();
+				utility.redirectTitle($('.articleName').val());
+			}
+			else{
+				utility.searchTitle(parent, $(parent + ' .articleName').val());
+			}
+			$(parent + ' .suggestionDropdown li').eq(index).addClass('suggestionBackground');
+		});
+		$('.suggestionDropdown li').on('mousedown',function(){
+			$('.articleName').val($(this).text());
+		});
+	};
+	dropdown_focus('#header');dropdown_focus('#overlayHeader');
+	dropdown_keyup('#header');dropdown_keyup('#overlayHeader');
 };
     

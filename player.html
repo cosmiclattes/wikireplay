@@ -27,8 +27,15 @@
 
 	<body>
 			<div id='header'>
-				<input id='pageTitle' type="text" placeholder="Enter article name"></input>
-				<input id='pageButton' type="submit" value="Load Edits"></input>
+				<input id='pageTitle' class='articleName' type="text" placeholder="Enter article name"></input>
+				<ul id='overlayTitleSuggestionDropdown' class='suggestionDropdown'>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+				</ul>
+				<input id='pageButton' type="submit" class='load' value="Show History"></input>
 			</div>
 			<!-- 
 			<select class="languageNamespace"></select>
@@ -39,8 +46,15 @@
 				<div id="top">
 					<div id="logo"></div>
 					<div id='overlayHeader'>
-						<input id='overlayTitle' type="text" placeholder="Enter article name"></input>
-						<input id='overlayLoad' type="submit" value="Show History"></input>
+						<input id='overlayTitle' class='articleName' type="text" placeholder="Enter article name"></input>
+						<ul id='overlayTitleSuggestionDropdown' class='suggestionDropdown'>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+						</ul>
+						<input id='overlayLoad' type="submit" class='load' value="Show History"></input>
 						<!-- <input id='overlayRand' type="submit" value="Random"></input> -->
 					</div>
 				</div>

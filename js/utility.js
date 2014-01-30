@@ -13,6 +13,7 @@ var userNotification = function(type){
 		}
 	}; 
 var usingLanguageNamespace = 'en';
+var url = 'https://en.wikipedia.org/w/api.php?callback=?';
 var infoBox = function (revInfo){
         for (key in revInfo){                   
             if(key == 'revid'){
@@ -33,3 +34,50 @@ var infoBox = function (revInfo){
             }
         }
 	};
+var utility = {
+	'articleTitle':'',
+	'redirectTitle' : function(title){
+		var check_redirect_dict = {
+			'action':'query',
+			'format':'json',
+			'titles':title,
+			'redirects':''
+		};
+		var that = this;
+		return $.getJSON(url,check_redirect_dict,function(data){
+			if ('query' in data){
+				query = data['query'];	
+			}
+			else
+				that.articleTitle = false;
+			if ('redirects' in query){
+				console.log(query['redirects'][0]['to']);
+				that.articleTitle = query['redirects'][0]['to'];
+			}
+			else
+				that.articleTitle = title;
+		});
+	},
+	'searchTitle' : function(parent, string){
+		var search_dict = {
+			'action':'opensearch',
+			'format':'json',
+			'search':string,
+			'namespace':0,
+			'suggest':'',
+			'limit':5
+		};
+		$.getJSON(url,search_dict,function(data){
+			$('.suggestionDropdown').attr('data-length',data[1].length);
+			console.log(data);
+			$(parent + ' .suggestionDropdown li').each(function(index){
+				if (data[1][index]){
+					$(this).text(data[1][index]);
+				}
+				else{
+					$(this).text('');
+				}
+			});
+		});
+	}
+};

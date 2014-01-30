@@ -13,7 +13,7 @@ function playback(){
 		'rvprop': 'ids|user|timestamp|size|flags',
 		'rvdir': 'newer',
 	};
-	
+	this.articleName = '';
 	var compareRevisionDict = {
 		'format': 'json',
 		'action': 'query',
@@ -201,7 +201,7 @@ function playback(){
 	this.startPlayback = function(selectedEdits,reset){
 		userNotification('play');
 		$('#playButton').removeClass('play').addClass('pause');
-		var page = $('#pageTitle').val();
+		var page = that.articleName;
 	    //Handling the case where the the player was paused
 		    if(!slider.pegMoved && listOfRevisions.length && listOfRevisions.length > 0){
 		        playAnimation = true;
