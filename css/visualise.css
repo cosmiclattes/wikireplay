@@ -559,8 +559,9 @@ text{
 .languageDropdown > ul {
 	position: absolute;
 	background: white;
-	top:10px;
-	display:none;
+	top: 31px;
+	left: 8px;
+	display: none;
 	width: 320px;
 	padding: 10px 0px 10px 10px;
 	box-shadow: inset 0 0 2px #333;
@@ -599,5 +600,5 @@ text{
 }
 
 #overlay .languageDropdown> ul{
-	top :-110px;
+	top :-127px;
 }
