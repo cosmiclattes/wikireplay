@@ -51,6 +51,7 @@ window.onload = function(){
     });
     
     $('#overlayLoad').click(function(){
+    	$('#overlayFooter').hide(500);
     	$('#overlay').slideUp(2500);
     });
     var pause = function(){

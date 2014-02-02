@@ -602,3 +602,10 @@ text{
 #overlay .languageDropdown> ul{
 	top :-127px;
 }
+/* Temp */
+#pageButton,#overlayLoad{
+	width: 93px;
+}
+#pageTitle{
+	width: 184px;
+}
