@@ -23,12 +23,7 @@ function playback(){
 		'rvparse': '',
 	};
 	
-	var baseUrl = 'https://en.wikipedia.org/w/api.php?callback=?';
 	var that = this;
-	this.wikiNameSpace = function (language) {
-	  usingLanguageNamespace = language;
-	  baseUrl = 'https://'+language+'.wikipedia.org/w/api.php?callback=?';
-	};
 	this.cleanUp = function(){
 		listOfRevisions = [];
 		$('#wikiBody').html('');
@@ -57,7 +52,7 @@ function playback(){
 		else{
 			//console.log('cache fail',revid );
 			compareRevisionDict['revids'] = revid;
-			return $.getJSON(baseUrl,compareRevisionDict,function(data){
+			return $.getJSON(utility.apiUrl,compareRevisionDict,function(data){
 				var resultKey = Object.keys(data.query.pages);
 				var dataRev = data.query.pages[resultKey].revisions[0]['*'];
 				hashTable[revid] = dataRev;
@@ -236,12 +231,6 @@ function playback(){
 	};
 };
 
-function addLanguageOptions(languages){
-	for(language in languages){
-		var option = $('<option>').val(language).html(languages[language]);
-		$('select.languageNamespace').append(option);
-	}
-};
 
 //The fullscreen Api handling
 function fullscreenApi(screen){

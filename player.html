@@ -27,7 +27,7 @@
 
 	<body>
 			<div id='header'>
-				<input id='pageTitle' class='articleName' type="text" placeholder="Enter article name"></input>
+				<input id='pageTitle' class='articleName left' type="text" placeholder="Enter article name"></input>
 				<ul id='overlayTitleSuggestionDropdown' class='suggestionDropdown'>
 							<li></li>
 							<li></li>
@@ -35,7 +35,14 @@
 							<li></li>
 							<li></li>
 				</ul>
-				<input id='pageButton' type="submit" class='load' value="Show History"></input>
+				<input id='pageButton' type="submit" class='load left' value="Show History"></input>
+				<ul class='languageDropdown left'>
+					<div>
+						<span class='selectedLanguage'>English</span><span class='selectionArrow'>&#x25BC;<span>
+					</div>
+					<ul>
+					</ul>
+				</ul>
 			</div>
 			<!-- 
 			<select class="languageNamespace"></select>
@@ -65,21 +72,21 @@
 							<span>Enter article name</span>
 						</div>
 					</div>
-					<div class="line"></div>
+					<div class="line">&#10093;</div>
 					<div class="container">
 						<div id="step2" class="icon"></div>
 						<div class="text step2">
 							<span>Place the peg on the edit to play</span>
 						</div>
 					</div>
-					<div class="line"></div>
+					<div class="line">&#10093;</div>
 					<div class="container">
 						<div id="step3" class="icon"></div>
 						<div class="text step3">
 							<span>Click Play</span>
 						</div>
 					</div>
-					<div class="line"></div>
+					<div class="line">&#10093;</div>
 					<div class="container">
 						<div id="step4" class="icon"></div>
 						<div class="text step4">
@@ -88,7 +95,14 @@
 					</div>
 				</div>
 				<div id="overlayFooter">
-					<a href="http://meta.wikimedia.org/wiki/Grants:IEG/Replay_Edits">Replay Edits</a>
+					<a class="left" src="http://meta.wikimedia.org/wiki/Grants:IEG/Replay_Edits">What is Replay Edits ?</a>
+					<ul class='languageDropdown left'>
+						<div>
+							<span class='selectedLanguage'>English</span><span class='selectionArrow'>&#x25B2;</span>
+						</div>
+						<ul>
+						</ul>
+					</ul>
 				</div>
 			</div>
 			<div class="notify"></div>

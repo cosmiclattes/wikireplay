@@ -75,22 +75,15 @@ window.onload = function(){
 		slider.modifySecondryGraph('revid',revid);
 	});
 	
-	addLanguageOptions(languageNamespace);
-    $('select.languageNamespace').change(function(){
-    	var language = $(this).val();
-		wikiPlayback.wikiNameSpace(language);
-		slider.wikiNameSpace(language);
-	});
-	
 	/* Search box suggestion dropdown */
-	var dropdown_focus = function(parent){
+	var dropdownFocus = function(parent){
 		$(parent + ' .articleName').focus(function(){
 			index = 0; 
 			$('.suggestionDropdown li').removeClass('suggestionBackground');
 			$(parent + ' .suggestionDropdown li').eq(index).addClass('suggestionBackground');
 		});
 	};
-	var dropdown_keyup = function(parent){	
+	var dropdownKeyup = function(parent){	
 	$(parent + ' .articleName').on('keyup',function(e){
 			e.stopPropagation();
 			console.log(e.which,index);
@@ -115,7 +108,13 @@ window.onload = function(){
 			$('.articleName').val($(this).text());
 		});
 	};
-	dropdown_focus('#header');dropdown_focus('#overlayHeader');
-	dropdown_keyup('#header');dropdown_keyup('#overlayHeader');
+	dropdownFocus('#header');dropdownFocus('#overlayHeader');
+	dropdownKeyup('#header');dropdownKeyup('#overlayHeader');
+	
+	utility.languageDropdown('#overlayFooter',languageNamespace);utility.languageDropdown('#header',languageNamespace);
+	$('.languageDropdown li li').click(function(){
+			utility.changeUrlLanguage($(this).attr('data-language'));
+			$('.selectedLanguage').text($(this).text());
+	});
 };
     

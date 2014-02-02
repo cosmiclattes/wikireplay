@@ -6,7 +6,7 @@ body{
 }
 
 #header{
-	width :277px;
+	width :400px;
 	background:#f5f5f5;
 	margin:auto;
 	padding: 10px 10px 10px 10px;
@@ -54,13 +54,13 @@ input{
 }
 .line{
 	height: 200px;
-	border-style: solid;
-	border-width: 0px 0px 0px 1px;
-	width: 0px;
-	border-color: #e0e2e4;
+	width: 20px;
+	margin-top: 50px;
+	font-size: 70px;
+	color: #e0e2e4;
 }
 #bottom{
-	width: 803px;
+	width: 1063px;
 	margin: auto;
 	padding-top: 40px;
 }
@@ -85,10 +85,10 @@ input{
 	float: left;
 }
 #bottom .container{
-	width: 200px;
-	height: 200px;
+	width: 250px;
+	height: 250px;
 	float: left;
-	font-size: 11px;
+	font-size: 12px;
 	color: #494a4b;
 }
 #bottom .icon{
@@ -105,43 +105,43 @@ input{
 	margin-top: 22px;
 }
 #bottom .step2{
-	width: 155px;
+	width: 174px;
 }
 #bottom .step3{
-	width: 50px;
-	margin-top: 30px;
+	width: 54px;
+	margin-top: 7px;
 }
 #bottom .step4{
-	width: 102px;
+	width: 108px;
 }
 #step1{
 	background: url('../images/showhistory.png');
-	background-size: 192px 82px;
+	background-size: 240px 112px;
 	background-repeat: no-repeat;
-	width: 192px;
-	height: 82px;
+	width: 240px;
+	height: 112px;
 }
 #step2{
 	background: url('../images/peg.png');
-	background-size: 85px 96px;
+	background-size: 125px 128px;
 	background-repeat: no-repeat;
-	width: 85px;
-	height: 96px;
+	width: 125px;
+	height: 128px;
 }
 #step3{
 	background: url('../images/clicktoplay.png');
-	background-size: 35px 52px;
+	background-size: 70px 104px;
 	background-repeat: no-repeat;
-	width: 35px;
-	height: 52px;
+	width: 70px;
+	height: 104px;
 	margin-top: 43px !important;
 }
 #step4{
 	background: url('../images/enjoy.png');
-	background-size: 160px 102px;
+	background-size: 190px 122px;
 	background-repeat: no-repeat;
-	width: 160px;
-	height: 102px;
+	width: 190px;
+	height: 122px;
 }
 #overlayFooter{
 	position: absolute;
@@ -150,8 +150,11 @@ input{
 	left: 0;
 	right: 0;
 	bottom: 0;
-	width: 100px;
+	width: 250px;
 	padding: 5px;
+}
+#overlayFooter a{
+	margin: 10px 0px;
 }
 #overlayTitle{
 	width:280px;
@@ -519,8 +522,9 @@ text{
 	display:block;
 	position:absolute;
 }
-#header > ul{
+#header > .suggestionDropdown{
 	width: 183px;
+	top: 42px;
 }
 .suggestionDropdown{
 	display:none;
@@ -543,4 +547,57 @@ text{
 }
 .suggestionBackground{
 	background: #FF6600;
+}
+/* Language selection dropdown */
+.languageDropdown{
+	list-style:none;
+	padding: 0px;
+	margin: 0px;
+	position:relative;
+	font-size: 13px;
+}
+.languageDropdown > ul {
+	position: absolute;
+	background: white;
+	top:10px;
+	display:none;
+	width: 320px;
+	padding: 10px 0px 10px 10px;
+	box-shadow: inset 0 0 2px #333;
+}
+.selectionArrow{
+	padding: 0px 0px 0px 10px;
+}
+.languageDropdown >div{
+	margin: 0px 8px;
+	padding: 8px;
+	background: #f2f2f2;
+	box-shadow: inset 0 0 2px #333;
+	line-height: 15px;
+}
+.languageDropdown li{
+	border: solid 1px transparent;
+	list-style-type: none;
+	padding:1px 3px 1px px;
+	margin: 0px;
+	cursor: pointer;
+}
+.languageDropdown ul{
+	list-style: none;
+	margin: 0px;
+}
+.languageDropdown >ul>li {
+	float: left;
+	padding: 0px 10px 0px 0px;
+}
+
+.languageDropdown:hover ul{
+	display: block;
+}
+.languageDropdown >ul>li>ul>li:hover{
+	border: solid 1px red;
+}
+
+#overlay .languageDropdown> ul{
+	top :-110px;
 }
