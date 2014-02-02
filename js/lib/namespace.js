@@ -18,8 +18,8 @@ var languageNamespace ={
     'da': 'Dansk',
     'sk': 'Slovenčina',
     'tr': 'Türkçe',
-    'ms': 'Bahasa Melayu',
-    'simple': 'Simple English',
+    //'ms': 'Bahasa Melayu',
+    //'simple': 'Simple English',
     //'ar': 'Arabic',
     //'fa': 'Farsi',
     //'he': 'Hebrew' ,
@@ -37,4 +37,4 @@ var languageNamespace ={
     //'or': 'Oriya',
     //'sa': 'Sanskrit', 
     //'gu': 'Gujarati' ,
-}
+};

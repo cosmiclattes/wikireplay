@@ -1,6 +1,5 @@
     function wikiSlider(options){
     	
-		var url = 'https://en.wikipedia.org/w/api.php?callback=?';
 	    var postDict ={
 		        rvdir:'older',
 		        format:'json',
@@ -124,7 +123,7 @@
 			}
 			if (gettingDataFlag && rvContinueHash){
 				//console.log('postDict',postDict);
-        		$.getJSON(url,postDict,function(data){
+        		$.getJSON(utility.apiUrl,postDict,function(data){
             		if ('query-continue' in data){
                     	rvContinueHash = data['query-continue'].revisions.rvcontinue;
                     	postDict['rvcontinue'] = rvContinueHash;
@@ -187,10 +186,6 @@
 		};
 		this.getSecondrySliderSelection = function (i){
 			return i ? that.getSelection().slice(0,i+1).reverse():that.getSelection().reverse();
-		};
-		this.wikiNameSpace = function (language) {
-	  		usingLanguageNamespace = language;
-	  		baseUrl = 'https://'+language+'.wikipedia.org/w/api.php?callback=?';
 		};
 	
 		this.parseData = function(data){

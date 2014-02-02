@@ -26,16 +26,24 @@ window.onload = function(){
     
     //Attaching Event to get the list of revisions
     var pageTitle ;
-    var start = function(titleHolder){
+    var start = function(title){
 		$('#wikiBody').show();        
-		pageTitle = $(titleHolder).val();
 		wikiPlayback.cleanUp();
+		wikiPlayback.articleName = title;
 		slider.cleanUp();
-		slider.getData(pageTitle);
+		slider.getData(title);
     };
     
-    $('#pageButton').click(function(){
-    	start('#pageTitle');
+    $('.load').click(function(){
+    	getArticleName = utility.redirectTitle($(this).parent().find('.articleName').val());
+    	$.when(getArticleName).done(function(){
+    		if (utility.articleTitle){
+    			start(utility.articleTitle);
+    		}
+    		else{
+    		//Add code for error messaging
+    		}
+    	});
     }); 
 
     $('#overlayRand').click(function() {
@@ -43,11 +51,7 @@ window.onload = function(){
     });
     
     $('#overlayLoad').click(function(){
-    	$('#pageTitle').val($('#overlayTitle').val());
-    	start('#pageTitle');
-    	$('#overlayFooter').hide();
     	$('#overlay').slideUp(2500);
-    	
     });
     var pause = function(){
     	var button = $('#playButton');
@@ -71,13 +75,46 @@ window.onload = function(){
 		slider.modifySecondryGraph('revid',revid);
 	});
 	
-	addLanguageOptions(languageNamespace);
-    $('select.languageNamespace').change(function(){
-    	var language = $(this).val();
-		wikiPlayback.wikiNameSpace(language);
-		slider.wikiNameSpace(language);
-	});
+	/* Search box suggestion dropdown */
+	var dropdownFocus = function(parent){
+		$(parent + ' .articleName').focus(function(){
+			index = 0; 
+			$('.suggestionDropdown li').removeClass('suggestionBackground');
+			$(parent + ' .suggestionDropdown li').eq(index).addClass('suggestionBackground');
+		});
+	};
+	var dropdownKeyup = function(parent){	
+	$(parent + ' .articleName').on('keyup',function(e){
+			e.stopPropagation();
+			console.log(e.which,index);
+			$(parent + ' .suggestionDropdown li').removeClass('suggestionBackground');
+			if(e.which == 38 && index>0){
+				index--;
+			}
+			else if (e.which == 40 && index<parseInt($(parent + ' .suggestionDropdown').attr('data-length'))-1){
+				index++;
+			}
+			else if (e.which == 13) {
+				$('.articleName').val($(parent + ' .suggestionDropdown li').eq(index).text());
+				$('.articleName').blur();
+				utility.redirectTitle($('.articleName').val());
+			}
+			else{
+				utility.searchTitle(parent, $(parent + ' .articleName').val());
+			}
+			$(parent + ' .suggestionDropdown li').eq(index).addClass('suggestionBackground');
+		});
+		$('.suggestionDropdown li').on('mousedown',function(){
+			$('.articleName').val($(this).text());
+		});
+	};
+	dropdownFocus('#header');dropdownFocus('#overlayHeader');
+	dropdownKeyup('#header');dropdownKeyup('#overlayHeader');
 	
-    
+	utility.languageDropdown('#overlayFooter',languageNamespace);utility.languageDropdown('#header',languageNamespace);
+	$('.languageDropdown li li').click(function(){
+			utility.changeUrlLanguage($(this).attr('data-language'));
+			$('.selectedLanguage').text($(this).text());
+	});
 };
     
