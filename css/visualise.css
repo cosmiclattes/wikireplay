@@ -540,13 +540,13 @@ text{
 }
 
 .suggestionDropdown > li:hover {
-	background: #FF6600;
+	background: #f6921e;
 }
 .suggestionDropdown > li{
 	padding : 0px 1px 0px 3px;
 }
 .suggestionBackground{
-	background: #FF6600;
+	background: #f6921e;
 }
 /* Language selection dropdown */
 .languageDropdown{
@@ -596,7 +596,7 @@ text{
 	display: block;
 }
 .languageDropdown >ul>li>ul>li:hover{
-	border: solid 1px red;
+	border: solid 1px #f6921e;
 }
 
 #overlay .languageDropdown> ul{

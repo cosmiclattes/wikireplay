@@ -81,7 +81,7 @@
 background: transparent;
 }
 .noUiSlider.horizontal a{
-        background-color:#f6921e;
+        background-color: gray;
 }
 .noUiSlider.horizontal {
 width: 100px;
