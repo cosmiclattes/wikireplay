@@ -609,3 +609,12 @@ text{
 #pageTitle{
 	width: 184px;
 }
+
+.errorOutline{
+	outline: solid 1px red;
+}
+.errorMessage{
+	display: none;
+	color: red;
+	font-size: 13px;	
+}

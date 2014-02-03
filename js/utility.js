@@ -25,17 +25,18 @@ var utility = {
 		};
 		var that = this;
 		return $.getJSON(that.apiUrl,check_redirect_dict,function(data){
-			if ('query' in data){
-				query = data['query'];	
-			}
-			else
+			if (-1 in data['query']['pages']){
 				that.articleTitle = false;
-			if ('redirects' in query){
-				console.log(query['redirects'][0]['to']);
-				that.articleTitle = query['redirects'][0]['to'];
 			}
-			else
-				that.articleTitle = title;
+			else{
+				query = data['query'];	
+				if ('redirects' in query){
+					console.log(query['redirects'][0]['to']);
+					that.articleTitle = query['redirects'][0]['to'];
+				}
+				else
+					that.articleTitle = title;
+			}
 		});
 	},
 	'searchTitle' : function(parent, string){

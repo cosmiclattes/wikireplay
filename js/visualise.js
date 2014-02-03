@@ -39,9 +39,13 @@ window.onload = function(){
     	$.when(getArticleName).done(function(){
     		if (utility.articleTitle){
     			start(utility.articleTitle);
+    			//hide overlay
+    			hideOverlay();
     		}
     		else{
     		//Add code for error messaging
+    			$('.errorMessage').show();
+    			$('.articleName').addClass('errorOutline');
     		}
     	});
     }); 
@@ -49,11 +53,16 @@ window.onload = function(){
     $('#overlayRand').click(function() {
         chooseRandomArticle();
     });
-    
+    var hideOverlay = function(){
+    	$('#overlayFooter').hide(500);
+    	$('#overlay').slideUp(2500);
+    };
+    /*
     $('#overlayLoad').click(function(){
     	$('#overlayFooter').hide(500);
     	$('#overlay').slideUp(2500);
     });
+    */
     var pause = function(){
     	var button = $('#playButton');
     	wikiPlayback.pausePlayback(button);
@@ -82,6 +91,9 @@ window.onload = function(){
 			index = 0; 
 			$('.suggestionDropdown li').removeClass('suggestionBackground');
 			$(parent + ' .suggestionDropdown li').eq(index).addClass('suggestionBackground');
+			//Removing error messaging 
+			$('.errorMessage').hide();
+    		$('.articleName').removeClass('errorOutline');
 		});
 	};
 	var dropdownKeyup = function(parent){	
