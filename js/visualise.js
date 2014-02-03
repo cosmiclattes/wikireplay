@@ -127,6 +127,7 @@ window.onload = function(){
 	utility.languageDropdown('#overlayFooter',languageNamespace);utility.languageDropdown('#header',languageNamespace);
 	$('.languageDropdown li li').click(function(){
 			utility.changeUrlLanguage($(this).attr('data-language'));
+			utility.translate($(this).attr('data-language'));
 			$('.selectedLanguage').text($(this).text());
 	});
 };

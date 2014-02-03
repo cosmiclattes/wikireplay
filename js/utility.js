@@ -79,6 +79,27 @@ var utility = {
 	'changeUrlLanguage': function(language){
 		this.apiUrl = 'https://'+language+'.wikipedia.org/w/api.php?callback=?';
 		this.revisionUrl = 'https://'+language+'.wikipedia.org/w/index.php?oldid=';
+	},
+	'translate': function(language){
+		language = translation[language] ? language : 'en';
+		translations = translation[language];
+		$('[data-translate]').each(function(index){
+			element = $(this);
+			if (element.prop('tagName') == 'INPUT'){
+				if (element.attr('value')){
+					element.attr('value',translations[element.attr('data-translate')]);
+				}
+				else{
+					element.attr('placeholder',translations[element.attr('data-translate')]);
+				}
+			}
+			else if (element.attr('data-title')){
+				element.attr('data-title',translations[element.attr('data-translate')]);
+			}
+			else{
+				element.text(translations[element.attr('data-translate')]);
+			}
+		});
 	}
 };
 

@@ -27,7 +27,7 @@
         
 	<body>
 			<div id='header'>
-				<input id='pageTitle' class='articleName left' type="text" placeholder="Enter article name"></input>
+				<input id='pageTitle' class='articleName left' type="text" placeholder="Enter article name" data-translate='headerInputPlaceHolder'></input>
 				<ul id='overlayTitleSuggestionDropdown' class='suggestionDropdown'>
 							<li></li>
 							<li></li>
@@ -35,7 +35,7 @@
 							<li></li>
 							<li></li>
 				</ul>
-				<input id='pageButton' type="submit" class='load left' value="Show History"></input>
+				<input id='pageButton' type="submit" class='load left' value="Show History" data-translate='headerLoadButton'></input>
 				<ul class='languageDropdown left'>
 					<div>
 						<span class='selectedLanguage'>English</span><span class='selectionArrow'>&#x25BC;<span>
@@ -43,7 +43,7 @@
 					<ul>
 					</ul>
 				</ul>
-				<div class="errorMessage">Oops that article does not exist</div>
+				<div class="errorMessage" data-translate='errorMessage'>Article does not exist</div>
 			</div>
 			<!-- 
 			<select class="languageNamespace"></select>
@@ -54,7 +54,7 @@
 				<div id="top">
 					<div id="logo"></div>
 					<div id='overlayHeader'>
-						<input id='overlayTitle' class='articleName' type="text" placeholder="Enter article name"></input>
+						<input id='overlayTitle' class='articleName' type="text" placeholder="Enter article name" data-translate='overlayInputPlaceHolder'></input>
 						<ul id='overlayTitleSuggestionDropdown' class='suggestionDropdown'>
 							<li></li>
 							<li></li>
@@ -62,7 +62,7 @@
 							<li></li>
 							<li></li>
 						</ul>
-						<input id='overlayLoad' type="submit" class='load' value="Show History"></input>
+						<input id='overlayLoad' type="submit" class='load' value="Show History" data-translate='overlayLoadButton'></input>
 						<div class="errorMessage">Oops that article does not exist</div>
 						<!-- <input id='overlayRand' type="submit" value="Random"></input> -->
 					</div>
@@ -71,33 +71,33 @@
 					<div class="container">
 						<div id="step1" class="icon"></div>
 						<div class="text step1">
-							<span>Enter article name</span>
+							<span data-translate='step1'>Enter article name</span>
 						</div>
 					</div>
 					<div class="line">&#10093;</div>
 					<div class="container">
-						<div id="step2" class="icon"></div>
+						<div id="step2" class="icon" ></div>
 						<div class="text step2">
-							<span>Place the peg on the edit to play</span>
+							<span data-translate='step2'>Place the peg on the edit to play</span>
 						</div>
 					</div>
 					<div class="line">&#10093;</div>
 					<div class="container">
 						<div id="step3" class="icon"></div>
 						<div class="text step3">
-							<span>Click Play</span>
+							<span data-translate='step3'>Click Play</span>
 						</div>
 					</div>
 					<div class="line">&#10093;</div>
 					<div class="container">
 						<div id="step4" class="icon"></div>
 						<div class="text step4">
-							<span>Enjoy viewing edits!</span>
+							<span data-translate='step4'>Enjoy viewing edits!</span>
 						</div>
 					</div>
 				</div>
 				<div id="overlayFooter">
-					<a class="left" href="http://meta.wikimedia.org/wiki/Grants:IEG/Replay_Edits">What is Replay Edits ?</a>
+					<a class="left" href="http://meta.wikimedia.org/wiki/Grants:IEG/Replay_Edits" data-translate='projectHome'>What is Replay Edits ?</a>
 					<ul class='languageDropdown left'>
 						<div>
 							<span class='selectedLanguage'>English</span><span class='selectionArrow'>&#x25B2;</span>
@@ -116,10 +116,10 @@
 			            
 			            <div id='controlsInfoContainer'>
 				            <div class="controls">
-				            	<div id="playButtonContainer" class="customTooltip" data-title="Play/Pause">
+				            	<div id="playButtonContainer" class="customTooltip" data-title="Play/Pause" data-translate='control-2'>
 				            		<div id="playButton"class="play"></div>
 				            	</div>
-						    		<div class="speedSlider customTooltip" data-title="Speed Control">
+						    		<div class="speedSlider customTooltip" data-title="Speed Control" data-translate='control-1'>
 										<div class="noUiSlider"></div>
 						    		</div>
 					    	</div>

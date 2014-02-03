@@ -38,3 +38,33 @@ var languageNamespace ={
     //'sa': 'Sanskrit', 
     //'gu': 'Gujarati' ,
 };
+var translation = {
+	'en':{
+		'step1':'Enter article name',
+		'step2':'Place the peg on the edit to play',
+		'step3':'Click Play',
+		'step4':'Enjoy viewing edits',
+		'overlayLoadButton':'Show History',
+		'headerLoadButton':'Show History',
+		'projectHome':'What is replay edits',
+		'overlayInputPlaceHolder':'Enter article name',
+		'headerInputPlaceHolder':'Enter article name',
+		'control-1':'Speed',
+		'control-2':'Play/pause',
+		'errorMessage':'Article does not exist'
+	},
+	'de':{
+		'step1':'Geben Sie Artikelnamen',
+		'step2':'Legen Sie den Stift auf der Bearbeitungs zu spielen',
+		'step3':'Klicken Sie auf Wiedergabe',
+		'step4':'Genießen Sie die Änderungen',
+		'overlayLoadButton':'Verlauf anzeigen ',
+		'headerLoadButton':'Verlauf anzeigen ',
+		'projectHome':'Was ist Replay Bearbeitungen',
+		'overlayInputPlaceHolder':'Geben Sie Artikelnamen',
+		'headerInputPlaceHolder':'Geben Sie Artikelnamen',
+		'control-1':'Geschwindigkeit',
+		'control-2':'Wiedergabe/Pause',
+		'errorMessage':'Artikel existiert nicht'
+	}
+};
