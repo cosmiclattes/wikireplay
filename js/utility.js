@@ -66,7 +66,7 @@ var utility = {
 		var dropdown = $(parent + ' .languageDropdown ul');
 		var count = 0;
 		for (language in languages){
-			if( count % 5 == 0 ){
+			if( count % 6 == 0 ){
 				var subList = $('<li><ul></ul></li>');
 				dropdown.append(subList);
 				var subList = subList.find('ul');
