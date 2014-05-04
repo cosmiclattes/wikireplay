@@ -6,7 +6,7 @@ body{
 }
 
 #header{
-	width :400px;
+	width :423px;
 	background:#f5f5f5;
 	margin:auto;
 	padding: 10px 10px 10px 10px;
@@ -150,14 +150,18 @@ input{
 	left: 0;
 	right: 0;
 	bottom: 0;
-	width: 250px;
+	width: 350px;
 	padding: 5px;
 }
 #overlayFooter a{
 	margin: 10px 0px;
 }
 #overlayTitle{
-	width:280px;
+	width:250px;
+	box-shadow: 1px 1px 1px #ccc;
+	border-style: solid;
+	border-width: 1px 0px 1px 1px
+	border-color: #ccc;
 }
 input[type=submit]{
 	background: #46C2E5;
@@ -432,17 +436,17 @@ text{
 	position: absolute;
 }
 #overlayHeader{
-	width: 373px;
-	background: #f2f2f2;
+	width: 380px;
+	background: transparent;
 	margin: auto;
 	position: absolute;
 	top: 35%;
 	left: 0;
-	box-shadow: 1px 1px 1px #ccc;
 	right: 0;
 	font-size: 0px;
-	border: solid 1px #ccc;
+	
 }
+
 #overlayRand {
 	background: #e67e22;
 }
@@ -531,7 +535,7 @@ text{
 	list-style: none;
 	padding:0px;
 	margin:0px;
-	width: 278px;
+	width: 250px;
 	font-size: 15px;
 	box-shadow: 1px 1px 1px #ccc;
 	border: solid #ccc;
@@ -562,7 +566,7 @@ text{
 	top: 31px;
 	left: 8px;
 	display: none;
-	width: 320px;
+	width: 356px;
 	padding: 10px 0px 10px 10px;
 	box-shadow: inset 0 0 2px #333;
 }
@@ -575,6 +579,7 @@ text{
 	background: #f2f2f2;
 	box-shadow: inset 0 0 2px #333;
 	line-height: 15px;
+	width: 77px;
 }
 .languageDropdown li{
 	border: solid 1px transparent;
@@ -582,29 +587,37 @@ text{
 	padding:1px 3px 1px px;
 	margin: 0px;
 	cursor: pointer;
+	display: inline-block;
 }
 .languageDropdown ul{
 	list-style: none;
 	margin: 0px;
+	padding: 0px;
 }
 .languageDropdown >ul>li {
 	float: left;
-	padding: 0px 10px 0px 0px;
 }
 
 .languageDropdown:hover ul{
 	display: block;
+}
+.languageDropdown >ul>li>ul>li{
+	width: 55px;
+	margin: 1px;
 }
 .languageDropdown >ul>li>ul>li:hover{
 	border: solid 1px #f6921e;
 }
 
 #overlay .languageDropdown> ul{
-	top :-127px;
+	top :-98px;
+	padding: 5px;
 }
 /* Temp */
 #pageButton,#overlayLoad{
-	width: 93px;
+	/*width: 93px;*/
+	box-shadow: 1px 1px 1px #ccc;
+	border: solid 1px #ccc;
 }
 #pageTitle{
 	width: 184px;
