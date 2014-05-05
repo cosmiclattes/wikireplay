@@ -54,8 +54,10 @@ window.onload = function(){
         chooseRandomArticle();
     });
     var hideOverlay = function(){
-    	$('#overlayFooter').hide(500);
-    	$('#overlay').slideUp(2500);
+    	$('#overlayFooter').fadeOut(100);
+    	$('#bottom').fadeOut(500);
+    	$('#top').fadeOut(1000);
+    	$('#overlay').slideUp(1000);
     };
     /*
     $('#overlayLoad').click(function(){

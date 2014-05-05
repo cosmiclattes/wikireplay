@@ -434,9 +434,11 @@ text{
 	background: #ffffff;
 	z-index: 20;
 	position: absolute;
+	font-size: 13px;
+	/*font-size-adjust: 0.58;*/
 }
 #overlayHeader{
-	width: 380px;
+	width: 438px;
 	background: transparent;
 	margin: auto;
 	position: absolute;
@@ -566,7 +568,7 @@ text{
 	top: 31px;
 	left: 8px;
 	display: none;
-	width: 356px;
+	width: 446px;
 	padding: 10px 0px 10px 10px;
 	box-shadow: inset 0 0 2px #333;
 }
@@ -579,7 +581,7 @@ text{
 	background: #f2f2f2;
 	box-shadow: inset 0 0 2px #333;
 	line-height: 15px;
-	width: 77px;
+	width: 92px;
 }
 .languageDropdown li{
 	border: solid 1px transparent;
@@ -602,7 +604,7 @@ text{
 	display: block;
 }
 .languageDropdown >ul>li>ul>li{
-	width: 55px;
+	width: 70px;
 	margin: 1px;
 }
 .languageDropdown >ul>li>ul>li:hover{

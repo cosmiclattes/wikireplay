@@ -416,7 +416,8 @@
     	var pegMove = function(){
 			console.log('Peg moved');
 			var relaxedSelectedBar;
-			var value = peg.extent()[0];
+			//temp fix, to bring the correct edit into focus when the primary brush is moved
+			var value = peg.extent()[0]+1;
 			  if (d3.event.sourceEvent) { // not a programmatic event
 			    value = pegScale.invert(d3.mouse(this)[0]);
 			    peg.extent([value, value]);
