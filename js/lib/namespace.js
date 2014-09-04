@@ -210,17 +210,17 @@ var translation = {
 	},
 	'fi':{
 		'step1':'Anna artikkelin nimi',
-		'step2':'Aseta tappi muokkaa pelata',
-		'step3':'Klikkaa Play',
-		'step4':'Nauti Katselu Muokkausta',
-		'overlayLoadButton':'Näytä Historia',
-		'headerLoadButton':'Näytä Historia',
-		'projectHome':'Mikä on replay muokkausta',
+		'step2':'Aseta kursori muokkauksen kohdalle ja käynnistä',
+		'step3':'Paina Käynnistä',
+		'step4':'Nauti muokkausten katselusta',
+		'overlayLoadButton':'Näytä historia',
+		'headerLoadButton':'Näytä historia',
+		'projectHome':'Mikä on Replay Edit',
 		'overlayInputPlaceHolder':'Anna artikkelin nimi',
 		'headerInputPlaceHolder':'Anna artikkelin nimi',
 		'control-1':'Nopeus',
-		'control-2':'Play/Pause',
-		'errorMessage':'Artikla ei ole olemassa'
+		'control-2':'Käynnistä/Pysäytä',
+		'errorMessage':'Artikkelia ei ole olemassa'
 	},
 	'no':{
 		'step1':'Skriv inn artikkelnavnet ',
@@ -252,7 +252,7 @@ var translation = {
 	},
 	'te':{
 		'step1':'వ్యాసం పేరు నమోదు ',
-		'step2':'ఆటను సవరణపై పెగ్ ఉంచండి ',
+		'step2':'ఆటను సవరణపై పెగ్ ఉంచండి ',
 		'step3':'ప్లే క్లిక్ చేయండి ',
 		'step4':'వీక్షణ సవరణలు ఆనందించండి ',
 		'overlayLoadButton':'చరిత్రను చూపించు ',
@@ -266,9 +266,9 @@ var translation = {
 	},
 	'ta':{
 		'step1':'கட்டுரை பெயர் சேர்க்கவும்',
-		'step2':'விளையாட தொகு மீது மது வைக்க',
-		'step3':'ப்ளே சொடுக்கவும்',
-		'step4':'பார்க்கும் தொகுப்புகளின் அனுபவிக்க',
+		'step2':'விளையாட தொகு மீது மது வைக்க',
+		'step3':'ப்ளே சொடுக்கவும்',
+		'step4':'பார்க்கும் தொகுப்புகளின் அனுபவிக்க',
 		'overlayLoadButton':'வரலாறு காட்டு',
 		'headerLoadButton':'வரலாறு காட்டு',
 		'projectHome':'மறு திருத்தங்கள் என்ன',
