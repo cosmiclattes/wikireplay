@@ -8,6 +8,7 @@
 				titles:'',
 		        rvprop:'user|timestamp|flags|ids|size',
 		        rvlimit:'max',
+		        rawcontinue:''
 	    	};
 		
 		this.height = options.height;
@@ -163,6 +164,7 @@
 				titles:'',
 		        rvprop:'user|timestamp|flags|ids|size',
 		        rvlimit:'max',
+		        rawcontinue:''
 	    	};
 		};
 		//Cleanup big time
