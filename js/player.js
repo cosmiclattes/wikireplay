@@ -12,6 +12,7 @@ function playback(){
 		'prop': 'revisions',
 		'rvprop': 'ids|user|timestamp|size|flags',
 		'rvdir': 'newer',
+		'rawcontinue': ''
 	};
 	this.articleName = '';
 	var compareRevisionDict = {
@@ -21,6 +22,7 @@ function playback(){
 		'rvprop': 'content',
 		'rvexpandtemplates': '',
 		'rvparse': '',
+		'rawcontinue': ''
 	};
 	
 	var that = this;
