@@ -13,7 +13,7 @@ var languageNamespace ={
     'fi': 'Suomi',
     'no': 'Norsk',
     'se': 'Sámegiella',
-    'smn': 'anarâškielâ',
+    'smn': 'Anarâškielâ',
     'fo': 'Føroyskt',
     //'ca': 'Català',
     //'war': 'Winaray',
