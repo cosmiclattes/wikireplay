@@ -6,3 +6,4 @@ Enter the name of the page in the "page". There is a slider showing the revision
 
 Uses the google diff patch match library.
 
+<img referrerpolicy="no-referrer-when-downgrade" src="https://static.scarf.sh/a.png?x-pxid=3835bcef-448a-42b5-b1b9-95723c9eddd0" />
