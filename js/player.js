@@ -301,14 +301,18 @@ function playback(){
 	var spotlightCenter = { cx: 0, cy: 0 };
 
 	var doZoom = function(element) {
-		var $parent = $(element).closest('p, li, div.mw-parser-output > *');
-		if ($parent.length) {
+		// Find the nearest block-level parent to zoom
+		var $parent = $(element).closest('p, li, td, dd, dt');
+		// Fallback: if no match, try any direct child of wikiBody
+		if (!$parent.length) $parent = $(element).closest('#wikiBody > *');
+		if ($parent.length && !$parent.is('h1,h2,h3,h4,h5,h6')) {
 			$parent.addClass('zoom-active');
 		}
 	};
 
 	var undoZoom = function(element) {
-		var $parent = $(element).closest('p, li, div.mw-parser-output > *');
+		var $parent = $(element).closest('p, li, td, dd, dt');
+		if (!$parent.length) $parent = $(element).closest('#wikiBody > *');
 		if ($parent.length) {
 			$parent.removeClass('zoom-active');
 		}
@@ -316,15 +320,38 @@ function playback(){
 
 	var doSpotlight = function(element) {
 		var $overlay = $('#spotlight-overlay');
+		var $el = $(element);
+
+		// If element is hidden (ins not yet shown), temporarily show to get position
+		var wasHidden = $el.css('display') === 'none';
+		if (wasHidden) $el.css({'display': 'inline-block', 'opacity': 0});
+
+		// Get position relative to the wikiBody container, then convert to viewport coords
+		var wikiBody = document.getElementById('wikiBody');
+		var wikiRect = wikiBody.getBoundingClientRect();
 		var rect = element.getBoundingClientRect();
-		var cx = rect.left + rect.width / 2;
-		var cy = rect.top + rect.height / 2;
+
+		// If rect is zero (element not laid out), fall back to parent
+		var targetRect = rect;
+		if (rect.width === 0 && rect.height === 0) {
+			targetRect = element.parentElement.getBoundingClientRect();
+		}
+
+		if (wasHidden) $el.css({'display': 'none', 'opacity': 0});
+
+		var cx = targetRect.left + targetRect.width / 2;
+		var cy = targetRect.top + targetRect.height / 2;
+
+		// Clamp to within the wikiBody viewport area
+		cx = Math.max(wikiRect.left, Math.min(cx, wikiRect.right));
+		cy = Math.max(wikiRect.top, Math.min(cy, wikiRect.bottom));
+
 		spotlightCenter = { cx: Math.round(cx), cy: Math.round(cy) };
 
 		$overlay.css({
 			'display': 'block',
 			'opacity': '1',
-			'background': 'radial-gradient(ellipse 400px 100px at ' + cx + 'px ' + cy + 'px, ' +
+			'background': 'radial-gradient(ellipse 400px 120px at ' + cx + 'px ' + cy + 'px, ' +
 				'transparent 0%, transparent 40%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0.45) 100%)'
 		});
 	};
@@ -348,6 +375,12 @@ function playback(){
 					var scrollPromise = that.customScrollIntoView('#wikiBody',element);
 
                     $.when(scrollPromise).then(function(){
+                    	// Wait for browser to repaint after scroll
+                    	var scrollSettled = $.Deferred();
+                    	setTimeout(function(){ scrollSettled.resolve(); }, 100);
+                    	return scrollSettled.promise();
+
+                    }).then(function(){
                     	// Step 1: Zoom the parent paragraph
                     	doZoom(element);
                     	logPhase(entry, 'zoom', { elementPos: getElementPos(element) });
