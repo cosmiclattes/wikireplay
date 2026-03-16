@@ -220,6 +220,7 @@ del *,ins *{
 	height: 32px;
 	border-bottom: 1px solid #eaeaea;
 	background: #fafafa;
+	border-radius: 7px 7px 0 0;
 }
 .play{
 	cursor: pointer;
@@ -334,27 +335,29 @@ text{
 }
 
 #outer{
-	max-width: 1200px;
-	overflow: auto;
-	padding: 4px 6px;
-	margin: 0px 6px;
+	overflow-x: auto;
+	padding: 4px 8px;
+	margin: 0px;
 }
 
 #enlargedContainer {
-	min-width: 100px;
-	padding: 0px;
-	margin: 0px 6px 0px 6px;
 	display: inline-block;
-	background: #fafafa;
+	min-width: 200px;
+	padding: 0px;
+	margin-bottom: -1px;
+	position: relative;
+	z-index: 2;
+	background: #fff;
 	border: 1px solid #e0e0e0;
-	border-radius: 6px;
-	box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+	border-bottom: none;
+	border-radius: 8px 8px 0 0;
+	box-shadow: 0 -1px 4px rgba(0,0,0,0.05);
 	transition: 0.3s ease;
-	overflow: hidden;
+	vertical-align: bottom;
 }
 #enlarged{
 	transition: 0.3s ease;
-	padding: 10px 6px;
+	padding: 10px 8px 14px 8px;
 	background: #FFFFFF;
 }
 .enlargedButton{
@@ -394,7 +397,8 @@ text{
 #sliderComplete{
 	position: absolute;
 	bottom: 0px;
-	padding: 6px 8px 4px 8px;
+	left: 8px;
+	right: 8px;
 }
 #wikiBodySlider{
 }
@@ -478,12 +482,13 @@ text{
     z-index: 99;
 }
 #outerContainer{
-	margin: 8px 0px 0px 0px;
-	padding: 4px 0px;
+	margin: 0px;
+	padding: 6px 0px;
 	position: relative;
 	background: #fafafa;
-	border: 1px solid #e8e8e8;
-	border-radius: 4px;
+	border: 1px solid #e0e0e0;
+	border-radius: 0 8px 8px 8px;
+	box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
 #outerOlderEdit{
 	right: 5px;
