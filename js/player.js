@@ -179,6 +179,11 @@ function playback(){
 			// Citations are tagged with data('citation') and animate at 3x speed
 			modifyList = classified.content.concat(classified.citations);
 
+			// Reset diagnostic log for this revision
+			changeLog = [];
+			changeCounter = 0;
+			totalChanges = modifyList.length;
+
 			console.timeEnd('making array');
 			that.animateDiff();
 		});		
@@ -206,7 +211,95 @@ function playback(){
         }
 	};
 	
+	/* --- Diagnostic log --- */
+	var changeLog = [];
+	var changeCounter = 0;
+	var totalChanges = 0;
+
+	var getElementPos = function(element) {
+		var rect = element.getBoundingClientRect();
+		return {
+			cx: Math.round(rect.left + rect.width / 2),
+			cy: Math.round(rect.top + rect.height / 2),
+			top: Math.round(rect.top),
+			left: Math.round(rect.left),
+			width: Math.round(rect.width),
+			height: Math.round(rect.height)
+		};
+	};
+
+	var getSection = function(element) {
+		var $el = $(element);
+		var heading = $el.prevAll('h2,h3').first();
+		if (!heading.length) heading = $el.parent().prevAll('h2,h3').first();
+		return heading.length ? heading.text().replace('[edit]','').trim() : '(top)';
+	};
+
+	var logEntry = function(element) {
+		var $el = $(element);
+		var entry = {
+			idx: changeCounter,
+			total: totalChanges,
+			action: $el.prop('tagName'),
+			type: $el.data('citation') ? 'citation' : 'content',
+			text: $el.text().substring(0, 60),
+			section: getSection(element),
+			parentTag: $el.parent().prop('tagName'),
+			phases: {}
+		};
+		changeLog.push(entry);
+		return entry;
+	};
+
+	var logPhase = function(entry, phase, data) {
+		entry.phases[phase] = $.extend({ t: Date.now() }, data);
+	};
+
+	var logMismatch = function(entry, phase, elPos, targetPos, threshold) {
+		var dist = Math.round(Math.sqrt(
+			Math.pow(elPos.cx - targetPos.cx, 2) +
+			Math.pow(elPos.cy - targetPos.cy, 2)
+		));
+		if (dist > (threshold || 80)) {
+			var msg = '[MISMATCH] Change ' + entry.idx + '/' + entry.total +
+				' "' + entry.text.substring(0, 30) + '..." — ' + phase +
+				' center=(' + targetPos.cx + ',' + targetPos.cy + ')' +
+				' but element at (' + elPos.cx + ',' + elPos.cy + ')' +
+				' distance=' + dist + 'px';
+			console.warn(msg);
+			entry.phases[phase].mismatch = { distance: dist, element: elPos, target: targetPos };
+		}
+	};
+
+	var printLog = function() {
+		console.group('WikiReplay — Change Log (' + changeLog.length + ' changes)');
+		changeLog.forEach(function(e) {
+			var phases = Object.keys(e.phases).join(' → ');
+			var mismatches = Object.keys(e.phases).filter(function(p) { return e.phases[p].mismatch; });
+			var flag = mismatches.length ? ' ⚠ MISMATCH in: ' + mismatches.join(', ') : '';
+			console.log(
+				'[' + e.idx + '/' + e.total + '] ' + e.action + ' (' + e.type + ') ' +
+				'"' + e.text.substring(0, 40) + '"' +
+				'  §' + e.section +
+				'  phases: ' + phases + flag
+			);
+			if (mismatches.length) {
+				mismatches.forEach(function(p) {
+					var m = e.phases[p].mismatch;
+					console.log(
+						'    ↳ ' + p + ': element@(' + m.element.cx + ',' + m.element.cy + ')' +
+						' vs target@(' + m.target.cx + ',' + m.target.cy + ')' +
+						' dist=' + m.distance + 'px'
+					);
+				});
+			}
+		});
+		console.groupEnd();
+	};
+
 	/* --- Spotlight + Zoom helpers --- */
+	var spotlightCenter = { cx: 0, cy: 0 };
+
 	var doZoom = function(element) {
 		var $parent = $(element).closest('p, li, div.mw-parser-output > *');
 		if ($parent.length) {
@@ -226,6 +319,7 @@ function playback(){
 		var rect = element.getBoundingClientRect();
 		var cx = rect.left + rect.width / 2;
 		var cy = rect.top + rect.height / 2;
+		spotlightCenter = { cx: Math.round(cx), cy: Math.round(cy) };
 
 		$overlay.css({
 			'display': 'block',
@@ -247,23 +341,31 @@ function playback(){
                 if(modifyList.length>0){
 					var element = modifyList[0];
 					var speed = $(element).data('citation') ? Math.floor(that.animationSpeed / 3) : that.animationSpeed;
+					var entry = logEntry(element);
+
+					logPhase(entry, 'start', { elementPos: getElementPos(element), scrollTop: $('#wikiBody').scrollTop() });
 
 					var scrollPromise = that.customScrollIntoView('#wikiBody',element);
 
                     $.when(scrollPromise).then(function(){
                     	// Step 1: Zoom the parent paragraph
                     	doZoom(element);
+                    	logPhase(entry, 'zoom', { elementPos: getElementPos(element) });
 
                     	// Step 2: After zoom settles, apply spotlight
                     	var spotlightDeferred = $.Deferred();
                     	setTimeout(function() {
                     		doSpotlight(element);
+                    		var elPos = getElementPos(element);
+                    		logPhase(entry, 'spotlight', { elementPos: elPos, spotlightCenter: spotlightCenter });
+                    		logMismatch(entry, 'spotlight', elPos, spotlightCenter);
                     		spotlightDeferred.resolve();
                     	}, 450);
                     	return spotlightDeferred.promise();
 
                     }).then(function(){
                     	// Step 3: Animate the del/ins change
+                    	logPhase(entry, 'animate', { action: $(element).prop('tagName'), speed: speed });
                     	var animDeferred = $.Deferred();
                     	setTimeout(function() {
 	                    	if ($(element).prop('tagName') == 'DEL'){
@@ -278,11 +380,13 @@ function playback(){
 
                     }).then(function(){
                     	// Step 4: Hold briefly, then undo zoom + spotlight
+                    	logPhase(entry, 'cleanup', {});
                     	var cleanupDeferred = $.Deferred();
                     	setTimeout(function() {
                     		undoZoom(element);
                     		undoSpotlight();
                     		setTimeout(function() {
+                    			changeCounter++;
                     			cleanupDeferred.resolve();
                     		}, 400);
                     	}, 300);
@@ -295,6 +399,7 @@ function playback(){
 				}
                 else{
                 	undoSpotlight();
+                	printLog();
                 	$('body').trigger( "editAnimationBegins", [endRev] );
                     if(listOfRevisions.length>0){
                         startRev = endRev;
