@@ -75,7 +75,7 @@ window.onload = function(){
     
 	slider = new wikiSlider({	height : 400,
 								barGraphBarwidth : 1,
-								enlargedBarGraphBarwidth : 5,
+								enlargedBarGraphBarwidth : 7,
 								primarySliderMoveCallback : pause,
 								secondrySliderMoveCallback : play
 							});
