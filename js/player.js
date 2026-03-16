@@ -324,7 +324,9 @@ function playback(){
 
 		// If element is hidden (ins not yet shown), temporarily show to get position
 		var wasHidden = $el.css('display') === 'none';
-		if (wasHidden) $el.css({'display': 'inline-block', 'opacity': 0});
+		if (wasHidden) {
+			$el.css({'display': 'inline-block', 'visibility': 'hidden'});
+		}
 
 		// Get position relative to the wikiBody container, then convert to viewport coords
 		var wikiBody = document.getElementById('wikiBody');
@@ -337,7 +339,9 @@ function playback(){
 			targetRect = element.parentElement.getBoundingClientRect();
 		}
 
-		if (wasHidden) $el.css({'display': 'none', 'opacity': 0});
+		if (wasHidden) {
+			$el.css({'display': 'none', 'visibility': ''});
+		}
 
 		var cx = targetRect.left + targetRect.width / 2;
 		var cy = targetRect.top + targetRect.height / 2;
