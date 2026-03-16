@@ -206,6 +206,42 @@ function playback(){
         }
 	};
 	
+	/* --- Spotlight + Zoom helpers --- */
+	var doZoom = function(element) {
+		var $parent = $(element).closest('p, li, div.mw-parser-output > *');
+		if ($parent.length) {
+			$parent.addClass('zoom-active');
+		}
+	};
+
+	var undoZoom = function(element) {
+		var $parent = $(element).closest('p, li, div.mw-parser-output > *');
+		if ($parent.length) {
+			$parent.removeClass('zoom-active');
+		}
+	};
+
+	var doSpotlight = function(element) {
+		var $overlay = $('#spotlight-overlay');
+		var rect = element.getBoundingClientRect();
+		var cx = rect.left + rect.width / 2;
+		var cy = rect.top + rect.height / 2;
+
+		$overlay.css({
+			'display': 'block',
+			'opacity': '1',
+			'background': 'radial-gradient(ellipse 400px 100px at ' + cx + 'px ' + cy + 'px, ' +
+				'transparent 0%, transparent 40%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0.45) 100%)'
+		});
+	};
+
+	var undoSpotlight = function() {
+		$('#spotlight-overlay').css('opacity', '0');
+		setTimeout(function() {
+			$('#spotlight-overlay').css('display', 'none');
+		}, 300);
+	};
+
 	this.animateDiff = function () {
 		if(playAnimation){
                 if(modifyList.length>0){
@@ -215,22 +251,50 @@ function playback(){
 					var scrollPromise = that.customScrollIntoView('#wikiBody',element);
 
                     $.when(scrollPromise).then(function(){
-                    	if ($(element).prop('tagName') == 'DEL'){
-                        	console.log('scroll end:: animation begin add ',Date.now(),modifyList.length,element.id);
-                        	return $(element).fadeOut(speed);
-                    	}
-                    	else{
-                    		console.log('scroll end:: animation begin delete ',Date.now(),modifyList.length,element.id);
-                        	return $(element).fadeIn(speed).css('display','inline-block');
-                    	}
+                    	// Step 1: Zoom the parent paragraph
+                    	doZoom(element);
+
+                    	// Step 2: After zoom settles, apply spotlight
+                    	var spotlightDeferred = $.Deferred();
+                    	setTimeout(function() {
+                    		doSpotlight(element);
+                    		spotlightDeferred.resolve();
+                    	}, 450);
+                    	return spotlightDeferred.promise();
 
                     }).then(function(){
-                    		console.log('animation end',Date.now(),modifyList.length,element.id);
+                    	// Step 3: Animate the del/ins change
+                    	var animDeferred = $.Deferred();
+                    	setTimeout(function() {
+	                    	if ($(element).prop('tagName') == 'DEL'){
+	                        	$(element).fadeOut(speed, function(){ animDeferred.resolve(); });
+	                    	}
+	                    	else{
+	                        	$(element).fadeIn(speed).css('display','inline-block');
+	                        	setTimeout(function(){ animDeferred.resolve(); }, speed);
+	                    	}
+                    	}, 200);
+                    	return animDeferred.promise();
+
+                    }).then(function(){
+                    	// Step 4: Hold briefly, then undo zoom + spotlight
+                    	var cleanupDeferred = $.Deferred();
+                    	setTimeout(function() {
+                    		undoZoom(element);
+                    		undoSpotlight();
+                    		setTimeout(function() {
+                    			cleanupDeferred.resolve();
+                    		}, 400);
+                    	}, 300);
+                    	return cleanupDeferred.promise();
+
+                    }).then(function(){
                     		modifyList.shift();
                     		that.animateDiff();
                     	});
 				}
                 else{
+                	undoSpotlight();
                 	$('body').trigger( "editAnimationBegins", [endRev] );
                     if(listOfRevisions.length>0){
                         startRev = endRev;
@@ -240,7 +304,7 @@ function playback(){
                     }
                     else{
 						$('#playButton').removeClass().addClass('play');
-                    } 
+                    }
 				}
 		}
 	};
